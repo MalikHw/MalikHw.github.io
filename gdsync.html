@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MalikHw - GitHub Portfolio</title>
+    <title>GD Sync - MalikHw</title>
     <style>
         @font-face {
             font-family: 'CustomFont';
@@ -65,6 +65,33 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--secondary-accent);
+            color: var(--text-color);
+            border: none;
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: var(--highlight);
+            color: white;
+            transform: translateY(-50%) translateX(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .logo-container img {
@@ -188,38 +215,18 @@
             transform: translateY(-2px);
         }
 
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .project-card {
+        .project-details {
             background-color: var(--accent-color);
             border-radius: 12px;
-            overflow: hidden;
+            padding: 2rem;
+            margin-top: 2rem;
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
             position: relative;
-            z-index: 1;
-            opacity: 0;
-            animation: fadeInStaggered 0.8s ease-out forwards;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out forwards;
         }
 
-        .project-card:nth-child(1) { animation-delay: 0.2s; }
-        .project-card:nth-child(2) { animation-delay: 0.4s; }
-        .project-card:nth-child(3) { animation-delay: 0.6s; }
-
-        @keyframes fadeInStaggered {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .project-card::before {
+        .project-details::before {
             content: '';
             position: absolute;
             top: 0;
@@ -227,31 +234,11 @@
             right: 0;
             height: 5px;
             background: linear-gradient(to right, var(--highlight), var(--secondary-accent));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .project-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .project-content {
-            padding: 1.8rem;
-            flex-grow: 1;
-            position: relative;
-            z-index: 1;
         }
 
         .project-title {
-            font-size: 1.7rem;
-            margin-bottom: 1rem;
-            color: var(--text-color);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
             position: relative;
             display: inline-block;
         }
@@ -261,84 +248,164 @@
             position: absolute;
             left: 0;
             bottom: -5px;
-            width: 50px;
+            width: 100px;
             height: 3px;
             background-color: var(--highlight);
-            transition: width 0.3s ease;
-        }
-
-        .project-card:hover .project-title::after {
-            width: 100%;
         }
 
         .project-description {
-            margin-bottom: 1.2rem;
-            color: var(--text-color);
-            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
         }
 
-        .project-features {
-            margin-bottom: 1.5rem;
-            opacity: 0.9;
-            transition: opacity 0.3s ease;
+        .screenshot {
+            text-align: center;
+            margin: 2rem 0;
         }
 
-        .project-card:hover .project-features {
-            opacity: 1;
+        .screenshot img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .project-features ul {
-            padding-left: 1.5rem;
-            margin-top: 0.5rem;
+        .screenshot img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .project-features li {
-            margin-bottom: 0.3rem;
-            position: relative;
+        .video-container {
+            text-align: center;
+            margin: 2rem 0;
         }
 
-        .project-features li::before {
-            content: '▹';
-            color: var(--highlight);
-            position: absolute;
-            left: -1em;
-        }
-
-        .project-link {
-            display: inline-block;
-            padding: 0.6rem 1.2rem;
+        .video-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
             background-color: var(--secondary-accent);
             color: var(--text-color);
             text-decoration: none;
             border-radius: 30px;
             font-weight: bold;
             transition: all 0.3s ease;
+            gap: 10px;
+        }
+
+        .video-link:hover {
+            background-color: var(--highlight);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .features-section {
+            margin: 2rem 0;
+        }
+
+        .features-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .features-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            padding: 0.8rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .features-list li:hover {
+            transform: translateX(10px);
+        }
+
+        .features-list li::before {
+            content: '▹';
+            color: var(--highlight);
+            position: absolute;
+            left: 0;
+        }
+
+        .installation-section {
+            margin: 2rem 0;
+        }
+
+        .installation-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .installation-steps {
+            background-color: var(--secondary-accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .platform-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .install-code {
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 0.5rem 0;
+            white-space: pre-wrap;
+        }
+
+        .download-section {
+            text-align: center;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .download-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             z-index: 1;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
         }
 
-        .project-link::before {
+        .download-button::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
             z-index: -1;
         }
 
-        .project-link:hover {
-            background-color: var(--highlight);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+        .download-button:hover {
+            background-color: #3e8e41;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 25px rgba(76, 175, 80, 0.5);
         }
 
-        .project-link:hover::before {
-            left: 100%;
+        .download-button:hover::before {
+            transform: translateX(100%);
         }
 
         .donation-button {
@@ -389,28 +456,6 @@
 
         .ko-fi-button:hover::before {
             transform: translateX(100%);
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            position: relative;
-            padding-bottom: 1rem;
-            font-size: 2.2rem;
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(to right, var(--highlight), var(--secondary-accent));
-            border-radius: 2px;
         }
 
         footer {
@@ -464,20 +509,8 @@
             transform-origin: left;
         }
 
-        /* Parallax effect on scroll */
-        .parallax-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-        }
-
         /* Responsive design */
         @media (max-width: 768px) {
-            .projects {
-                grid-template-columns: 1fr;
-            }
-            
             .container {
                 padding: 1rem;
             }
@@ -495,15 +528,27 @@
             .logo-container img {
                 max-width: 200px;
             }
+
+            .back-button {
+                position: relative;
+                transform: none;
+                margin-bottom: 1rem;
+                display: inline-block;
+            }
+
+            .logo-container {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="logo-container">
+            <a href="index.html" class="back-button">← Back to Projects</a>
             <img src="title.png" alt="MalikHw">
         </div>
-        <p>Developer & Creator</p>
+        <p>GD Sync - Geometry Dash Data Sync Tool</p>
     </header>
 
     <div class="container">
@@ -513,65 +558,80 @@
             <button class="theme-btn miku" onclick="setTheme('miku')">Miku Mode</button>
         </div>
 
-        <div class="donation-button">
-            <a href="https://www.ko-fi.com/MalikHw47" target="_blank" class="ko-fi-button">☕ Support me on Ko-fi</a>
-        </div>
+        <div class="project-details">
+            <h1 class="project-title">GD Sync</h1>
 
-        <h2 class="section-title">My Projects</h2>
+            <p class="project-description">
+                GD Sync is a tool designed to sync your Geometry Dash data (levels, progress, etc.) between your Android device and your PC. 
+                With GD Sync, you can easily transfer your Geometry Dash data back and forth, ensuring that your progress is always up-to-date on both platforms.
+            </p>
 
-        <div class="projects">
-            <!-- GD Sync Project -->
-            <div class="project-card">
-                <div class="project-content">
-                    <h3 class="project-title">GD Sync</h3>
-                    <p class="project-description">A tool designed to sync your Geometry Dash data (levels, progress, etc.) between your Android device and your PC.</p>
-                    <div class="project-features">
-                        <strong>Features:</strong>
-                        <ul>
-                            <li>Works with Geode on phone</li>
-                            <li>Push (PC → Phone) and pull (Phone → PC) data</li>
-                            <li>Easy-to-use GUI interface</li>
-                        </ul>
-                    </div>
-                    <a href="gdsync.html" class="project-link">View</a>
+            <div class="screenshot">
+                <img src="gdsync.png" alt="GD Sync Interface">
+            </div>
+
+            <div class="video-container">
+                <a href="https://youtube.com/shorts/yiu1b-tfhow?si=ZwgrMbMPuXbXVQtV" target="_blank" class="video-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    Watch Demo Video
+                </a>
+            </div>
+
+            <div class="features-section">
+                <h2 class="features-title">Features</h2>
+                <ul class="features-list">
+                    <li>Only works when the phone has Geode installed</li>
+                    <li>Sync Geometry Dash user data (levels and progress) between your Android device and PC</li>
+                    <li>Supports both pushing (PC → Phone) and pulling (Phone → PC) data</li>
+                    <li>Easy-to-use graphical interface</li>
+                </ul>
+            </div>
+
+            <div class="installation-section">
+                <h2 class="installation-title">Dependencies</h2>
+                
+                <div class="installation-steps">
+                    <h3 class="platform-title">For Debian/Ubuntu:</h3>
+                    <p>Python isn't required at all since it's bundled inside the app itself</p>
+                    <div class="install-code">sudo apt install adb</div>
+                </div>
+                
+                <div class="installation-steps">
+                    <h3 class="platform-title">For Windows:</h3>
+                    <p>Python isn't required at all since it's bundled inside the app itself</p>
+                    <p>1. Download <a href="https://dl.google.com/android/repository/platform-tools-latest-windows.zip" target="_blank">ADB TOOLS</a></p>
+                    <p>2. Extract the downloaded file</p>
+                    <p>3. Follow <a href="https://www.youtube.com/watch?v=bIWe8RYs-dI" target="_blank">this video tutorial</a> to set up ADB</p>
                 </div>
             </div>
 
-            <!-- GDSongExtractor Project -->
-            <div class="project-card">
-                <div class="project-content">
-                    <h3 class="project-title">GDSongExtractor</h3>
-                    <p class="project-description">A desktop application that helps you easily find, identify, and manage the custom songs downloaded by Geometry Dash.</p>
-                    <div class="project-features">
-                        <strong>Features:</strong>
-                        <ul>
-                            <li>Automatic GD Folder Detection</li>
-                            <li>Metadata Fetching from Newgrounds</li>
-                            <li>ID3 Tagging & Selective Copying</li>
-                            <li>Cross-Platform Support</li>
-                        </ul>
-                    </div>
-                    <a href="gdsongextractor.html" class="project-link">View</a>
+            <div class="installation-section">
+                <h2 class="installation-title">Android Device Setup</h2>
+                
+                <div class="installation-steps">
+                    <p>You need an Android device with USB Debugging enabled. To enable USB Debugging:</p>
+                    <ul class="features-list">
+                        <li>Go to <strong>Settings</strong> → <strong>About Phone</strong> → Tap on <strong>Build Number</strong> multiple times to unlock <strong>Developer Options</strong></li>
+                        <li>Go to <strong>Developer Options</strong> → <strong>Enable USB Debugging</strong></li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- HwYtVidGrabber Project -->
-            <div class="project-card">
-                <div class="project-content">
-                    <h3 class="project-title">HwYtVidGrabber</h3>
-                    <p class="project-description">A simple, efficient YouTube video and audio downloader without frustrating limitations.</p>
-                    <div class="project-features">
-                        <strong>Features:</strong>
-                        <ul>
-                            <li>Download in various resolutions (144p to 4K)</li>
-                            <li>Extract audio as MP3</li>
-                            <li>Option for 60fps videos</li>
-                            <li>Pause, resume, and cancel downloads</li>
-                            <li>Dark mode support</li>
-                        </ul>
-                    </div>
-                    <a href="hwytvidgrabber.html" class="project-link">View</a>
-                </div>
+            <div class="download-section">
+                <a id="downloadButton" class="download-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download GD Sync
+                </a>
+            </div>
+
+            <div class="donation-button">
+                <a href="https://www.ko-fi.com/MalikHw47" target="_blank" class="ko-fi-button">☕ Support me on Ko-fi</a>
             </div>
         </div>
     </div>
@@ -603,28 +663,6 @@
             setTheme(savedTheme);
         }
 
-        // Add parallax effect
-        document.addEventListener('mousemove', function(e) {
-            const cards = document.querySelectorAll('.project-card');
-            
-            cards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                card.style.transform = `translateY(-5px) perspective(1000px) rotateX(${y / 30}deg) rotateY(${-x / 30}deg)`;
-            });
-        });
-
-        // Reset parallax on mouse leave
-        document.addEventListener('mouseleave', function() {
-            const cards = document.querySelectorAll('.project-card');
-            
-            cards.forEach(card => {
-                card.style.transform = 'translateY(-5px)';
-            });
-        });
-
         // Add scroll-based animation triggers
         document.addEventListener('DOMContentLoaded', function() {
             function isInViewport(element) {
@@ -636,7 +674,7 @@
             }
 
             function handleScrollAnimations() {
-                const elements = document.querySelectorAll('.project-card, .section-title');
+                const elements = document.querySelectorAll('.project-details, .download-section, .donation-button');
                 
                 elements.forEach(element => {
                     if (isInViewport(element) && !element.classList.contains('animated')) {
@@ -649,6 +687,32 @@
 
             window.addEventListener('scroll', handleScrollAnimations);
             handleScrollAnimations(); // Initial check
+            
+            // Detect OS for download button
+            const downloadButton = document.getElementById('downloadButton');
+            const isWindows = navigator.platform.indexOf('Win') > -1;
+            
+            if (isWindows) {
+                downloadButton.href = "https://github.com/MalikHw/gdSync/releases/latest/download/gdsync-Windows.exe";
+                downloadButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download GD Sync for Windows
+                `;
+            } else {
+                downloadButton.href = "https://github.com/MalikHw/gdSync/releases/latest/download/gdsync-linux.zip";
+                downloadButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download GD Sync for Linux
+                `;
+            }
         });
     </script>
 </body>
