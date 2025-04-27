@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MalikHw</title>
+    <style>
+        :root {
+            --bg-color: #FFFFFF;
+            --text-color: #333333;
+            --accent-color: #E0E0E0;
+            --secondary-accent: #CCCCCC;
+            --highlight: #4A86E8;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #F0F0F0;
+            --accent-color: #2D2D2D;
+            --secondary-accent: #3D3D3D;
+            --highlight: #6C9FFF;
+        }
+
+        [data-theme="miku"] {
+            --bg-color: #B2E3DE;
+            --text-color: #333333;
+            --accent-color: #50C3C7;
+            --secondary-accent: #7CD9DB;
+            --highlight: #208B8F;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--accent-color);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .theme-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .theme-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.1s ease;
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .theme-btn.light {
+            background-color: #FFFFFF;
+            color: #333333;
+            border: 1px solid #CCCCCC;
+        }
+
+        .theme-btn.dark {
+            background-color: #121212;
+            color: #F0F0F0;
+        }
+
+        .theme-btn.miku {
+            background-color: #B2E3DE;
+            color: #333333;
+            border: 1px solid #50C3C7;
+        }
+
+        .theme-btn.active {
+            box-shadow: 0 0 0 2px var(--highlight);
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--accent-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .project-description {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .project-features {
+            margin-bottom: 1rem;
+        }
+
+        .project-features ul {
+            padding-left: 1.5rem;
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-accent);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .project-link:hover {
+            background-color: var(--highlight);
+            color: white;
+        }
+
+        .donation-button {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .ko-fi-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: #FF5E5B;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .ko-fi-button:hover {
+            background-color: #E54B48;
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--highlight);
+        }
+
+        footer {
+            background-color: var(--accent-color);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .github-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .github-link:hover {
+            text-decoration: underline;
+            color: var(--highlight);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .projects {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MalikHw</h1>
+        <p>Dev & Geometry Dash player/creator</p>
+    </header>
+
+    <div class="container">
+        <div class="theme-toggle">
+            <button class="theme-btn light active" onclick="setTheme('light')">Light Mode</button>
+            <button class="theme-btn dark" onclick="setTheme('dark')">Dark Mode</button>
+            <button class="theme-btn miku" onclick="setTheme('miku')">Miku Mode</button>
+        </div>
+
+        <div class="donation-button">
+            <a href="https://www.ko-fi.com/MalikHw47" target="_blank" class="ko-fi-button">☕ Support me on Ko-fi</a>
+        </div>
+
+        <h2 class="section-title">My Projects</h2>
+
+        <div class="projects">
+            <!-- GD Sync Project -->
+            <div class="project-card">
+                <div class="project-content">
+                    <h3 class="project-title">GD Sync</h3>
+                    <p class="project-description">A tool designed to sync your Geometry Dash data (levels, progress, etc.) between your Android device and your PC.</p>
+                    <div class="project-features">
+                        <strong>Features:</strong>
+                        <ul>
+                            <li>Works with Geode on phone</li>
+                            <li>Push (PC → Phone) and pull (Phone → PC) data</li>
+                            <li>Easy-to-use GUI interface</li>
+                        </ul>
+                    </div>
+                    <a href="https://github.com/MalikHw/gdsync" class="project-link">View on GitHub</a>
+                </div>
+            </div>
+
+            <!-- GDSongExtractor Project -->
+            <div class="project-card">
+                <div class="project-content">
+                    <h3 class="project-title">GDSongExtractor</h3>
+                    <p class="project-description">A desktop application that helps you easily find, identify, and manage the custom songs downloaded by Geometry Dash.</p>
+                    <div class="project-features">
+                        <strong>Features:</strong>
+                        <ul>
+                            <li>Automatic GD Folder Detection</li>
+                            <li>Metadata Fetching from Newgrounds</li>
+                            <li>ID3 Tagging & Selective Copying</li>
+                            <li>Cross-Platform Support</li>
+                        </ul>
+                    </div>
+                    <a href="https://github.com/MalikHw/GDSongExtractor" class="project-link">View on GitHub</a>
+                </div>
+            </div>
+
+            <!-- HwYtVidGrabber Project -->
+            <div class="project-card">
+                <div class="project-content">
+                    <h3 class="project-title">HwYtVidGrabber</h3>
+                    <p class="project-description">A simple, efficient YouTube video and audio downloader without frustrating limitations.</p>
+                    <div class="project-features">
+                        <strong>Features:</strong>
+                        <ul>
+                            <li>Download in various resolutions (144p to 4K)</li>
+                            <li>Extract audio as MP3</li>
+                            <li>Option for 60fps videos</li>
+                            <li>Pause, resume, and cancel downloads</li>
+                            <li>Dark mode support</li>
+                        </ul>
+                    </div>
+                    <a href="https://github.com/MalikHw/HwYtVidGrabber" class="project-link">View on GitHub</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Visit my <a href="https://github.com/MalikHw" target="_blank" class="github-link">GitHub Profile</a> for more projects</p>
+    </footer>
+
+    <script>
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            
+            // Update active button state
+            const buttons = document.querySelectorAll('.theme-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+                if (button.classList.contains(theme)) {
+                    button.classList.add('active');
+                }
+            });
+
+            // Save theme preference
+            localStorage.setItem('preferred-theme', theme);
+        }
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('preferred-theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        }
+    </script>
+</body>
+</html>
