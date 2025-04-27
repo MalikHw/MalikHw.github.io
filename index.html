@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MalikHw</title>
+    <title>MalikHw - GitHub Portfolio</title>
     <style>
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('Font1.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         :root {
             --bg-color: #FFFFFF;
             --text-color: #333333;
@@ -33,27 +40,90 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.5s ease, color 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'CustomFont', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         header {
             background-color: var(--accent-color);
-            padding: 1.5rem;
+            padding: 2rem;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo-container img {
+            max-width: 300px;
+            height: auto;
+            animation: floatEffect 3s ease-in-out infinite;
+        }
+
+        @keyframes floatEffect {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: linear-gradient(
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: shine 10s infinite linear;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        header p {
+            position: relative;
+            z-index: 2;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .theme-toggle {
@@ -69,11 +139,31 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.1s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .theme-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: height 0.3s ease;
+            z-index: -1;
         }
 
         .theme-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-btn:hover::after {
+            height: 100%;
         }
 
         .theme-btn.light {
@@ -94,7 +184,8 @@
         }
 
         .theme-btn.active {
-            box-shadow: 0 0 0 2px var(--highlight);
+            box-shadow: 0 0 15px var(--highlight);
+            transform: translateY(-2px);
         }
 
         .projects {
@@ -106,85 +197,208 @@
 
         .project-card {
             background-color: var(--accent-color);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             height: 100%;
             display: flex;
             flex-direction: column;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            animation: fadeInStaggered 0.8s ease-out forwards;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.2s; }
+        .project-card:nth-child(2) { animation-delay: 0.4s; }
+        .project-card:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes fadeInStaggered {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--highlight), var(--secondary-accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
         }
 
         .project-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
         }
 
         .project-content {
-            padding: 1.5rem;
+            padding: 1.8rem;
             flex-grow: 1;
+            position: relative;
+            z-index: 1;
         }
 
         .project-title {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             margin-bottom: 1rem;
             color: var(--text-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        .project-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 50px;
+            height: 3px;
+            background-color: var(--highlight);
+            transition: width 0.3s ease;
+        }
+
+        .project-card:hover .project-title::after {
+            width: 100%;
         }
 
         .project-description {
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             color: var(--text-color);
+            line-height: 1.7;
         }
 
         .project-features {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .project-features {
+            opacity: 1;
         }
 
         .project-features ul {
             padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .project-features li {
+            margin-bottom: 0.3rem;
+            position: relative;
+        }
+
+        .project-features li::before {
+            content: '▹';
+            color: var(--highlight);
+            position: absolute;
+            left: -1em;
         }
 
         .project-link {
             display: inline-block;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             background-color: var(--secondary-accent);
             color: var(--text-color);
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 30px;
             font-weight: bold;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .project-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+            z-index: -1;
         }
 
         .project-link:hover {
             background-color: var(--highlight);
             color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-link:hover::before {
+            left: 100%;
         }
 
         .donation-button {
             text-align: center;
-            margin: 2rem 0;
+            margin: 3rem 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .ko-fi-button {
             display: inline-block;
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 2rem;
             background-color: #FF5E5B;
             color: white;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 30px;
             font-weight: bold;
-            transition: background-color 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(255, 94, 91, 0.4);
+        }
+
+        .ko-fi-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
         }
 
         .ko-fi-button:hover {
             background-color: #E54B48;
-            transform: translateY(-2px);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 25px rgba(255, 94, 91, 0.5);
+        }
+
+        .ko-fi-button:hover::before {
+            transform: translateX(100%);
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
             position: relative;
-            padding-bottom: 0.5rem;
+            padding-bottom: 1rem;
+            font-size: 2.2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
         }
 
         .section-title::after {
@@ -194,26 +408,68 @@
             left: 50%;
             transform: translateX(-50%);
             width: 100px;
-            height: 3px;
-            background-color: var(--highlight);
+            height: 4px;
+            background: linear-gradient(to right, var(--highlight), var(--secondary-accent));
+            border-radius: 2px;
         }
 
         footer {
             background-color: var(--accent-color);
             text-align: center;
-            padding: 1.5rem;
-            margin-top: 2rem;
+            padding: 2rem;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--highlight), var(--secondary-accent), var(--highlight));
         }
 
         .github-link {
             color: var(--text-color);
             text-decoration: none;
             font-weight: bold;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .github-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--highlight);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
         }
 
         .github-link:hover {
-            text-decoration: underline;
             color: var(--highlight);
+        }
+
+        .github-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Parallax effect on scroll */
+        .parallax-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
         }
 
         /* Responsive design */
@@ -225,13 +481,29 @@
             .container {
                 padding: 1rem;
             }
+
+            .theme-toggle {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .theme-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .logo-container img {
+                max-width: 200px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>MalikHw</h1>
-        <p>Dev & Geometry Dash player/creator</p>
+        <div class="logo-container">
+            <img src="title.png" alt="MalikHw">
+        </div>
+        <p>Developer & Creator</p>
     </header>
 
     <div class="container">
@@ -261,7 +533,7 @@
                             <li>Easy-to-use GUI interface</li>
                         </ul>
                     </div>
-                    <a href="https://github.com/MalikHw/gdsync" class="project-link">View on GitHub</a>
+                    <a href="https://github.com/MalikHw/gdSync" class="project-link">View on GitHub</a>
                 </div>
             </div>
 
@@ -330,6 +602,54 @@
         if (savedTheme) {
             setTheme(savedTheme);
         }
+
+        // Add parallax effect
+        document.addEventListener('mousemove', function(e) {
+            const cards = document.querySelectorAll('.project-card');
+            
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                card.style.transform = `translateY(-5px) perspective(1000px) rotateX(${y / 30}deg) rotateY(${-x / 30}deg)`;
+            });
+        });
+
+        // Reset parallax on mouse leave
+        document.addEventListener('mouseleave', function() {
+            const cards = document.querySelectorAll('.project-card');
+            
+            cards.forEach(card => {
+                card.style.transform = 'translateY(-5px)';
+            });
+        });
+
+        // Add scroll-based animation triggers
+        document.addEventListener('DOMContentLoaded', function() {
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.bottom >= 0
+                );
+            }
+
+            function handleScrollAnimations() {
+                const elements = document.querySelectorAll('.project-card, .section-title');
+                
+                elements.forEach(element => {
+                    if (isInViewport(element) && !element.classList.contains('animated')) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                        element.classList.add('animated');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', handleScrollAnimations);
+            handleScrollAnimations(); // Initial check
+        });
     </script>
 </body>
 </html>
