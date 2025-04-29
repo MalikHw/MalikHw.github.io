@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MalikHw - GitHub Portfolio</title>
-    <style>
-        @font-face {
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   MalikHw - My Portfolio 💀
+  </title>
+  <style>
+   @font-face {
             font-family: 'CustomFont';
             src: url('Font1.ttf') format('truetype');
             font-weight: normal;
@@ -535,106 +537,312 @@
                 width: 80%;
             }
         }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="logo-container">
-            <img src="title.png" alt="MalikHw">
-        </div>
-        <p>Developer & Creator</p>
-    </header>
+   .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
 
-    <div class="container">
-        <div class="theme-toggle">
-            <button class="theme-btn light active" onclick="setTheme('light')">Light Mode</button>
-            <button class="theme-btn dark" onclick="setTheme('dark')">Dark Mode</button>
-            <button class="theme-btn miku" onclick="setTheme('miku')">Miku Mode</button>
-        </div>
+.tab-btn {
+    padding: 0.6rem 1.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
 
-        <div class="donation-button">
-            <a href="https://www.ko-fi.com/MalikHw47" target="_blank" class="ko-fi-button">☕ Support me on Ko-fi</a>
-        </div>
+.tab-btn:hover {
+    background-color: var(--highlight);
+    color: white;
+}
 
-        <h2 class="section-title">My Projects</h2>
+.tab-btn.active {
+    box-shadow: 0 0 10px var(--highlight);
+    transform: translateY(-2px);
+}
 
-        <div class="projects">
-            <!-- GD Sync Project -->
-            <div class="project-card">
-                <div class="project-content">
-                    <h3 class="project-title">GD Sync</h3>
-                    <p class="project-description">A tool designed to sync your Geometry Dash data (levels, progress, etc.) between your Android device and your PC.</p>
-                    <div class="project-features">
-                        <strong>Features:</strong>
-                        <ul>
-                            <li>Works with Geode on phone</li>
-                            <li>Push (PC → Phone) and pull (Phone → PC) data</li>
-                            <li>Easy-to-use GUI interface</li>
-                        </ul>
-                    </div>
-                    <a href="gdsync.html" class="project-link">View</a>
-                </div>
-            </div>
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease-out forwards;
+}
 
-            <!-- GDSongExtractor Project -->
-            <div class="project-card">
-                <div class="project-content">
-                    <h3 class="project-title">GDSongExtractor</h3>
-                    <p class="project-description">A desktop application that helps you easily find, identify, and manage the custom songs downloaded by Geometry Dash.</p>
-                    <div class="project-features">
-                        <strong>Features:</strong>
-                        <ul>
-                            <li>Automatic GD Folder Detection</li>
-                            <li>Metadata Fetching from Newgrounds</li>
-                            <li>ID3 Tagging & Selective Copying</li>
-                            <li>Cross-Platform Support</li>
-                        </ul>
-                    </div>
-                    <a href="gdsongextractor.html" class="project-link">View</a>
-                </div>
-            </div>
+.tab-content.active-tab {
+    display: block;
+}
 
-            <!-- HwYtVidGrabber Project -->
-            <div class="project-card">
-                <div class="project-content">
-                    <h3 class="project-title">HwYtVidGrabber</h3>
-                    <p class="project-description">A simple, efficient YouTube video and audio downloader without frustrating limitations.</p>
-                    <div class="project-features">
-                        <strong>Features:</strong>
-                        <ul>
-                            <li>Download in various resolutions (144p to 4K)</li>
-                            <li>Extract audio as MP3</li>
-                            <li>Option for 60fps videos</li>
-                            <li>Pause, resume, and cancel downloads</li>
-                            <li>Dark mode support</li>
-                        </ul>
-                    </div>
-                    <a href="hwytvidgrabber.html" class="project-link">View</a>
-                </div>
-            </div>
-        </div>
+.gd-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+}
+
+.gd-stats-table th,
+.gd-stats-table td {
+    border: 1px solid var(--accent-color);
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.gd-stats-table th {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.gd-stats-table td {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+  </style>
+ </head>
+ <body>
+  <header>
+   <div class="logo-container">
+    <img alt="MalikHw" src="title.png"/>
+   </div>
+   <p>
+    Developer &amp; Creator
+   </p>
+  </header>
+  <div class="container">
+   <div class="theme-toggle">
+    <button class="theme-btn light active" onclick="setTheme('light')">
+     Light Mode
+    </button>
+    <button class="theme-btn dark" onclick="setTheme('dark')">
+     Dark Mode
+    </button>
+    <button class="theme-btn miku" onclick="setTheme('miku')">
+     Miku Mode
+    </button>
+   </div>
+   <div class="donation-button">
+    <a class="ko-fi-button" href="https://www.ko-fi.com/MalikHw47" target="_blank">
+     ☕ Support me on Ko-fi
+    </a>
+   </div>
+   <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('projects')">
+     Projects
+    </button>
+    <button class="tab-btn" onclick="switchTab('gdstats')">
+     GD Stats
+    </button>
+   </div>
+   <h2 class="section-title">
+    My Projects
+   </h2>
+   <div class="tab-content active-tab" id="projects">
+    <div class="projects">
+     <!-- GD Sync Project -->
+     <div class="project-card">
+      <div class="project-content">
+       <h3 class="project-title">
+        GD Sync
+       </h3>
+       <p class="project-description">
+        A tool designed to sync your Geometry Dash data (levels, progress, etc.) between your Android device and your PC.
+       </p>
+       <div class="project-features">
+        <strong>
+         Features:
+        </strong>
+        <ul>
+         <li>
+          Works with Geode on phone
+         </li>
+         <li>
+          Push (PC → Phone) and pull (Phone → PC) data
+         </li>
+         <li>
+          Easy-to-use GUI interface
+         </li>
+        </ul>
+       </div>
+       <a class="project-link" href="gdsync.html">
+        View
+       </a>
+      </div>
+     </div>
+     <!-- GDSongExtractor Project -->
+     <div class="project-card">
+      <div class="project-content">
+       <h3 class="project-title">
+        GDSongExtractor
+       </h3>
+       <p class="project-description">
+        A desktop application that helps you easily find, identify, and manage the custom songs downloaded by Geometry Dash.
+       </p>
+       <div class="project-features">
+        <strong>
+         Features:
+        </strong>
+        <ul>
+         <li>
+          Automatic GD Folder Detection
+         </li>
+         <li>
+          Metadata Fetching from Newgrounds
+         </li>
+         <li>
+          ID3 Tagging &amp; Selective Copying
+         </li>
+         <li>
+          Cross-Platform Support
+         </li>
+        </ul>
+       </div>
+       <a class="project-link" href="gdsongextractor.html">
+        View
+       </a>
+      </div>
+     </div>
+     <!-- HwYtVidGrabber Project -->
+     <div class="project-card">
+      <div class="project-content">
+       <h3 class="project-title">
+        HwYtVidGrabber
+       </h3>
+       <p class="project-description">
+        A simple, efficient YouTube video and audio downloader without frustrating limitations.
+       </p>
+       <div class="project-features">
+        <strong>
+         Features:
+        </strong>
+        <ul>
+         <li>
+          Download in various resolutions (144p to 4K)
+         </li>
+         <li>
+          Extract audio as MP3
+         </li>
+         <li>
+          Option for 60fps videos
+         </li>
+         <li>
+          Pause, resume, and cancel downloads
+         </li>
+         <li>
+          Dark mode support
+         </li>
+        </ul>
+       </div>
+       <a class="project-link" href="hwytvidgrabber.html">
+        View
+       </a>
+      </div>
+     </div>
     </div>
-
-    <footer>
-        <p>Connect with me:</p>
-        <div class="social-links">
-            <a href="https://github.com/MalikHw" target="_blank" class="github-link">
-                <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-                GitHub Profile
-            </a>
-            <a href="https://www.youtube.com/channel/UCyigqF_mR6nM2YnBOfKRfhQ/" target="_blank" class="youtube-link">
-                <svg class="youtube-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
-                YouTube Channel
-            </a>
-        </div>
-    </footer>
-
-    <script>
-        function setTheme(theme) {
+   </div>
+   <div class="tab-content" id="gdstats">
+    <h2 class="section-title">
+     Geometry Dash Stats
+    </h2>
+    <table class="gd-stats-table">
+     <tr>
+      <th>
+       Username
+      </th>
+      <td>
+       <img alt="Icon" src="ico.png" style="height:24px; vertical-align:middle; margin-right:8px;"/>
+       MalikHwNew
+      </td>
+     </tr>
+     <tr>
+      <th>
+       Stars
+      </th>
+      <td>
+       1804
+      </td>
+     </tr>
+     <tr>
+      <th>
+       Moons
+      </th>
+      <td>
+       413
+      </td>
+     </tr>
+     <tr>
+      <th>
+       Creator Points
+      </th>
+      <td>
+       0
+      </td>
+     </tr>
+     <tr>
+      <th>
+       User Coins
+      </th>
+      <td>
+       235
+      </td>
+     </tr>
+     <tr>
+      <th>
+       Demons
+      </th>
+      <td>
+       58
+      </td>
+     </tr>
+     <tr>
+      <th>
+       Hardest Level Beaten
+      </th>
+      <td>
+       Future Funk II (by JonathanGD)
+      </td>
+     </tr>
+     <tr>
+      <th>
+       Rated Levels
+      </th>
+      <td>
+       0
+      </td>
+     </tr>
+    </table>
+   </div>
+  </div>
+  <footer>
+   <p>
+    Connect with me:
+   </p>
+   <div class="social-links">
+    <a class="github-link" href="https://github.com/MalikHw" target="_blank">
+     <svg class="github-icon" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z">
+      </path>
+     </svg>
+     GitHub Profile
+    </a>
+    <a class="youtube-link" href="https://www.youtube.com/channel/UCyigqF_mR6nM2YnBOfKRfhQ/" target="_blank">
+     <svg class="youtube-icon" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z">
+      </path>
+     </svg>
+     YouTube Channel
+    </a>
+   </div>
+  </footer>
+  <script>
+   function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active-tab');
+    document.querySelector(`.tab-btn[onclick*="${tabId}"]`).classList.add('active');
+}
+  </script>
+  <script>
+   function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
             
             // Update active button state
@@ -703,6 +911,6 @@
             window.addEventListener('scroll', handleScrollAnimations);
             handleScrollAnimations(); // Initial check
         });
-    </script>
-</body>
+  </script>
+ </body>
 </html>
