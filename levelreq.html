@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MalikHw47 Level Requests</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+        
+        :root {
+            --miku-teal: #39c5cf;
+            --miku-dark-teal: #2aa3ac;
+            --miku-blue: #1e3a8a;
+            --miku-dark: #0f172a;
+            --miku-darker: #020617;
+            --miku-light: #8dd3dd;
+            --miku-accent: #06b6d4;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, var(--miku-darker) 0%, var(--miku-dark) 50%, var(--miku-blue) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .floating-cube {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(57, 197, 207, 0.1);
+            border: 1px solid var(--miku-teal);
+            border-radius: 4px;
+            animation: float 8s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        
+        .container {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(57, 197, 207, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(0);
+            animation: slideIn 0.8s ease-out;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .header {
+            margin-bottom: 2rem;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--miku-teal) 0%, var(--miku-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(57, 197, 207, 0.3)); }
+            to { filter: drop-shadow(0 0 20px rgba(57, 197, 207, 0.6)); }
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--miku-light);
+            margin-bottom: 0.5rem;
+        }
+        
+        .status {
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            display: inline-block;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .status.live {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .status.offline {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        
+        .input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-family: inherit;
+            background: rgba(30, 58, 138, 0.2);
+            border: 2px solid rgba(57, 197, 207, 0.3);
+            border-radius: 16px;
+            color: white;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .input:focus {
+            border-color: var(--miku-teal);
+            background: rgba(30, 58, 138, 0.3);
+            box-shadow: 0 0 0 4px rgba(57, 197, 207, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .input::placeholder {
+            color: rgba(141, 211, 221, 0.6);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: inherit;
+            background: linear-gradient(135deg, var(--miku-teal) 0%, var(--miku-accent) 100%);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(57, 197, 207, 0.4);
+        }
+        
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+        
+        .submit-btn:disabled {
+            background: rgba(100, 116, 139, 0.3);
+            cursor: not-allowed;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .message {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .message.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        .message.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .locked-message {
+            font-size: 1.2rem;
+            color: var(--miku-light);
+            margin: 2rem 0;
+        }
+        
+        .skull {
+            font-size: 2rem;
+            display: block;
+            margin: 1rem 0;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+            40%, 43% { transform: translateY(-10px); }
+            70% { transform: translateY(-5px); }
+            90% { transform: translateY(-2px); }
+        }
+        
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(57, 197, 207, 0.2);
+            font-size: 0.8rem;
+            color: rgba(141, 211, 221, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation" id="background"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 class="title">GD Level Requests</h1>
+            <div class="subtitle">@MalikHw47 on YouTube</div>
+            <div class="status" id="status">🔴 Checking stream status...</div>
+        </div>
+        
+        <div id="content">
+            <!-- Content will be loaded here -->
+        </div>
+        
+        <div class="footer">
+            Made with 💙 for the GD community
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const GITHUB_TOKEN = 'YOUR_GITHUB_TOKEN_HERE'; // You'll need to replace this
+        const REPO_OWNER = 'MalikHw';
+        const REPO_NAME = 'GDLevelReq';
+        
+        let isLocked = false;
+        
+        // Create floating cubes animation
+        function createFloatingCube() {
+            const cube = document.createElement('div');
+            cube.className = 'floating-cube';
+            cube.style.left = Math.random() * 100 + '%';
+            cube.style.animationDelay = Math.random() * 2 + 's';
+            cube.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            document.getElementById('background').appendChild(cube);
+            
+            setTimeout(() => {
+                cube.remove();
+            }, 10000);
+        }
+        
+        // Create cubes periodically
+        setInterval(createFloatingCube, 500);
+        
+        // Check stream status (simulate checking LOCK variable)
+        async function checkStreamStatus() {
+            try {
+                // In a real implementation, you'd check a file in your repo for the LOCK variable
+                // For now, we'll simulate it being unlocked
+                isLocked = false; // Change this to true to test locked state
+                
+                const statusEl = document.getElementById('status');
+                const contentEl = document.getElementById('content');
+                
+                if (isLocked) {
+                    statusEl.textContent = '🔴 Stream Offline';
+                    statusEl.className = 'status offline';
+                    contentEl.innerHTML = `
+                        <div class="locked-message">
+                            Nope <span class="skull">💀</span>
+                            <p>Stream is currently offline. Come back when MalikHw47 is live!</p>
+                        </div>
+                    `;
+                } else {
+                    statusEl.textContent = '🟢 Stream Live - Accepting Requests!';
+                    statusEl.className = 'status live';
+                    contentEl.innerHTML = `
+                        <div class="form-group">
+                            <input type="text" id="levelId" class="input" placeholder="Enter Level ID (e.g., 12345678)" maxlength="20">
+                        </div>
+                        <button class="submit-btn" onclick="submitLevel()">Submit Level Request</button>
+                        <div class="message" id="message"></div>
+                    `;
+                    
+                    // Add enter key listener
+                    document.getElementById('levelId').addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            submitLevel();
+                        }
+                    });
+                    
+                    // Focus the input
+                    document.getElementById('levelId').focus();
+                }
+            } catch (error) {
+                console.error('Error checking stream status:', error);
+            }
+        }
+        
+        // Submit level function
+        async function submitLevel() {
+            const levelId = document.getElementById('levelId').value.trim();
+            const messageEl = document.getElementById('message');
+            const submitBtn = document.querySelector('.submit-btn');
+            
+            if (!levelId) {
+                showMessage('Please enter a level ID!', 'error');
+                return;
+            }
+            
+            if (!/^\d+$/.test(levelId)) {
+                showMessage('Level ID must be numbers only!', 'error');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            try {
+                // Dispatch GitHub Action
+                const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${GITHUB_TOKEN}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        event_type: 'add_level',
+                        client_payload: {
+                            level_id: levelId,
+                            timestamp: new Date().toISOString(),
+                            source: 'web_form'
+                        }
+                    })
+                });
+                
+                if (response.ok) {
+                    showMessage(`Level ${levelId} added to queue! 🎉`, 'success');
+                    document.getElementById('levelId').value = '';
+                } else {
+                    throw new Error('Failed to submit level');
+                }
+            } catch (error) {
+                console.error('Error submitting level:', error);calls
+                showMessage('Failed to submit level. Try again!', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Level Request';
+            }
+        }
+        
+        // Show message functioncalls
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.classList.add('show');
+            
+            setTimeout(() => {
+                messageEl.classList.remove('show');
+            }, 5000);
+        }
+        
+        // Initialize
+        checkStreamStatus();
+        
+        // Check status every 30 seconds
+        setInterval(checkStreamStatus, 30000);
+    </script>
+</body>
+</html>
