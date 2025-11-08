@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Webhook Sender</title>
+</head>
+<body>
+    <h1>Discord Webhook Sender</h1>
+    
+    <label for="webhookId">Webhook URL:</label><br>
+    <input type="text" id="webhookId" placeholder="https://discord.com/api/webhooks/..." size="80"><br><br>
+    
+    <label for="message">Message:</label><br>
+    <textarea id="message" rows="5" cols="80" placeholder="Type your message here..."></textarea><br><br>
+    
+    <button onclick="sendWebhook()">Send</button>
+    <p id="status"></p>
+    
+    <hr>
+    
+    <h3>How to use emojis:</h3>
+    <ul>
+        <li><b>Normal emojis:</b> Just paste them directly! 😀 👍 ❤️</li>
+        <li><b>Discord emojis (normal):</b> Use format <code>&lt;:emoji_name:emoji_id&gt;</code></li>
+        <li><b>Discord emojis (animated):</b> Use format <code>&lt;a:emoji_name:emoji_id&gt;</code></li>
+    </ul>
+    
+    <p><b>To get Discord emoji ID:</b></p>
+    <ol>
+        <li>In Discord, type <code>\:emoji_name:</code> and send it</li>
+        <li>Discord will show the full format with the ID</li>
+        <li>Copy that entire thing into your message</li>
+    </ol>
+    
+    <p><b>Example:</b> <code>&lt;:pepe:123456789012345678&gt;</code> or <code>&lt;a:dancing:987654321098765432&gt;</code></p>
+
+    <script>
+        async function sendWebhook() {
+            const webhookUrl = document.getElementById('webhookId').value;
+            const message = document.getElementById('message').value;
+            const status = document.getElementById('status');
+            
+            if (!webhookUrl || !message) {
+                status.textContent = 'Please fill in both fields!';
+                return;
+            }
+            
+            status.textContent = 'Sending...';
+            
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: message
+                    })
+                });
+                
+                if (response.ok || response.status === 204) {
+                    status.textContent = 'Message sent successfully!';
+                    document.getElementById('message').value = '';
+                } else {
+                    status.textContent = 'Error: ' + response.status + ' - Check your webhook URL!';
+                }
+            } catch (error) {
+                status.textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
