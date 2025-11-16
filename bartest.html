@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Material 3 Loading Bar</title>
+  <!-- Material 3 CDN -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@material/web@latest/dist/md_web.css">
+  <script type="module" src="https://unpkg.com/@material/web@latest/dist/md_web.js"></script>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+      flex-direction: column;
+    }
+    md-linear-progress {
+      width: 300px;
+    }
+    button {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <md-linear-progress id="loadingBar" determinate value="0"></md-linear-progress>
+  <button id="startBtn">Start Loading</button>
+
+  <script>
+    const bar = document.getElementById('loadingBar');
+    const btn = document.getElementById('startBtn');
+
+    btn.addEventListener('click', () => {
+      let progress = 0;
+      bar.value = 0;
+
+      const interval = setInterval(() => {
+        progress += 0.01;
+        bar.value = progress;
+
+        if (progress >= 1) clearInterval(interval);
+      }, 20); // speed of the loading bar
+    });
+  </script>
+
+</body>
+</html>
