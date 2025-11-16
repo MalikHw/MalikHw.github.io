@@ -1,40 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Material 3 Loading Bar</title>
-  <!-- Material 3 CDN -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
-  <link rel="stylesheet" href="https://unpkg.com/@material/web@latest/dist/md_web.css">
-  <script type="module" src="https://unpkg.com/@material/web@latest/dist/md_web.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loading Bar – M3 Web</title>
+
+  <!-- Import Roboto font (optional but recommended for Material) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Import Material Web components via esm.run CDN -->
+  <script type="importmap">
+    {
+      "imports": {
+        "@material/web/": "https://esm.run/@material/web/"
+      }
+    }
+  </script>
+  <script type="module">
+    import '@material/web/all.js';
+    import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+  </script>
+
   <style>
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family: "Roboto", sans-serif;
       display: flex;
+      height: 100vh;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      background-color: #f5f5f5;
       flex-direction: column;
+      gap: 24px;
     }
-    md-linear-progress {
-      width: 300px;
-    }
-    button {
-      margin-top: 20px;
+
+    /* Optional: make the progress bar wider */
+    .my-progress {
+      width: 80%;
     }
   </style>
 </head>
 <body>
 
-  <md-linear-progress id="loadingBar" determinate value="0"></md-linear-progress>
-  <button id="startBtn">Start Loading</button>
+  <h1>Loading...</h1>
+
+  <!-- Material Web linear progress (indeterminate) -->
+  <md-linear-progress class="my-progress" indeterminate aria-label="Loading"></md-linear-progress>
 
   <script>
-    const bar = document.getElementById('loadingBar');
-    const btn = document.getElementById('startBtn');
+    // Example: simulating a load, then switch to determinate
+    const prog = document.querySelector('md-linear-progress');
+    setTimeout(() => {
+      prog.removeAttribute('indeterminate');
+      prog.value = 0;
+      prog.max = 1;
 
+      let v = 0;
+      const interval = setInterval(() => {
+        v += 0.01;
+        prog.value = v;
+        if (v >= 1) {
+          clearInterval(interval);
+        }
+      }, 50);
+    }, 3000);
+  </script>
+
+</body>
+</html>
     btn.addEventListener('click', () => {
       let progress = 0;
       bar.value = 0;
