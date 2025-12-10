@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zouhour's English Journey 🌸</title>
+    <style>
+/* styles.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #ff6b9d;
+    --secondary: #c44569;
+    --accent: #ffa502;
+    --success: #26de81;
+    --bg: #f8f9fa;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --text-light: #7f8c8d;
+    --border: #e1e8ed;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    direction: ltr;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--bg);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+    color: white;
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.flower {
+    font-size: 50px;
+    animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+    font-size: 1.1em;
+    opacity: 0.95;
+    margin-top: 10px;
+}
+
+/* Navigation */
+.nav-tabs {
+    display: flex;
+    background: white;
+    border-bottom: 2px solid var(--border);
+    overflow-x: auto;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 18px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--text-light);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.tab-btn:hover {
+    background: #f8f9fa;
+    color: var(--primary);
+}
+
+.tab-btn.active {
+    color: var(--primary);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary);
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    padding: 30px;
+    animation: fadeIn 0.3s;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Welcome Section */
+.welcome-section {
+    text-align: center;
+}
+
+.welcome-section h2 {
+    color: var(--primary);
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+
+.motivational {
+    font-size: 1.2em;
+    color: var(--text-light);
+    margin-bottom: 40px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow);
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-number {
+    font-size: 3em;
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    color: var(--text-light);
+    font-size: 0.95em;
+}
+
+/* Quick Start */
+.quick-start {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow);
+    margin-top: 30px;
+}
+
+.quick-start h3 {
+    color: var(--text);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.action-btn {
+    padding: 20px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+}
+
+/* Lessons */
+.lessons-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.lessons-header h2 {
+    color: var(--primary);
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.lesson-selector {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.level-btn {
+    padding: 12px 30px;
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.level-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.level-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.lesson-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow);
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 8px 25px rgba(255, 107, 157, 0.2);
+}
+
+.lesson-card.completed {
+    border-color: var(--success);
+}
+
+.lesson-number {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.lesson-card.completed .lesson-number {
+    background: var(--success);
+}
+
+.lesson-card h3 {
+    color: var(--text);
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.lesson-card p {
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.lesson-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: var(--text-light);
+}
+
+.lesson-detail {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.back-btn {
+    padding: 10px 20px;
+    background: var(--text-light);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 1em;
+    transition: all 0.3s;
+}
+
+.back-btn:hover {
+    background: var(--text);
+}
+
+.lesson-content h2 {
+    color: var(--primary);
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.lesson-content p {
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 15px;
+}
+
+.lesson-content ul, .lesson-content ol {
+    margin-left: 25px;
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.vocabulary-list {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.vocab-item {
+    padding: 12px;
+    background: white;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vocab-word {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.vocab-translation {
+    color: var(--text-light);
+}
+
+/* Translator */
+.translator-section h2 {
+    color: var(--primary);
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.translator-section > p {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+.translator-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 968px) {
+    .translator-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.translate-panel {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.language-selector {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.language-selector select {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.swap-btn {
+    padding: 10px 15px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: all 0.3s;
+}
+
+.swap-btn:hover {
+    transform: rotate(180deg);
+}
+
+.translate-boxes {
+    display: grid;
+    gap: 20px;
+}
+
+.input-box, .output-box {
+    position: relative;
+}
+
+.input-box textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 1em;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.char-count {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    color: var(--text-light);
+    font-size: 0.85em;
+}
+
+.output-box {
+    min-height: 150px;
+    padding: 15px;
+    background: #f8f9fa;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    position: relative;
+}
+
+.translation-result {
+    min-height: 120px;
+    line-height: 1.8;
+}
+
+.placeholder-text {
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 8px 15px;
+    background: var(--success);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.translate-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s;
+}
+
+.translate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 157, 0.3);
+}
+
+.common-phrases {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.common-phrases h3 {
+    color: var(--text);
+    margin-bottom: 20px;
+}
+
+.phrase-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.phrase-item {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.phrase-item:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--secondary);
+}
+
+.phrase-en {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.phrase-ar {
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+/* Practice */
+.practice-section h2 {
+    color: var(--primary);
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.practice-section > p {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+.practice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.practice-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.practice-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+}
+
+.practice-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+.practice-card h3 {
+    color: var(--text);
+    margin-bottom: 10px;
+}
+
+.practice-card p {
+    color: var(--text-light);
+}
+
+.quiz-container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow);
+    margin-top: 20px;
+}
+
+.quiz-header {
+    margin-bottom: 25px;
+}
+
+.quiz-progress {
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 8px;
+    background: var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s;
+}
+
+.question-container {
+    margin: 30px 0;
+}
+
+.question-text {
+    font-size: 1.3em;
+    color: var(--text);
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-btn {
+    padding: 15px 20px;
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1em;
+}
+
+.option-btn:hover {
+    background: #f8f9fa;
+    border-color: var(--primary);
+}
+
+.option-btn.correct {
+    background: var(--success);
+    color: white;
+    border-color: var(--success);
+}
+
+.option-btn.incorrect {
+    background: #ee5a6f;
+    color: white;
+    border-color: #ee5a6f;
+}
+
+/* Progress */
+.progress-section h2 {
+    color: var(--primary);
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.progress-section > p {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+.progress-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.progress-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow);
+    text-align: center;
+}
+
+.progress-card h3 {
+    color: var(--text);
+    margin-bottom: 20px;
+}
+
+.progress-circle {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+}
+
+.progress-circle svg {
+    transform: rotate(-90deg);
+}
+
+.progress-bg {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 8;
+}
+
+.progress-bar-circle {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 8;
+    stroke-dasharray: 283;
+    stroke-dashoffset: 283;
+    transition: stroke-dashoffset 1s;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.achievement-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.achievement-section h3 {
+    color: var(--text);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.achievement-item {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.achievement-item:hover {
+    transform: scale(1.05);
+}
+
+.achievement-item.locked {
+    opacity: 0.4;
+    filter: grayscale(1);
+}
+
+.achievement-icon {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.achievement-name {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.9em;
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    padding: 30px;
+    margin-top: 40px;
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+.footer-note {
+    opacity: 0.9;
+    font-size: 0.95em;
+}
+
+/* Loading Animation */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-light);
+}
+
+.loading::after {
+    content: '...';
+    animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        border-radius: 15px;
+    }
+
+    .header {
+        padding: 25px 20px;
+    }
+
+    .header h1 {
+        font-size: 1.8em;
+    }
+
+    .tab-content {
+        padding: 20px;
+    }
+
+    .nav-tabs {
+        overflow-x: auto;
+    }
+
+    .tab-btn {
+        padding: 15px;
+        font-size: 0.9em;
+    }
+
+    .stats-grid, .quick-actions {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="flower">🌸</span>
+                <h1>Marhbe Zouhour!</h1>
+            </div>
+            <p class="subtitle">Ta3allem l'anglais b rou7ek w b soubou3a 💫</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="home">Accueil</button>
+            <button class="tab-btn" data-tab="lessons">Lessons</button>
+            <button class="tab-btn" data-tab="translator">Traducteur</button>
+            <button class="tab-btn" data-tab="practice">Practice</button>
+            <button class="tab-btn" data-tab="progress">Progrès</button>
+        </nav>
+
+        <!-- Home Tab -->
+        <div class="tab-content active" id="home">
+            <div class="welcome-section">
+                <h2>Ahla w sahla ya Zouhour! 🌺</h2>
+                <p class="motivational">L'anglais moch s3ib, just khoudh wa9tek w mriguel mriguel... w n3awnouk 😊</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="lessonsCompleted">0</div>
+                        <div class="stat-label">Lessons kamlin</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="wordsLearned">0</div>
+                        <div class="stat-label">Kelmet t3almtihom</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="streak">0</div>
+                        <div class="stat-label">Yomet moutaweslin</div>
+                    </div>
+                </div>
+
+                <div class="quick-start">
+                    <h3>Wech t7eb ta3mel lyoum?</h3>
+                    <div class="quick-actions">
+                        <button class="action-btn" onclick="goToTab('lessons')">
+                            📚 Nabda lesson jdid
+                        </button>
+                        <button class="action-btn" onclick="goToTab('translator')">
+                            🔄 Translator sari3
+                        </button>
+                        <button class="action-btn" onclick="goToTab('practice')">
+                            ✍️ Practice w exercises
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lessons Tab -->
+        <div class="tab-content" id="lessons">
+            <div class="lessons-header">
+                <h2>Dourousek 📖</h2>
+                <p>Ebda b lesson 1 w riguel kol yom chwaya!</p>
+            </div>
+
+            <div class="lesson-selector">
+                <button class="level-btn active" data-level="beginner">Beginner</button>
+                <button class="level-btn" data-level="intermediate">Intermediate</button>
+            </div>
+
+            <div class="lessons-grid" id="lessonsGrid">
+                <!-- Lessons will be loaded here by JS -->
+            </div>
+
+            <!-- Lesson Detail View -->
+            <div class="lesson-detail" id="lessonDetail" style="display: none;">
+                <button class="back-btn" onclick="closeLessonDetail()">← Erja3 lel lessons</button>
+                <div id="lessonContent"></div>
+            </div>
+        </div>
+
+        <!-- Translator Tab -->
+        <div class="tab-content" id="translator">
+            <div class="translator-section">
+                <h2>Traducteur Mte3ek 🔄</h2>
+                <p>Translate ay 7aja men english l arabi w b l3aks!</p>
+
+                <div class="translator-container">
+                    <div class="translate-panel">
+                        <div class="language-selector">
+                            <select id="sourceLang">
+                                <option value="en">English</option>
+                                <option value="ar">العربية</option>
+                            </select>
+                            <button class="swap-btn" onclick="swapLanguages()">⇄</button>
+                            <select id="targetLang">
+                                <option value="ar">العربية</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+
+                        <div class="translate-boxes">
+                            <div class="input-box">
+                                <textarea 
+                                    id="sourceText" 
+                                    placeholder="Ekteb heuni elli t7eb ttarjmou..."
+                                    rows="6"
+                                ></textarea>
+                                <div class="char-count"><span id="charCount">0</span>/500</div>
+                            </div>
+                            
+                            <div class="output-box">
+                                <div id="translatedText" class="translation-result">
+                                    <span class="placeholder-text">Translation tdhher heuni...</span>
+                                </div>
+                                <button class="copy-btn" onclick="copyTranslation()" style="display: none;">
+                                    📋 Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <button class="translate-btn" onclick="translateText()">
+                            Tarjem Tawa! 🚀
+                        </button>
+                    </div>
+
+                    <div class="common-phrases">
+                        <h3>Phrases mosta3mlin barcha:</h3>
+                        <div class="phrase-list" id="commonPhrases">
+                            <!-- Common phrases will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practice Tab -->
+        <div class="tab-content" id="practice">
+            <div class="practice-section">
+                <h2>Practice Zone ✍️</h2>
+                <p>Hounii t7el exercises w ta3mel quiz!</p>
+
+                <div class="practice-grid">
+                    <div class="practice-card" onclick="startQuiz('vocabulary')">
+                        <div class="practice-icon">📝</div>
+                        <h3>Vocabulary Quiz</h3>
+                        <p>Test your words knowledge!</p>
+                    </div>
+                    <div class="practice-card" onclick="startQuiz('grammar')">
+                        <div class="practice-icon">📐</div>
+                        <h3>Grammar Practice</h3>
+                        <p>Master the rules!</p>
+                    </div>
+                    <div class="practice-card" onclick="startQuiz('reading')">
+                        <div class="practice-icon">📖</div>
+                        <h3>Reading Comprehension</h3>
+                        <p>Understand texts better!</p>
+                    </div>
+                </div>
+
+                <!-- Quiz Container -->
+                <div class="quiz-container" id="quizContainer" style="display: none;">
+                    <div class="quiz-header">
+                        <button class="back-btn" onclick="closeQuiz()">← Erja3</button>
+                        <div class="quiz-progress">
+                            <span id="quizQuestion">Question 1/10</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="quizProgress"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quizContent"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Tab -->
+        <div class="tab-content" id="progress">
+            <div class="progress-section">
+                <h2>El Progress Mte3ek 📊</h2>
+                <p>Chouf 9adech t9ademt w 9adech ب9a!</p>
+
+                <div class="progress-overview">
+                    <div class="progress-card">
+                        <h3>Lessons Completed</h3>
+                        <div class="progress-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" class="progress-bg"></circle>
+                                <circle cx="50" cy="50" r="45" class="progress-bar-circle" id="lessonProgress"></circle>
+                            </svg>
+                            <div class="progress-text" id="lessonPercent">0%</div>
+                        </div>
+                        <p id="lessonProgressText">0/12 lessons</p>
+                    </div>
+
+                    <div class="progress-card">
+                        <h3>Vocabulary Mastery</h3>
+                        <div class="progress-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="45" class="progress-bg"></circle>
+                                <circle cx="50" cy="50" r="45" class="progress-bar-circle" id="vocabProgress"></circle>
+                            </svg>
+                            <div class="progress-text" id="vocabPercent">0%</div>
+                        </div>
+                        <p id="vocabProgressText">0/200 words</p>
+                    </div>
+                </div>
+
+                <div class="achievement-section">
+                    <h3>Achievements 🏆</h3>
+                    <div class="achievements-grid" id="achievementsGrid">
+                        <!-- Achievements will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with 💚 for the amazing Zouhour</p>
+            <p class="footer-note">Keep going, you're doing great! 🌟</p>
+        </footer>
+    </div>
+
+    <script>
+// script.js
+// Data Storage
+const appData = {
+    lessonsCompleted: parseInt(localStorage.getItem('lessonsCompleted')) || 0,
+    wordsLearned: parseInt(localStorage.getItem('wordsLearned')) || 0,
+    streak: parseInt(localStorage.getItem('streak')) || 0,
+    completedLessons: JSON.parse(localStorage.getItem('completedLessons')) || [],
+    lastVisit: localStorage.getItem('lastVisit') || null
+};
+
+// Lessons Data
+const lessons = [
+    {
+        id: 1,
+        level: 'beginner',
+        title: 'The Image of Who I Am',
+        description: 'Ta3allem 3la rou7ek w 3a 3iltek - Learn about yourself and family',
+        duration: '15 min',
+        content: `
+            <h2>Lesson 1: The Image of Who I Am 🌟</h2>
+            <p><strong>Fi hel lesson</strong>, bech net3almou 3la kifech na7kiw 3la rou7na w 3a 3iletna!</p>
+            
+            <h3>📝 Important Vocabulary (Kelmet mouhem):</h3>
+            <div class="vocabulary-list">
+                <div class="vocab-item">
+                    <span class="vocab-word">Parents</span>
+                    <span class="vocab-translation">الوالدين - el welidin</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Family</span>
+                    <span class="vocab-translation">عائلة - 3ila</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Responsible</span>
+                    <span class="vocab-translation">مسؤول - mes2oul</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Friends</span>
+                    <span class="vocab-translation">أصدقاء - as7ab</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Support</span>
+                    <span class="vocab-translation">دعم - da3m</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Love</span>
+                    <span class="vocab-translation">حب - 7ob</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Care</span>
+                    <span class="vocab-translation">اهتمام - ehtimem</span>
+                </div>
+            </div>
+
+            <h3>💬 Common Phrases:</h3>
+            <ul>
+                <li><strong>I want to be remembered</strong> - N7eb yetfakarouni</li>
+                <li><strong>My family gives me support</strong> - 3ilti ta3tini da3m</li>
+                <li><strong>I feel safe</strong> - N7es bi amen</li>
+                <li><strong>They are always there for me</strong> - Deyman maw9oufin m3aya</li>
+            </ul>
+
+            <h3>📖 Story Time:</h3>
+            <p>Whitney, a young girl, talks about her family and friends. She says:</p>
+            <p><em>"Being with my family gives me a feeling of safety. My friends have taught me to value our friendship."</em></p>
+            <p>Hetha ya3ni: <strong>"Wa9t nkoun m3a 3ilti, n7es bi amen. W as7abi 3almouni kifech n9ader es9aba."</strong></p>
+
+            <h3>✍️ Practice:</h3>
+            <p>Try to say these in English:</p>
+            <ul>
+                <li>Ana n7eb 3ilti → I love my family</li>
+                <li>As7abi y3awnouni → My friends help me</li>
+                <li>N7es bil amen → I feel safe</li>
+            </ul>
+
+            <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <strong>💡 Tip mte3 Zouhour:</strong> Kol ma ta9ra akther, tkoun akther confidence fik! So keep reading w ma testa7ech tsawal 😊
+            </div>
+        `,
+        words: 7
+    },
+    {
+        id: 2,
+        level: 'beginner',
+        title: 'The Stepmum',
+        description: 'Story on family w love - 9isa 7elwa 3la el 3ila',
+        duration: '20 min',
+        content: `
+            <h2>Lesson 2: The Stepmum 👨‍👩‍👧‍👦</h2>
+            <p><strong>Fi hel lesson</strong>, bech na9raw 9isa 7elwa 3la stepmother (zewjet el baba) w kifech sara m3ahem el 3ila!</p>
+            
+            <h3>📝 Key Vocabulary:</h3>
+            <div class="vocabulary-list">
+                <div class="vocab-item">
+                    <span class="vocab-word">Stepmother</span>
+                    <span class="vocab-translation">زوجة الأب - zewjet el baba</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Children</span>
+                    <span class="vocab-translation">أطفال - atfal / sghar</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Accepted</span>
+                    <span class="vocab-translation">مقبول - ma9boul</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Patience</span>
+                    <span class="vocab-translation">صبر - sber</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Grandmother</span>
+                    <span class="vocab-translation">جدة - jedda</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Happy</span>
+                    <span class="vocab-translation">سعيد - fer7an</span>
+                </div>
+            </div>
+
+            <h3>📖 The Story:</h3>
+            <p>Jennifer became a stepmum to 3 children. At first it was <strong>hard</strong> (s3ib), but with time, she was <strong>accepted</strong> (t9abel biha) into their lives.</p>
+            <p>On Mother's Day, her grandchild called her <strong>"Nan"</strong> (grandmother) for the first time. It was the <strong>happiest moment</strong> (as3ad la7dha) of her life!</p>
+
+            <h3>💬 Useful Expressions:</h3>
+            <ul>
+                <li><strong>At first</strong> - Fel bedeya</li>
+                <li><strong>As time passed</strong> - B morour el wa9t</li>
+                <li><strong>I was happy</strong> - Kont fer7an/fer7ana</li>
+                <li><strong>The happiest moment</strong> - As3ad la7dha</li>
+            </ul>
+
+            <h3>Grammar Point: Present Perfect</h3>
+            <p><strong>I have been</strong> = Ana kont (w mazelni)</p>
+            <p>Example: <strong>"I have become a grandmother"</strong> = Wlit jedda</p>
+
+            <div style="background: #d1ecf1; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <strong>💙 Message l Zouhour:</strong> This story shows that love w patience can make any family work. Family moch dima blood related, sometimes it's the people who choose to love you! 💕
+            </div>
+        `,
+        words: 6
+    },
+    {
+        id: 3,
+        level: 'beginner',
+        title: 'Friendship',
+        description: 'Ta3allem 3la es9aba w kifech t7afedh 3liha',
+        duration: '18 min',
+        content: `
+            <h2>Lesson 3: Friendship 🤝</h2>
+            <p><strong>El lesson hedhi</strong> 3la es9aba - one of the most important things fi 7ayetna!</p>
+            
+            <h3>📝 Friendship Vocabulary:</h3>
+            <div class="vocabulary-list">
+                <div class="vocab-item">
+                    <span class="vocab-word">Friend</span>
+                    <span class="vocab-translation">صديق - sa7bi/sa7ebti</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Friendship</span>
+                    <span class="vocab-translation">صداقة - s9aba</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Loyal</span>
+                    <span class="vocab-translation">وفي - wafi</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Trust</span>
+                    <span class="vocab-translation">ثقة - thi9a</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Support</span>
+                    <span class="vocab-translation">دعم - da3m</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Reunite</span>
+                    <span class="vocab-translation">يجتمع مرة أخرى - yejma3 mara okhra</span>
+                </div>
+            </div>
+
+            <h3>📖 Jackie & Heather's Story:</h3>
+            <p>Jackie and Heather were friends since they were 5 years old. They <strong>lost touch</strong> (9at3ou el contactat) for 23 years!</p>
+            <p>Then Jackie found Heather on a website called "Friends Reunited". They emailed, then met, and became <strong>best friends again</strong>!</p>
+
+            <h3>💬 Important Phrases:</h3>
+            <ul>
+                <li><strong>Best friend</strong> - A7sen sa7bi</li>
+                <li><strong>Lost touch</strong> - 9at3ina el contactat</li>
+                <li><strong>Keep in touch</strong> - Nkhalow contactat</li>
+                <li><strong>We have a lot in common</strong> - 3andna barcha 7wayet mochtraka</li>
+                <li><strong>True friend</strong> - Sa7bi el s7i7</span>
+            </ul>
+
+            <h3>✨ Famous Saying:</h3>
+            <p><strong>"A friend in need is a friend indeed"</strong></p>
+            <p>Ya3ni: Es9i7 eli ykon m3ak wa9t el 7aja, houwa sa7bek el 7a9i9i 💯</p>
+
+            <div style="background: #d4edda; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <strong>🌟 L Zouhour:</strong> Real friends are precious ya Zouhour! Always be kind w loyal lel as7ab mte3ek. W remember, quality over quantity - a7sen tkaoun 3andek 2-3 as7ab s7i7in mel 100 fake friends! 💚
+            </div>
+        `,
+        words: 6
+    },
+    {
+        id: 4,
+        level: 'beginner',
+        title: 'Bridge Over Troubled Water',
+        description: 'Song 7elwa 3la es9aba el 7a9i9iya',
+        duration: '15 min',
+        content: `
+            <h2>Lesson 4: Bridge Over Troubled Water 🎵</h2>
+            <p><strong>Hedhi</strong> wa7da mel agheniet el a9dem w el a7la fi English!</p>
+            
+            <h3>🎤 The Song Lyrics:</h3>
+            <p style="background: #f8f9fa; padding: 20px; border-radius: 10px; font-style: italic;">
+                "When you're weary, feeling small<br>
+                When tears are in your eyes<br>
+                I will dry them all<br>
+                I'm on your side<br>
+                Like a bridge over troubled water<br>
+                I will lay me down"
+            </p>
+
+            <h3>📝 Key Words:</h3>
+            <div class="vocabulary-list">
+                <div class="vocab-item">
+                    <span class="vocab-word">Weary</span>
+                    <span class="vocab-translation">متعب جداً - ta3ban barcha</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Tears</span>
+                    <span class="vocab-translation">دموع - dmou3</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Comfort</span>
+                    <span class="vocab-translation">عزاء، راحة - 3azza, ra7a</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Bridge</span>
+                    <span class="vocab-translation">جسر - jeser</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">I'm on your side</span>
+                    <span class="vocab-translation">أنا معك - Ana m3ak</span>
+                </div>
+            </div>
+
+            <h3>💭 What does it mean?</h3>
+            <p>El singer y9oul lel friend mte3ou: "Wa9t tkoun ta3ban w 7azin, ana bech nkoun m3ak. Bech n3awnek w n7amilek."</p>
+            <p>It's about <strong>true friendship</strong> w <strong>support</strong>! 💙</p>
+
+            <h3>💬 Useful Phrases from the song:</h3>
+            <ul>
+                <li><strong>I will ease your mind</strong> - Bech nerta7 belek</li>
+                <li><strong>I will comfort you</strong> - Bech n3azzik</li>
+                <li><strong>I'm on your side</strong> - Ana m3ak</li>
+                <li><strong>When times get rough</strong> - Wa9t tse3eb el 7ala</li>
+            </ul>
+
+            <div style="background: #e7f3ff; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <strong>🎵 Tip l Zouhour:</strong> Listen to this song! It's beautiful w the words are simple w wa4hin. Music is one of the best ways to learn English - plus you'll enjoy it! 😊
+            </div>
+        `,
+        words: 5
+    },
+    {
+        id: 5,
+        level: 'intermediate',
+        title: 'Communication & Technology',
+        description: 'Phones, emails, w kifech net9atmou',
+        duration: '20 min',
+        content: `
+            <h2>Lesson 5: Communication & Technology 📱</h2>
+            <p><strong>Lyoum</strong> bech net3almou 3la waseyel el ittisal el 7aditha!</p>
+            
+            <h3>📝 Tech Vocabulary:</h3>
+            <div class="vocabulary-list">
+                <div class="vocab-item">
+                    <span class="vocab-word">Text message</span>
+                    <span class="vocab-translation">رسالة نصية - message ktiba</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Email</span>
+                    <span class="vocab-translation">بريد إلكتروني - email</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Mobile phone</span>
+                    <span class="vocab-translation">هاتف محمول - portable</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">To call</span>
+                    <span class="vocab-translation">يتصل - yotlob</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">To send</span>
+                    <span class="vocab-translation">يرسل - yeb3ath</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">To receive</span>
+                    <span class="vocab-translation">يستقبل - yesta9bel</span>
+                </div>
+            </div>
+
+            <h3>📱 Texting vs. Emailing:</h3>
+            <p><strong>Texting</strong> - Sari3, casual, for friends</p>
+            <p><strong>Emailing</strong> - More formal, for work w official things</p>
+
+            <h3>💬 Common Phone Phrases:</h3>
+            <ul>
+                <li><strong>Can I call you?</strong> - Nejem notlbek?</li>
+                <li><strong>I'll text you later</strong> - Bech neb3athlek message ba3d chwaya</li>
+                <li><strong>Did you receive my message?</strong> - Wseltek el message?</li>
+                <li><strong>I sent you an email</strong> - Ba3thtlek email</li>
+            </ul>
+
+            <h3>✍️ Text Shortcuts:</h3>
+            <ul>
+                <li><strong>LOL</strong> = Laughing Out Loud (dha7ek)</li>
+                <li><strong>BRB</strong> = Be Right Back (nerja3 tawa)</li>
+                <li><strong>BTW</strong> = By The Way (bel mouneseba)</li>
+                <li><strong>OMG</strong> = Oh My God (ya salemi!)</li>
+                <li><strong>TTYL</strong> = Talk To You Later (n7kiw ba3d)</li>
+            </ul>
+
+            <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <strong>📱 Note l Zouhour:</strong> El mobile phone became part of our daily life! Practice English by changing your phone language to English - scary at first bas you'll learn SO much! 🚀
+            </div>
+        `,
+        words: 6
+    },
+    {
+        id: 6,
+        level: 'intermediate',
+        title: 'Travel & Tourism',
+        description: 'Safar w siya7a - winou nemchiw?',
+        duration: '22 min',
+        content: `
+            <h2>Lesson 6: Travel & Tourism ✈️</h2>
+            <p><strong>Yalla nseyfrou!</strong> Let's learn travel vocabulary!</p>
+            
+            <h3>📝 Travel Vocabulary:</h3>
+            <div class="vocabulary-list">
+                <div class="vocab-item">
+                    <span class="vocab-word">Flight</span>
+                    <span class="vocab-translation">رحلة طيران - voyage fi tiyara</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Voyage</span>
+                    <span class="vocab-translation">رحلة بحرية - voyage fil mer</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Excursion</span>
+                    <span class="vocab-translation">رحلة قصيرة - voyage 9sir</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Trip</span>
+                    <span class="vocab-translation">رحلة - voyage</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Hotel</span>
+                    <span class="vocab-translation">فندق - otel</span>
+                </div>
+                <div class="vocab-item">
+                    <span class="vocab-word">Tourist</span>
+                    <span class="vocab-translation">سائح - seyye7</span>
+                </div>
+            </div>
+
+            <h3>🌍 Places to Visit:</h3>
+            <ul>
+                <li><strong>Museum</strong> - Mat7af - Learn about history!</li>
+                <li><strong>Beach</strong> - Plage - For swimming w relaxing</li>
+                <li><strong>Mountains</strong> - Jibal - For hiking</li>
+                <li><strong>City center</strong> - Wassat el mdina - For shopping</li>
+            </ul>
+
+            <h3>💬 At the Airport:</h3>
+            <ul>
+                <li><strong>Where is my gate?</strong> - Win el porte mte3i?</li>
+                <li><strong>When is boarding?</strong> - Wa9tech el embarquement?</li>
+                <li><strong>Is the flight delayed?</strong> - El tiyara mit2akhera?</li>
+            </ul>
+
+            <h3>🏨 At the Hotel:</h3>
+            <ul>
+                <li><strong>I have a reservation</strong> - 3andi réservation</li>
+                <li><strong>What time is check-out?</strong> - Wa9tech el check-out?</li>
+                <li><strong>Can I have a room with a view?</strong> - Nejem nakhoudh bit b vue?</li>
+            </ul>
+
+            <div style="background: #d1ecf1; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <strong>✈️ Dream l Zouhour:</strong> One day you'll travel and use all this English! Imagine visiting London, New York, or anywhere in the world. Learning English opens doors ya Zouhour! 🌎💫
+            </div>
+        `,
+        words: 6
+    }
+];
+
+// Common phrases for translator
+const commonPhrases = [
+    { en: 'Hello, how are you?', ar: 'مرحبا، كيف حالك؟', darija: 'Ahla, kifech?'},
+    { en: 'Thank you', ar: 'شكراً', darija: 'Ya3tik essa7a' },
+    { en: 'Good morning', ar: 'صباح الخير', darija: 'Sbe7 el khir' },
+    { en: 'Good night', ar: 'تصبح على خير', darija: 'Tosba7 3la khir' },
+    { en: 'I love you', ar: 'أحبك', darija: 'N7ebek' },
+    { en: 'See you later', ar: 'أراك لاحقاً', darija: 'Nchoufek ba3d' },
+    { en: 'What is your name?', ar: 'ما اسمك؟', darija: 'Chnou esmek?' },
+    { en: 'I don\'t understand', ar: 'لا أفهم', darija: 'Ma fhemtech' }
+];
+
+// Quiz questions
+const quizzes = {
+    vocabulary: [
+        {
+            question: 'Wech ya3ni "Friend" bil 3arbi?',
+            options: ['صديق', 'عائلة', 'معلم', 'طالب'],
+            correct: 0
+        },
+        {
+            question: 'How do you say "Ana fer7an" in English?',
+            options: ['I am sad', 'I am happy', 'I am tired', 'I am angry'],
+            correct: 1
+        },
+        {
+            question: 'Wech ya3ni "Trust"?',
+            options: ['خوف', 'ثقة', 'حزن', 'فرح'],
+            correct: 1
+        },
+        {
+            question: '"Mobile phone" bil 3arbi houwa:',
+            options: ['تلفزيون', 'راديو', 'هاتف محمول', 'كمبيوتر'],
+            correct: 2
+        },
+        {
+            question: 'What does "Weary" mean?',
+            options: ['Very tired', 'Very happy', 'Very angry', 'Very hungry'],
+            correct: 0
+        }
+    ],
+    grammar: [
+        {
+            question: 'Complete: "I ____ English for 2 years."',
+            options: ['learn', 'learned', 'have learned', 'am learning'],
+            correct: 2
+        },
+        {
+            question: '"Since" wala "For"? - I studied ____ 3 hours.',
+            options: ['since', 'for', 'at', 'in'],
+            correct: 1
+        },
+        {
+            question: 'Present Perfect: "She ____ to London."',
+            options: ['go', 'went', 'has gone', 'going'],
+            correct: 2
+        },
+        {
+            question: 'Complete: "They ____ friends since childhood."',
+            options: ['are', 'were', 'have been', 'will be'],
+            correct: 2
+        },
+        {
+            question: 'Choose correct: "I ____ my keys!"',
+            options: ['lost', 'have lost', 'am losing', 'lose'],
+            correct: 1
+        }
+    ],
+    reading: [
+        {
+            question: 'In "The Stepmum" story, shnou sar on Mother\'s Day?',
+            options: ['Jennifer got married', 'Bradley called her "Nan"', 'She moved away', 'She met new friends'],
+            correct: 1
+        },
+        {
+            question: 'Jackie w Heather, kifech reconnected?',
+            options: ['Met on street', 'Friends Reunited website', 'Phone call', 'Letter'],
+            correct: 1
+        },
+        {
+            question: '"A friend in need is a friend indeed" - wech ya3ni?',
+            options: ['Friends need money', 'True friend helps in tough times', 'Friends are not important', 'Only rich people have friends'],
+            correct: 1
+        }
+    ]
+};
+
+// Achievements
+const achievements = [
+    { id: 'first_lesson', name: 'First Step', icon: '🎯', condition: () => appData.lessonsCompleted >= 1 },
+    { id: 'three_lessons', name: '3 Lessons!', icon: '📚', condition: () => appData.lessonsCompleted >= 3 },
+    { id: 'all_beginner', name: 'Beginner Pro', icon: '⭐', condition: () => appData.completedLessons.filter(id => id <= 4).length === 4 },
+    { id: 'fifty_words', name: '50 Words', icon: '📝', condition: () => appData.wordsLearned >= 50 },
+    { id: 'week_streak', name: '7 Days', icon: '🔥', condition: () => appData.streak >= 7 },
+    { id: 'all_lessons', name: 'Master!', icon: '👑', condition: () => appData.lessonsCompleted === lessons.length }
+];
+
+// Initialize app
+function initApp() {
+    updateStats();
+    loadLessons();
+    loadCommonPhrases();
+    loadAchievements();
+    updateStreak();
+    setupTabNavigation();
+    setupTranslator();
+}
+
+// Tab navigation
+function setupTabNavigation() {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabName = btn.dataset.tab;
+            goToTab(tabName);
+        });
+    });
+}
+
+function goToTab(tabName) {
+    // Update buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabName);
+    });
+    
+    // Update content
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.toggle('active', content.id === tabName);
+    });
+}
+
+// Update statistics
+function updateStats() {
+    document.getElementById('lessonsCompleted').textContent = appData.lessonsCompleted;
+    document.getElementById('wordsLearned').textContent = appData.wordsLearned;
+    document.getElementById('streak').textContent = appData.streak;
+    
+    // Update progress page
+    const lessonPercent = Math.round((appData.lessonsCompleted / lessons.length) * 100);
+    const vocabPercent = Math.round((appData.wordsLearned / 200) * 100);
+    
+    document.getElementById('lessonPercent').textContent = lessonPercent + '%';
+    document.getElementById('vocabPercent').textContent = vocabPercent + '%';
+    document.getElementById('lessonProgressText').textContent = `${appData.lessonsCompleted}/${lessons.length} lessons`;
+    document.getElementById('vocabProgressText').textContent = `${appData.wordsLearned}/200 words`;
+    
+    // Update progress circles
+    const lessonCircle = document.getElementById('lessonProgress');
+    const vocabCircle = document.getElementById('vocabProgress');
+    const circumference = 283;
+    
+    lessonCircle.style.strokeDashoffset = circumference - (circumference * lessonPercent / 100);
+    vocabCircle.style.strokeDashoffset = circumference - (circumference * vocabPercent / 100);
+}
+
+// Load lessons
+function loadLessons() {
+    const grid = document.getElementById('lessonsGrid');
+    grid.innerHTML = '';
+    
+    const currentLevel = document.querySelector('.level-btn.active')?.dataset.level || 'beginner';
+    const filteredLessons = lessons.filter(l => l.level === currentLevel);
+    
+    filteredLessons.forEach(lesson => {
+        const isCompleted = appData.completedLessons.includes(lesson.id);
+        const card = document.createElement('div');
+        card.className = `lesson-card ${isCompleted ? 'completed' : ''}`;
+        card.innerHTML = `
+            <span class="lesson-number">Lesson ${lesson.id}</span>
+            <h3>${lesson.title}</h3>
+            <p>${lesson.description}</p>
+            <div class="lesson-meta">
+                <span>⏱️ ${lesson.duration}</span>
+                <span>${isCompleted ? '✅ Kamel' : '📖 Ebda'}</span>
+            </div>
+        `;
+        card.onclick = () => openLesson(lesson);
+        grid.appendChild(card);
+    });
+    
+    // Setup level buttons
+    document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.onclick = () => {
+            document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadLessons();
+        };
+    });
+}
+
+// Open lesson
+function openLesson(lesson) {
+    const detail = document.getElementById('lessonDetail');
+    const content = document.getElementById('lessonContent');
+    
+    content.innerHTML = lesson.content;
+    detail.style.display = 'block';
+    document.getElementById('lessonsGrid').style.display = 'none';
+    document.querySelector('.lessons-header').style.display = 'none';
+    document.querySelector('.lesson-selector').style.display = 'none';
+    
+    // Mark as completed
+    if (!appData.completedLessons.includes(lesson.id)) {
+        appData.completedLessons.push(lesson.id);
+        appData.lessonsCompleted++;
+        appData.wordsLearned += lesson.words;
+        saveData();
+        updateStats();
+        loadAchievements();
+    }
+}
+
+function closeLessonDetail() {
+    document.getElementById('lessonDetail').style.display = 'none';
+    document.getElementById('lessonsGrid').style.display = 'grid';
+    document.querySelector('.lessons-header').style.display = 'block';
+    document.querySelector('.lesson-selector').style.display = 'flex';
+}
+
+// Translator setup
+function setupTranslator() {
+    const sourceText = document.getElementById('sourceText');
+    sourceText.addEventListener('input', () => {
+        const count = sourceText.value.length;
+        document.getElementById('charCount').textContent = count;
+    });
+}
+
+function swapLanguages() {
+    const source = document.getElementById('sourceLang');
+    const target = document.getElementById('targetLang');
+    const temp = source.value;
+    source.value = target.value;
+    target.value = temp;
+}
+
+async function translateText() {
+    const sourceText = document.getElementById('sourceText').value.trim();
+    const sourceLang = document.getElementById('sourceLang').value;
+    const targetLang = document.getElementById('targetLang').value;
+    const resultDiv = document.getElementById('translatedText');
+    const copyBtn = document.querySelector('.copy-btn');
+    
+    if (!sourceText) {
+        resultDiv.innerHTML = '<span class="placeholder-text">Ekteb chwaya bach ntarjmoulek!</span>';
+        return;
+    }
+    
+    resultDiv.innerHTML = '<div class="loading">9a3ed ntarjem...</div>';
+    
+    try {
+        const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(sourceText)}&langpair=${sourceLang}|${targetLang}`);
+        const data = await response.json();
+        
+        if (data.responseData && data.responseData.translatedText) {
+            resultDiv.textContent = data.responseData.translatedText;
+            copyBtn.style.display = 'block';
+        } else {
+            resultDiv.innerHTML = '<span style="color: #ee5a6f;">Ma nejmetch ntarjem, 7awel mara okhra!</span>';
+            copyBtn.style.display = 'none';
+        }
+    } catch (error) {
+        resultDiv.innerHTML = '<span style="color: #ee5a6f;">Fama mochkla, verifi internet connection mte3ek!</span>';
+        copyBtn.style.display = 'none';
+    }
+}
+
+function copyTranslation() {
+    const text = document.getElementById('translatedText').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = '✅ Copied!';
+        setTimeout(() => {
+            btn.textContent = '📋 Copy';
+        }, 2000);
+    });
+}
+
+// Load common phrases
+function loadCommonPhrases() {
+    const container = document.getElementById('commonPhrases');
+    container.innerHTML = '';
+    
+    commonPhrases.forEach(phrase => {
+        const item = document.createElement('div');
+        item.className = 'phrase-item';
+        item.innerHTML = `
+            <div class="phrase-en">${phrase.en}</div>
+            <div class="phrase-ar">${phrase.ar}</div>
+        `;
+        item.onclick = () => {
+            document.getElementById('sourceText').value = phrase.en;
+            document.getElementById('sourceLang').value = 'en';
+            document.getElementById('targetLang').value = 'ar';
+            translateText();
+        };
+        container.appendChild(item);
+    });
+}
+
+// Quiz functions
+let currentQuiz = null;
+let currentQuestion = 0;
+let score = 0;
+
+function startQuiz(type) {
+    currentQuiz = quizzes[type];
+    currentQuestion = 0;
+    score = 0;
+    
+    document.querySelector('.practice-grid').style.display = 'none';
+    document.getElementById('quizContainer').style.display = 'block';
+    
+    showQuestion();
+}
+
+function showQuestion() {
+    const question = currentQuiz[currentQuestion];
+    const content = document.getElementById('quizContent');
+    
+    document.getElementById('quizQuestion').textContent = `Question ${currentQuestion + 1}/${currentQuiz.length}`;
+    document.getElementById('quizProgress').style.width = `${((currentQuestion + 1) / currentQuiz.length) * 100}%`;
+    
+    content.innerHTML = `
+        <div class="question-container">
+            <h3 class="question-text">${question.question}</h3>
+            <div class="options-list">
+                ${question.options.map((opt, i) => `
+                    <button class="option-btn" onclick="checkAnswer(${i})">${opt}</button>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
+function checkAnswer(selected) {
+    const question = currentQuiz[currentQuestion];
+    const buttons = document.querySelectorAll('.option-btn');
+    
+    buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === question.correct) {
+            btn.classList.add('correct');
+        } else if (i === selected && selected !== question.correct) {
+            btn.classList.add('incorrect');
+        }
+    });
+    
+    if (selected === question.correct) {
+        score++;
+    }
+    
+    setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < currentQuiz.length) {
+            showQuestion();
+        } else {
+            showResults();
+        }
+    }, 1500);
+}
+
+function showResults() {
+    const content = document.getElementById('quizContent');
+    const percentage = Math.round((score / currentQuiz.length) * 100);
+    
+    let message = '';
+    let emoji = '';
+    
+    if (percentage >= 80) {
+        message = 'Yezzi bravo Zouhour! 🌟 Enti fantastic!';
+        emoji = '🏆';
+    } else if (percentage >= 60) {
+        message = 'Mriguel! 💪 Keep practicing!';
+        emoji = '👍';
+    } else {
+        message = 'Makenech mochkla! 💚 Review el lessons w 3awed 7awel!';
+        emoji = '📚';
+    }
+    
+    content.innerHTML = `
+        <div style="text-align: center; padding: 40px;">
+            <div style="font-size: 5em; margin-bottom: 20px;">${emoji}</div>
+            <h2 style="color: var(--primary); margin-bottom: 15px;">Quiz Completed!</h2>
+            <p style="font-size: 2em; font-weight: bold; color: var(--text); margin-bottom: 10px;">
+                ${score}/${currentQuiz.length}
+            </p>
+            <p style="font-size: 1.5em; color: var(--text-light); margin-bottom: 30px;">
+                ${percentage}%
+            </p>
+            <p style="font-size: 1.2em; color: var(--text); margin-bottom: 30px;">
+                ${message}
+            </p>
+            <button class="action-btn" onclick="closeQuiz()">
+                Erja3 lel Practice
+            </button>
+        </div>
+    `;
+}
+
+function closeQuiz() {
+    document.getElementById('quizContainer').style.display = 'none';
+    document.querySelector('.practice-grid').style.display = 'grid';
+}
+
+// Achievements
+function loadAchievements() {
+    const grid = document.getElementById('achievementsGrid');
+    grid.innerHTML = '';
+    
+    achievements.forEach(achievement => {
+        const unlocked = achievement.condition();
+        const item = document.createElement('div');
+        item.className = `achievement-item ${unlocked ? '' : 'locked'}`;
+        item.innerHTML = `
+            <div class="achievement-icon">${achievement.icon}</div>
+            <div class="achievement-name">${achievement.name}</div>
+        `;
+        grid.appendChild(item);
+    });
+}
+
+// Update streak
+function updateStreak() {
+    const today = new Date().toDateString();
+    const lastVisit = appData.lastVisit;
+    
+    if (lastVisit !== today) {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        
+        if (lastVisit === yesterday.toDateString()) {
+            appData.streak++;
+        } else if (lastVisit !== null) {
+            appData.streak = 1;
+        } else {
+            appData.streak = 1;
+        }
+        
+        appData.lastVisit = today;
+        saveData();
+        updateStats();
+    }
+}
+
+// Save data
+function saveData() {
+    localStorage.setItem('lessonsCompleted', appData.lessonsCompleted);
+    localStorage.setItem('wordsLearned', appData.wordsLearned);
+    localStorage.setItem('streak', appData.streak);
+    localStorage.setItem('completedLessons', JSON.stringify(appData.completedLessons));
+    localStorage.setItem('lastVisit', appData.lastVisit);
+}
+
+// Initialize when page loads
+window.addEventListener('DOMContentLoaded', initApp);
+    </script>
