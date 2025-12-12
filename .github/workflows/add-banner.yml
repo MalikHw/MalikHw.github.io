@@ -14,6 +14,7 @@ on:
         options:
           - Website
           - Software
+          - Download
       description:
         description: 'Project Description'
         required: true
@@ -68,8 +69,10 @@ jobs:
           # Determine which section to add to
           if [ "${{ github.event.inputs.type }}" = "Website" ]; then
             SECTION_MARKER="<!-- PROJECT_INSERTION_POINT -->"
-          else
+          elif [ "${{ github.event.inputs.type }}" = "Software" ]; then
             SECTION_MARKER="<!-- APP_INSERTION_POINT -->"
+          else
+            SECTION_MARKER="<!-- DOWNLOAD_INSERTION_POINT -->"
           fi
           
           # Build the card HTML
