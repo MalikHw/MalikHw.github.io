@@ -1,0 +1,116 @@
+name: Add New Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'Project Title'
+        required: true
+        type: string
+      type:
+        description: 'Project Type'
+        required: true
+        type: choice
+        options:
+          - Website
+          - Software
+      description:
+        description: 'Project Description'
+        required: true
+        type: string
+      button1_text:
+        description: 'Button 1 Text'
+        required: true
+        type: string
+        default: 'Visit'
+      button1_url:
+        description: 'Button 1 URL'
+        required: true
+        type: string
+      button2_text:
+        description: 'Button 2 Text (Optional)'
+        required: false
+        type: string
+      button2_url:
+        description: 'Button 2 URL (Optional)'
+        required: false
+        type: string
+      button3_text:
+        description: 'Button 3 Text (Optional)'
+        required: false
+        type: string
+      button3_url:
+        description: 'Button 3 URL (Optional)'
+        required: false
+        type: string
+
+jobs:
+  add-project:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Add project to HTML
+        run: |
+          # Escape special characters for sed
+          TITLE="${{ github.event.inputs.title }}"
+          DESC="${{ github.event.inputs.description }}"
+          BTN1_TEXT="${{ github.event.inputs.button1_text }}"
+          BTN1_URL="${{ github.event.inputs.button1_url }}"
+          
+          # Determine which section to add to
+          if [ "${{ github.event.inputs.type }}" = "Website" ]; then
+            SECTION_MARKER="<!-- PROJECT_INSERTION_POINT -->"
+          else
+            SECTION_MARKER="<!-- APP_INSERTION_POINT -->"
+          fi
+          
+          # Build the card HTML
+          CARD="                <div class=\"project-card\">\n"
+          CARD="${CARD}                    <h3>${TITLE}</h3>\n"
+          CARD="${CARD}                    <p>${DESC}</p>\n"
+          CARD="${CARD}                    <div class=\"button-group\">\n"
+          CARD="${CARD}                        <a href=\"${BTN1_URL}\" target=\"_blank\" class=\"btn-primary\">\n"
+          CARD="${CARD}                            <span class=\"material-symbols-outlined\">open_in_new</span>\n"
+          CARD="${CARD}                            ${BTN1_TEXT}\n"
+          CARD="${CARD}                        </a>\n"
+          
+          # Add button 2 if provided
+          if [ -n "${{ github.event.inputs.button2_text }}" ] && [ -n "${{ github.event.inputs.button2_url }}" ]; then
+            CARD="${CARD}                        <a href=\"${{ github.event.inputs.button2_url }}\" target=\"_blank\" class=\"btn-secondary\">\n"
+            CARD="${CARD}                            <span class=\"material-symbols-outlined\">open_in_new</span>\n"
+            CARD="${CARD}                            ${{ github.event.inputs.button2_text }}\n"
+            CARD="${CARD}                        </a>\n"
+          fi
+          
+          # Add button 3 if provided
+          if [ -n "${{ github.event.inputs.button3_text }}" ] && [ -n "${{ github.event.inputs.button3_url }}" ]; then
+            CARD="${CARD}                        <a href=\"${{ github.event.inputs.button3_url }}\" target=\"_blank\" class=\"btn-secondary\">\n"
+            CARD="${CARD}                            <span class=\"material-symbols-outlined\">open_in_new</span>\n"
+            CARD="${CARD}                            ${{ github.event.inputs.button3_text }}\n"
+            CARD="${CARD}                        </a>\n"
+          fi
+          
+          CARD="${CARD}                    </div>\n"
+          CARD="${CARD}                </div>\n"
+          CARD="${CARD}                ${SECTION_MARKER}"
+          
+          # Insert the card before the marker
+          sed -i "s|${SECTION_MARKER}|${CARD}|" index.html
+          
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add index.html
+          git commit -m "Add new project: ${{ github.event.inputs.title }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
