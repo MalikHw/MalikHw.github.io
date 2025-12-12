@@ -71,14 +71,17 @@ jobs:
           # Determine which section to add to
           if [ "${{ github.event.inputs.type }}" = "Website" ]; then
             SECTION_MARKER="<!-- PROJECT_INSERTION_POINT -->"
+            CARD_CLASS="project-card"
           elif [ "${{ github.event.inputs.type }}" = "Software" ]; then
             SECTION_MARKER="<!-- APP_INSERTION_POINT -->"
+            CARD_CLASS="app-card"
           else
             SECTION_MARKER="<!-- DOWNLOAD_INSERTION_POINT -->"
+            CARD_CLASS="download-card"
           fi
           
           # Build the card HTML
-          CARD="                <div class=\"project-card\">\n"
+          CARD="                <div class=\"${CARD_CLASS}\">\n"
           CARD="${CARD}                    <h3>${TITLE}</h3>\n"
           CARD="${CARD}                    <p>${DESC}</p>\n"
           CARD="${CARD}                    <div class=\"button-group\">\n"
