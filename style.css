@@ -83,12 +83,14 @@ body {
 }
 
 .projects-section,
-.apps-section {
+.apps-section,
+.downloads-section {
     margin-bottom: 4rem;
 }
 
 .projects-section h2,
-.apps-section h2 {
+.apps-section h2,
+.downloads-section h2 {
     font-size: 2rem;
     margin-bottom: 2rem;
     color: var(--primary);
@@ -100,14 +102,16 @@ body {
     gap: 2rem;
 }
 
-.apps-grid {
+.apps-grid,
+.downloads-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
 }
 
 .project-card,
-.app-card {
+.app-card,
+.download-card {
     background: var(--surface-variant);
     border-radius: 16px;
     padding: 2rem;
@@ -116,22 +120,31 @@ body {
 }
 
 .project-card:hover,
-.app-card:hover {
+.app-card:hover,
+.download-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 24px var(--shadow);
 }
 
 .project-card h3,
-.app-card h3 {
+.app-card h3,
+.download-card h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: var(--primary);
 }
 
 .project-card p,
-.app-card p {
+.app-card p,
+.download-card p {
     margin-bottom: 1.5rem;
     color: var(--on-surface-variant);
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
 }
 
 .btn-primary,
@@ -220,11 +233,22 @@ body {
     }
 
     .projects-grid,
-    .apps-grid {
+    .apps-grid,
+    .downloads-grid {
         grid-template-columns: 1fr;
     }
 
     .banner-img {
         max-width: 200px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        justify-content: center;
     }
 }
