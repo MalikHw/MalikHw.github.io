@@ -205,6 +205,128 @@ body {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
 }
 
+/* Details Section */
+.details-section {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+.details-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 3rem;
+    align-items: start;
+}
+
+.details-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.info-block {
+    background: rgba(15, 23, 42, 0.5);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.info-block h3 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-block h3 i {
+    font-size: 1.5rem;
+}
+
+.info-block p {
+    color: rgba(241, 245, 249, 0.9);
+    line-height: 1.8;
+    font-size: 1.05rem;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+}
+
+.info-list li {
+    color: rgba(241, 245, 249, 0.9);
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(14, 165, 233, 0.1);
+    line-height: 1.6;
+}
+
+.info-list li:last-child {
+    border-bottom: none;
+}
+
+.info-list strong {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.highlights-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.highlight-item {
+    padding: 1.5rem;
+    background: rgba(14, 165, 233, 0.05);
+    border-radius: 15px;
+    border-left: 3px solid var(--primary);
+}
+
+.highlight-item h4 {
+    color: var(--primary);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.highlight-item p {
+    color: rgba(241, 245, 249, 0.8);
+    line-height: 1.6;
+}
+
+.details-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: sticky;
+    top: 100px;
+}
+
+.gallery-item {
+    border-radius: 15px;
+    overflow: hidden;
+    height: 180px;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 2px solid rgba(14, 165, 233, 0.2);
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+    border-color: var(--primary);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
 .content-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
