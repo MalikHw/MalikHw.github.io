@@ -7,21 +7,7 @@ document.addEventListener('mousemove', (e) => {
 });
 
 // Smooth scroll and active nav link
-const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('.section');
-
-navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
-        
-        targetSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    });
-});
 
 // Intersection Observer for scroll animations
 const observerOptions = {
@@ -33,15 +19,6 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            
-            // Update active nav link
-            const sectionId = entry.target.getAttribute('id');
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${sectionId}`) {
-                    link.classList.add('active');
-                }
-            });
         }
     });
 }, observerOptions);
@@ -55,13 +32,13 @@ let ticking = false;
 
 function updateParallax() {
     const scrolled = window.pageYOffset;
-    const parallaxElements = document.querySelectorAll('.hero-content, .culture-image img, .beach-image img');
+    const heroContent = document.querySelector('.hero-content');
     
-    parallaxElements.forEach((el, index) => {
+    if (heroContent) {
         const speed = 0.5;
         const yPos = -(scrolled * speed);
-        el.style.transform = `translateY(${yPos}px)`;
-    });
+        heroContent.style.transform = `translateY(${yPos}px)`;
+    }
     
     ticking = false;
 }
