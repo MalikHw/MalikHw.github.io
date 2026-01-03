@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Support MalikHw</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    /* Nerd Fonts */
+    @import "https://www.nerdfonts.com/assets/css/webfont.css";
+
+    :root {
+      --bg: #0f0f14;
+      --card: #1a1a24;
+      --accent: #7aa2f7;
+      --accent2: #f7768e;
+      --accent3: #9ece6a;
+      --text: #eaeaf0;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "JetBrainsMono Nerd Font", monospace;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #1b1b2f, var(--bg));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+    }
+
+    .container {
+      background: var(--card);
+      padding: 2.5rem;
+      border-radius: 14px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-size: 1.6rem;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      margin: 0.75rem 0;
+      border-radius: 10px;
+      font-size: 1rem;
+      text-decoration: none;
+      color: #000;
+      font-weight: 600;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .donate { background: var(--accent); }
+    .gift   { background: var(--accent2); }
+    .mhv9   { background: var(--accent3); }
+
+    footer {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔧 EDIT LINKS HERE -->
+  <script>
+    const LINKS = {
+      donate: "https://ko-fi.com/MalikHw47",
+      throne: "https://throne.com/MalikHw47",
+      mhv9: "https://absolllute.com/store/mega_hack?gift=1"
+    };
+  </script>
+
+  <div class="container">
+    <h1>Support MalikHw 💙</h1>
+
+    <a class="btn donate" href="#" onclick="location.href = LINKS.donate">
+      ☕ Donate (Ko-Fi)
+    </a>
+
+    <a class="btn gift" href="#" onclick="location.href = LINKS.throne">
+      🎁 Get a Gift (Throne)
+    </a>
+
+    <a class="btn mhv9" href="#" onclick="location.href = LINKS.mhv9">
+      🚀 Gift MHv9
+    </a>
+
+    <footer>
+      Thanks for the support!
+    </footer>
+  </div>
+
+</body>
+</html>
