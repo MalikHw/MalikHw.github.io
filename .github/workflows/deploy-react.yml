@@ -1,0 +1,193 @@
+name: Build and Deploy React Portfolio
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Portfolio.tsx'
+      - 'projects.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Create package.json if it doesn't exist
+        run: |
+          if [ ! -f package.json ]; then
+            cat > package.json << 'EOF'
+          {
+            "name": "malikhw47-portfolio",
+            "version": "1.0.0",
+            "private": true,
+            "type": "module",
+            "scripts": {
+              "build": "vite build",
+              "preview": "vite preview"
+            },
+            "dependencies": {
+              "react": "^18.2.0",
+              "react-dom": "^18.2.0",
+              "@react-three/fiber": "^8.15.0",
+              "three": "^0.160.0",
+              "gsap": "^3.12.5"
+            },
+            "devDependencies": {
+              "@types/react": "^18.2.0",
+              "@types/react-dom": "^18.2.0",
+              "@types/three": "^0.160.0",
+              "@vitejs/plugin-react": "^4.2.1",
+              "typescript": "^5.3.3",
+              "vite": "^5.0.0"
+            }
+          }
+          EOF
+          fi
+          
+      - name: Create vite.config.ts if it doesn't exist
+        run: |
+          if [ ! -f vite.config.ts ]; then
+            cat > vite.config.ts << 'EOF'
+          import { defineConfig } from 'vite'
+          import react from '@vitejs/plugin-react'
+
+          export default defineConfig({
+            plugins: [react()],
+            base: '/',
+            build: {
+              outDir: 'build',
+              assetsDir: 'assets'
+            }
+          })
+          EOF
+          fi
+          
+      - name: Create tsconfig.json if it doesn't exist
+        run: |
+          if [ ! -f tsconfig.json ]; then
+            cat > tsconfig.json << 'EOF'
+          {
+            "compilerOptions": {
+              "target": "ES2020",
+              "useDefineForClassFields": true,
+              "lib": ["ES2020", "DOM", "DOM.Iterable"],
+              "module": "ESNext",
+              "skipLibCheck": true,
+              "moduleResolution": "bundler",
+              "allowImportingTsExtensions": true,
+              "resolveJsonModule": true,
+              "isolatedModules": true,
+              "noEmit": true,
+              "jsx": "react-jsx",
+              "strict": true,
+              "noUnusedLocals": false,
+              "noUnusedParameters": false,
+              "noFallthroughCasesInSwitch": true
+            },
+            "include": ["Portfolio.tsx"],
+            "references": [{ "path": "./tsconfig.node.json" }]
+          }
+          EOF
+          fi
+          
+      - name: Create tsconfig.node.json if it doesn't exist
+        run: |
+          if [ ! -f tsconfig.node.json ]; then
+            cat > tsconfig.node.json << 'EOF'
+          {
+            "compilerOptions": {
+              "composite": true,
+              "skipLibCheck": true,
+              "module": "ESNext",
+              "moduleResolution": "bundler",
+              "allowSyntheticDefaultImports": true
+            },
+            "include": ["vite.config.ts"]
+          }
+          EOF
+          fi
+          
+      - name: Create index.html
+        run: |
+          cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>MalikHw47 - Portfolio</title>
+              <style>
+                * {
+                  margin: 0;
+                  padding: 0;
+                  box-sizing: border-box;
+                }
+                body {
+                  font-family: system-ui, -apple-system, sans-serif;
+                  overflow-x: hidden;
+                }
+              </style>
+            </head>
+            <body>
+              <div id="root"></div>
+              <script type="module" src="/main.tsx"></script>
+            </body>
+          </html>
+          EOF
+          
+      - name: Create main.tsx
+        run: |
+          cat > main.tsx << 'EOF'
+          import React from 'react'
+          import ReactDOM from 'react-dom/client'
+          import Portfolio from './Portfolio'
+
+          ReactDOM.createRoot(document.getElementById('root')!).render(
+            <React.StrictMode>
+              <Portfolio />
+            </React.StrictMode>,
+          )
+          EOF
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build project
+        run: npm run build
+        
+      - name: Copy projects.json to build
+        run: cp projects.json build/
+        
+      - name: Deploy to root of main branch
+        run: |
+          # Keep the source files
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Remove old build files but keep source
+          find . -maxdepth 1 -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) ! -name "Portfolio.tsx" ! -name "main.tsx" -exec rm {} \;
+          rm -rf assets 2>/dev/null || true
+          
+          # Copy build files to root
+          cp -r build/* .
+          
+          # Clean up build directory
+          rm -rf build
+          
+          # Add and commit
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Deploy React portfolio build"
+          git push
