@@ -1,0 +1,58 @@
+{
+  "projects": [
+    {
+      "image": "https://i.pravatar.cc/300?img=8",
+      "title": "FileFucker",
+      "subtitle": "A file transfer solution with no bullshit logins required. Just drag, drop, and fuck off!",
+      "handle": "@filefucker",
+      "borderColor": "#4F46E5",
+      "gradient": "linear-gradient(145deg, #4F46E5, #000)",
+      "url": "https://filefunker.rf.gd/"
+    },
+    {
+      "image": "https://i.pravatar.cc/300?img=11",
+      "title": "FuckThatURL",
+      "subtitle": "A URL shortener with custom slugs! Support MalikHw for no-expiry URLs because fuck expiring links.",
+      "handle": "@fuckthaturl",
+      "borderColor": "#10B981",
+      "gradient": "linear-gradient(210deg, #10B981, #000)",
+      "url": "https://fuckthaturl.rf.gd/"
+    },
+    {
+      "image": "https://i.pravatar.cc/300?img=3",
+      "title": "InternetCrap",
+      "subtitle": "Basically a trashcan for things people say! You say something and any visitor sees random shit from the submissions.",
+      "handle": "@internetcrap",
+      "borderColor": "#F59E0B",
+      "gradient": "linear-gradient(165deg, #F59E0B, #000)",
+      "url": "https://internetcrap.rf.gd/"
+    },
+    {
+      "image": "https://i.pravatar.cc/300?img=16",
+      "title": "TextToSans",
+      "subtitle": "Translate English text to Sans Undertale! Because why not?",
+      "handle": "@texttosans",
+      "borderColor": "#EF4444",
+      "gradient": "linear-gradient(195deg, #EF4444, #000)",
+      "url": "https://texttosans.rf.gd"
+    },
+    {
+      "image": "https://i.pravatar.cc/300?img=25",
+      "title": "Twitch-Chat-MHw",
+      "subtitle": "See the Twitch chat from your damn terminal!",
+      "handle": "@twitchchat",
+      "borderColor": "#8B5CF6",
+      "gradient": "linear-gradient(225deg, #8B5CF6, #000)",
+      "url": "https://github.com/MalikHw/twitch-chatbox-MHw/releases"
+    },
+    {
+      "image": "https://i.pravatar.cc/300?img=60",
+      "title": "MikuTab",
+      "subtitle": "A NewTab replacement for a Mikufied one!!",
+      "handle": "@mikutab",
+      "borderColor": "#06B6D4",
+      "gradient": "linear-gradient(135deg, #06B6D4, #000)",
+      "url": "https://github.com/MalikHw/MikuTheme"
+    }
+  ]
+}
