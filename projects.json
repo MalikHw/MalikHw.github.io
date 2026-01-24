@@ -40,19 +40,6 @@
       ]
     },
     {
-      "title": "TextToSans",
-      "description": "Translate English text to Sans Undertale! Because why not?",
-      "borderColor": "#EF4444",
-      "gradient": "linear-gradient(195deg, #EF4444, #000)",
-      "buttons": [
-        {
-          "text": "Visit",
-          "url": "https://texttosans.rf.gd",
-          "icon": "nf nf-md-open_in_new"
-        }
-      ]
-    },
-    {
       "title": "Twitch-Chat-MHw",
       "description": "See the Twitch chat from your damn terminal!",
       "borderColor": "#8B5CF6",
