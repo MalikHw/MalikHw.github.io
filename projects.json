@@ -1,58 +1,92 @@
 {
   "projects": [
     {
-      "image": "https://i.pravatar.cc/300?img=8",
       "title": "FileFucker",
-      "subtitle": "A file transfer solution with no bullshit logins required. Just drag, drop, and fuck off!",
-      "handle": "@filefucker",
+      "description": "A file transfer solution with no bullshit logins required. Just drag, drop, and fuck off!",
       "borderColor": "#4F46E5",
       "gradient": "linear-gradient(145deg, #4F46E5, #000)",
-      "url": "https://filefunker.rf.gd/"
+      "buttons": [
+        {
+          "text": "Visit",
+          "url": "https://filefunker.rf.gd/",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
     },
     {
-      "image": "https://i.pravatar.cc/300?img=11",
       "title": "FuckThatURL",
-      "subtitle": "A URL shortener with custom slugs! Support MalikHw for no-expiry URLs because fuck expiring links.",
-      "handle": "@fuckthaturl",
+      "description": "A URL shortener with custom slugs! Support MalikHw for no-expiry URLs because fuck expiring links.",
       "borderColor": "#10B981",
       "gradient": "linear-gradient(210deg, #10B981, #000)",
-      "url": "https://fuckthaturl.rf.gd/"
+      "buttons": [
+        {
+          "text": "Visit",
+          "url": "https://fuckthaturl.rf.gd/",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
     },
     {
-      "image": "https://i.pravatar.cc/300?img=3",
       "title": "InternetCrap",
-      "subtitle": "Basically a trashcan for things people say! You say something and any visitor sees random shit from the submissions.",
-      "handle": "@internetcrap",
+      "description": "Basically a trashcan for things people say! You say something and any visitor sees random shit from the submissions.",
       "borderColor": "#F59E0B",
       "gradient": "linear-gradient(165deg, #F59E0B, #000)",
-      "url": "https://internetcrap.rf.gd/"
+      "buttons": [
+        {
+          "text": "Visit",
+          "url": "https://internetcrap.rf.gd/",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
     },
     {
-      "image": "https://i.pravatar.cc/300?img=16",
       "title": "TextToSans",
-      "subtitle": "Translate English text to Sans Undertale! Because why not?",
-      "handle": "@texttosans",
+      "description": "Translate English text to Sans Undertale! Because why not?",
       "borderColor": "#EF4444",
       "gradient": "linear-gradient(195deg, #EF4444, #000)",
-      "url": "https://texttosans.rf.gd"
+      "buttons": [
+        {
+          "text": "Visit",
+          "url": "https://texttosans.rf.gd",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
     },
     {
-      "image": "https://i.pravatar.cc/300?img=25",
       "title": "Twitch-Chat-MHw",
-      "subtitle": "See the Twitch chat from your damn terminal!",
-      "handle": "@twitchchat",
+      "description": "See the Twitch chat from your damn terminal!",
       "borderColor": "#8B5CF6",
       "gradient": "linear-gradient(225deg, #8B5CF6, #000)",
-      "url": "https://github.com/MalikHw/twitch-chatbox-MHw/releases"
+      "buttons": [
+        {
+          "text": "Download",
+          "url": "https://github.com/MalikHw/twitch-chatbox-MHw/releases",
+          "icon": "nf nf-md-download"
+        }
+      ]
     },
     {
-      "image": "https://i.pravatar.cc/300?img=60",
       "title": "MikuTab",
-      "subtitle": "A NewTab replacement for a Mikufied one!!",
-      "handle": "@mikutab",
+      "description": "A NewTab replacement for a Mikufied one!!",
       "borderColor": "#06B6D4",
       "gradient": "linear-gradient(135deg, #06B6D4, #000)",
-      "url": "https://github.com/MalikHw/MikuTheme"
+      "buttons": [
+        {
+          "text": "Source",
+          "url": "https://github.com/MalikHw/MikuTheme",
+          "icon": "nf nf-md-github"
+        },
+        {
+          "text": "Edge Store",
+          "url": "https://microsoftedge.microsoft.com/addons/detail/mikutab/gjjkbbpbncpclmlffdckbahgibbnhdaa",
+          "icon": "nf nf-md-microsoft_edge"
+        },
+        {
+          "text": "Firefox",
+          "url": "https://addons.mozilla.org/en-US/firefox/addon/mikutab/",
+          "icon": "nf nf-md-firefox"
+        }
+      ]
     }
   ]
 }
