@@ -7,23 +7,10 @@ on:
         description: 'Project Title'
         required: true
         type: string
-      subtitle:
+      description:
         description: 'Project Description'
         required: true
         type: string
-      handle:
-        description: 'Project Handle (e.g., @myproject)'
-        required: false
-        type: string
-      url:
-        description: 'Project URL'
-        required: true
-        type: string
-      image:
-        description: 'Image URL (use pravatar or upload your own)'
-        required: false
-        type: string
-        default: 'https://i.pravatar.cc/300?img=1'
       borderColor:
         description: 'Border Color (hex)'
         required: false
@@ -34,6 +21,44 @@ on:
         required: false
         type: string
         default: 'linear-gradient(145deg, #4F46E5, #000)'
+      button1_text:
+        description: 'Button 1 Text'
+        required: true
+        type: string
+        default: 'Visit'
+      button1_url:
+        description: 'Button 1 URL'
+        required: true
+        type: string
+      button1_icon:
+        description: 'Button 1 Icon (NerdFont class, e.g., nf nf-md-open_in_new)'
+        required: false
+        type: string
+        default: 'nf nf-md-open_in_new'
+      button2_text:
+        description: 'Button 2 Text (Optional)'
+        required: false
+        type: string
+      button2_url:
+        description: 'Button 2 URL (Optional)'
+        required: false
+        type: string
+      button2_icon:
+        description: 'Button 2 Icon (Optional)'
+        required: false
+        type: string
+      button3_text:
+        description: 'Button 3 Text (Optional)'
+        required: false
+        type: string
+      button3_url:
+        description: 'Button 3 URL (Optional)'
+        required: false
+        type: string
+      button3_icon:
+        description: 'Button 3 Icon (Optional)'
+        required: false
+        type: string
 
 jobs:
   add-project:
@@ -55,23 +80,44 @@ jobs:
           # Install jq for JSON manipulation
           sudo apt-get update && sudo apt-get install -y jq
           
+          # Build buttons array
+          BUTTONS='[]'
+          
+          # Add button 1
+          BUTTONS=$(echo "$BUTTONS" | jq --arg text "${{ github.event.inputs.button1_text }}" \
+            --arg url "${{ github.event.inputs.button1_url }}" \
+            --arg icon "${{ github.event.inputs.button1_icon }}" \
+            '. + [{text: $text, url: $url, icon: $icon}]')
+          
+          # Add button 2 if provided
+          if [ -n "${{ github.event.inputs.button2_text }}" ] && [ -n "${{ github.event.inputs.button2_url }}" ]; then
+            BUTTONS=$(echo "$BUTTONS" | jq --arg text "${{ github.event.inputs.button2_text }}" \
+              --arg url "${{ github.event.inputs.button2_url }}" \
+              --arg icon "${{ github.event.inputs.button2_icon }}" \
+              '. + [{text: $text, url: $url, icon: $icon}]')
+          fi
+          
+          # Add button 3 if provided
+          if [ -n "${{ github.event.inputs.button3_text }}" ] && [ -n "${{ github.event.inputs.button3_url }}" ]; then
+            BUTTONS=$(echo "$BUTTONS" | jq --arg text "${{ github.event.inputs.button3_text }}" \
+              --arg url "${{ github.event.inputs.button3_url }}" \
+              --arg icon "${{ github.event.inputs.button3_icon }}" \
+              '. + [{text: $text, url: $url, icon: $icon}]')
+          fi
+          
           # Create the new project object
           NEW_PROJECT=$(jq -n \
-            --arg image "${{ github.event.inputs.image }}" \
             --arg title "${{ github.event.inputs.title }}" \
-            --arg subtitle "${{ github.event.inputs.subtitle }}" \
-            --arg handle "${{ github.event.inputs.handle }}" \
+            --arg description "${{ github.event.inputs.description }}" \
             --arg borderColor "${{ github.event.inputs.borderColor }}" \
             --arg gradient "${{ github.event.inputs.gradient }}" \
-            --arg url "${{ github.event.inputs.url }}" \
+            --argjson buttons "$BUTTONS" \
             '{
-              image: $image,
               title: $title,
-              subtitle: $subtitle,
-              handle: $handle,
+              description: $description,
               borderColor: $borderColor,
               gradient: $gradient,
-              url: $url
+              buttons: $buttons
             }')
           
           # Add the new project to the beginning of the projects array
