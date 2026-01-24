@@ -1,0 +1,89 @@
+name: Add New Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'Project Title'
+        required: true
+        type: string
+      subtitle:
+        description: 'Project Description'
+        required: true
+        type: string
+      handle:
+        description: 'Project Handle (e.g., @myproject)'
+        required: false
+        type: string
+      url:
+        description: 'Project URL'
+        required: true
+        type: string
+      image:
+        description: 'Image URL (use pravatar or upload your own)'
+        required: false
+        type: string
+        default: 'https://i.pravatar.cc/300?img=1'
+      borderColor:
+        description: 'Border Color (hex)'
+        required: false
+        type: string
+        default: '#4F46E5'
+      gradient:
+        description: 'Gradient CSS (e.g., linear-gradient(145deg, #4F46E5, #000))'
+        required: false
+        type: string
+        default: 'linear-gradient(145deg, #4F46E5, #000)'
+
+jobs:
+  add-project:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Add project to JSON
+        run: |
+          # Install jq for JSON manipulation
+          sudo apt-get update && sudo apt-get install -y jq
+          
+          # Create the new project object
+          NEW_PROJECT=$(jq -n \
+            --arg image "${{ github.event.inputs.image }}" \
+            --arg title "${{ github.event.inputs.title }}" \
+            --arg subtitle "${{ github.event.inputs.subtitle }}" \
+            --arg handle "${{ github.event.inputs.handle }}" \
+            --arg borderColor "${{ github.event.inputs.borderColor }}" \
+            --arg gradient "${{ github.event.inputs.gradient }}" \
+            --arg url "${{ github.event.inputs.url }}" \
+            '{
+              image: $image,
+              title: $title,
+              subtitle: $subtitle,
+              handle: $handle,
+              borderColor: $borderColor,
+              gradient: $gradient,
+              url: $url
+            }')
+          
+          # Add the new project to the beginning of the projects array
+          jq --argjson new "$NEW_PROJECT" '.projects = [$new] + .projects' projects.json > projects.tmp.json
+          mv projects.tmp.json projects.json
+          
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add projects.json
+          git commit -m "Add new project: ${{ github.event.inputs.title }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
