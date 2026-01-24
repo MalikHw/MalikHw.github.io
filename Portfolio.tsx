@@ -271,10 +271,6 @@ const ChromaGrid = ({ items, className = '', radius = 300, columns = 3, rows = 2
     gsap.to(fadeRef.current, { opacity: 1, duration: fadeOut, overwrite: true });
   };
 
-  const handleCardClick = url => {
-    if (url) window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
   const handleCardMove = e => {
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
@@ -296,7 +292,7 @@ const ChromaGrid = ({ items, className = '', radius = 300, columns = 3, rows = 2
         '--y': '0px',
         position: 'relative',
         display: 'grid',
-        gridTemplateColumns: `repeat(auto-fit, minmax(280px, 1fr))`,
+        gridTemplateColumns: `repeat(auto-fit, minmax(320px, 1fr))`,
         gap: '24px',
         padding: '20px'
       }}
@@ -307,18 +303,17 @@ const ChromaGrid = ({ items, className = '', radius = 300, columns = 3, rows = 2
         <article
           key={i}
           onMouseMove={handleCardMove}
-          onClick={() => handleCardClick(c.url)}
           style={{
             '--card-border': c.borderColor || 'transparent',
             '--card-gradient': c.gradient,
             '--mouse-x': '0px',
             '--mouse-y': '0px',
-            cursor: c.url ? 'pointer' : 'default',
+            cursor: 'default',
             position: 'relative',
             background: '#1a1625',
             borderRadius: '16px',
             overflow: 'hidden',
-            padding: '24px',
+            padding: '28px',
             transition: 'transform 0.3s ease, box-shadow 0.3s ease',
             border: '1px solid rgba(255,255,255,0.1)',
             boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
@@ -332,13 +327,46 @@ const ChromaGrid = ({ items, className = '', radius = 300, columns = 3, rows = 2
             e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
           }}
         >
-          <div style={{ width: '100%', aspectRatio: '1', borderRadius: '12px', overflow: 'hidden', marginBottom: '16px', background: c.gradient }}>
-            <img src={c.image} alt={c.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
-          </div>
           <div>
-            <h3 style={{ margin: '0 0 8px', fontSize: '1.5rem', color: c.borderColor }}>{c.title}</h3>
-            {c.handle && <span style={{ fontSize: '0.9rem', opacity: 0.7, display: 'block', marginBottom: '8px' }}>{c.handle}</span>}
-            <p style={{ margin: '0', opacity: 0.9, lineHeight: '1.6' }}>{c.subtitle}</p>
+            <h3 style={{ margin: '0 0 12px', fontSize: '1.8rem', color: c.borderColor }}>{c.title}</h3>
+            <p style={{ margin: '0 0 20px', opacity: 0.9, lineHeight: '1.6', fontSize: '1rem' }}>{c.description}</p>
+            
+            {/* Buttons */}
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              {c.buttons && c.buttons.map((btn, btnIdx) => (
+                <a
+                  key={btnIdx}
+                  href={btn.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '10px 20px',
+                    background: btnIdx === 0 ? c.borderColor : 'rgba(255,255,255,0.1)',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    borderRadius: '8px',
+                    fontSize: '0.95rem',
+                    fontWeight: '500',
+                    transition: 'all 0.2s ease',
+                    border: btnIdx === 0 ? 'none' : '1px solid rgba(255,255,255,0.2)'
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = `0 4px 12px ${c.borderColor}60`;
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  {btn.icon && <i className={btn.icon} style={{ fontSize: '1.1rem' }}></i>}
+                  {btn.text}
+                </a>
+              ))}
+            </div>
           </div>
         </article>
       ))}
@@ -353,6 +381,12 @@ export default function Portfolio() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Load NerdFont CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://www.nerdfonts.com/assets/css/webfont.css';
+    document.head.appendChild(link);
+
     fetch('projects.json')
       .then(res => res.json())
       .then(data => {
@@ -385,13 +419,13 @@ export default function Portfolio() {
             <p style={{ fontSize: '1.5rem', margin: '20px 0 0', opacity: 0.9 }}>Small Dev, GD player, and Professional Shit-Poster</p>
             <div style={{ marginTop: '30px', display: 'flex', gap: '20px', justifyContent: 'center' }}>
               <a href="https://youtube.com/@MalikHw47" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem', transition: 'transform 0.3s' }}>
-                <span style={{ display: 'inline-block' }}>▶️</span>
+                <i className="nf nf-md-youtube"></i>
               </a>
               <a href="https://twitch.tv/MalikHw47" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem' }}>
-                <span>📺</span>
+                <i className="nf nf-md-twitch"></i>
               </a>
               <a href="https://github.com/MalikHw" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem' }}>
-                <span>💻</span>
+                <i className="nf nf-md-github"></i>
               </a>
             </div>
           </div>
