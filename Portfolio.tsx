@@ -525,6 +525,10 @@ const ChromaGrid = ({ items, className = '', radius = 300, columns = 3, rows = 2
 export default function Portfolio() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('projects');
+  const [gdData, setGdData] = useState(null);
+  const [gdLoading, setGdLoading] = useState(false);
+  const [showDonate, setShowDonate] = useState(false);
 
   useEffect(() => {
     // Load NerdFont CSS
@@ -545,6 +549,22 @@ export default function Portfolio() {
       });
   }, []);
 
+  useEffect(() => {
+    if (activeTab === 'gdstats' && !gdData) {
+      setGdLoading(true);
+      fetch('https://gdbrowser.com/api/profile/MalikHw47')
+        .then(res => res.json())
+        .then(data => {
+          setGdData(data);
+          setGdLoading(false);
+        })
+        .catch(err => {
+          console.error('Failed to load GD data:', err);
+          setGdLoading(false);
+        });
+    }
+  }, [activeTab, gdData]);
+
   if (loading) {
     return (
       <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -552,6 +572,16 @@ export default function Portfolio() {
       </div>
     );
   }
+
+  const gdStats = [
+    { key: 'stars', label: 'Stars', icon: 'nf nf-md-star', color: '#FFD700' },
+    { key: 'cp', label: 'Creator Points', icon: 'nf nf-md-trophy', color: '#FF6B6B' },
+    { key: 'rank', label: 'Rank', icon: 'nf nf-md-podium', color: '#4ECDC4' },
+    { key: 'diamonds', label: 'Diamonds', icon: 'nf nf-md-diamond_stone', color: '#95E1D3' },
+    { key: 'demons', label: 'Demons', icon: 'nf nf-md-ghost', color: '#F38181' },
+    { key: 'usercoins', label: 'User Coins', icon: 'nf nf-md-coin', color: '#AA96DA' },
+    { key: 'coins', label: 'Secret Coins', icon: 'nf nf-md-circle_multiple', color: '#FCBAD3' }
+  ];
 
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)', color: '#fff', fontFamily: 'system-ui, -apple-system, sans-serif', position: 'relative' }}>
@@ -566,42 +596,254 @@ export default function Portfolio() {
         />
       </div>
 
+      {/* Donate Button */}
+      <button
+        onClick={() => setShowDonate(true)}
+        style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          zIndex: 1000,
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '50px',
+          padding: '12px 24px',
+          fontSize: '1rem',
+          fontWeight: '600',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)',
+          transition: 'all 0.3s ease',
+          transform: 'translateY(0)'
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.transform = 'translateY(-2px)';
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.6)';
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.4)';
+        }}
+      >
+        <i className="nf nf-md-heart" style={{ fontSize: '1.2rem' }}></i>
+        Donate
+      </button>
+
+      {/* Donate Modal */}
+      {showDonate && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.8)',
+            zIndex: 2000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px'
+          }}
+          onClick={() => setShowDonate(false)}
+        >
+          <div
+            style={{
+              position: 'relative',
+              width: '90%',
+              maxWidth: '900px',
+              height: '80vh',
+              background: '#1a1625',
+              borderRadius: '20px',
+              overflow: 'hidden',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
+              border: '2px solid rgba(102, 126, 234, 0.3)'
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowDonate(false)}
+              style={{
+                position: 'absolute',
+                top: '15px',
+                right: '15px',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: 'none',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                color: '#fff',
+                fontSize: '1.5rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 10,
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+              }}
+            >
+              <i className="nf nf-md-close"></i>
+            </button>
+            <iframe
+              src="https://malikhw.github.io/donate"
+              style={{
+                width: '100%',
+                height: '100%',
+                border: 'none'
+              }}
+              title="Donate"
+            />
+          </div>
+        </div>
+      )}
+
       <div style={{ position: 'relative', zIndex: 1 }}>
         <ClickSpark sparkColor="#6750A4" sparkSize={12} sparkRadius={20} sparkCount={10}>
-        <div style={{ background: 'linear-gradient(180deg, rgba(103,80,164,0.3) 0%, transparent 100%)', padding: '80px 20px', textAlign: 'center', position: 'relative' }}>
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '400px', zIndex: 0 }}>
-            <Antigravity count={200} magnetRadius={8} ringRadius={10} particleSize={2} color="#6750A4" autoAnimate particleShape="sphere" />
-          </div>
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <h1 style={{ fontSize: '4rem', margin: '0', fontWeight: 'bold', textShadow: '0 0 40px rgba(103,80,164,0.8)' }}>MalikHw47</h1>
-            <p style={{ fontSize: '1.5rem', margin: '20px 0 0', opacity: 0.9 }}>Small Dev, GD player, and Professional Shit-Poster</p>
-            <div style={{ marginTop: '30px', display: 'flex', gap: '20px', justifyContent: 'center' }}>
-              <a href="https://youtube.com/@MalikHw47" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem', transition: 'transform 0.3s' }}>
-                <i className="nf nf-md-youtube"></i>
-              </a>
-              <a href="https://twitch.tv/MalikHw47" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem' }}>
-                <i className="nf nf-md-twitch"></i>
-              </a>
-              <a href="https://github.com/MalikHw" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem' }}>
-                <i className="nf nf-md-github"></i>
-              </a>
+          <div style={{ background: 'linear-gradient(180deg, rgba(103,80,164,0.3) 0%, transparent 100%)', padding: '80px 20px', textAlign: 'center', position: 'relative' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '400px', zIndex: 0 }}>
+              <Antigravity count={200} magnetRadius={8} ringRadius={10} particleSize={2} color="#6750A4" autoAnimate particleShape="sphere" />
+            </div>
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <h1 style={{ fontSize: '4rem', margin: '0', fontWeight: 'bold', textShadow: '0 0 40px rgba(103,80,164,0.8)' }}>MalikHw47</h1>
+              <p style={{ fontSize: '1.5rem', margin: '20px 0 0', opacity: 0.9 }}>Small Dev, GD player, and Professional Shit-Poster</p>
+              <div style={{ marginTop: '30px', display: 'flex', gap: '20px', justifyContent: 'center' }}>
+                <a href="https://youtube.com/@MalikHw47" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem', transition: 'transform 0.3s' }}>
+                  <i className="nf nf-md-youtube"></i>
+                </a>
+                <a href="https://twitch.tv/MalikHw47" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem' }}>
+                  <i className="nf nf-md-twitch"></i>
+                </a>
+                <a href="https://github.com/MalikHw" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem' }}>
+                  <i className="nf nf-md-github"></i>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div style={{ padding: '60px 20px', maxWidth: '1400px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '2.5rem', textAlign: 'center', marginBottom: '40px', textShadow: '0 0 20px rgba(103,80,164,0.5)' }}>My Projects</h2>
-          {projects.length > 0 ? (
-            <ChromaGrid items={projects} radius={350} damping={0.5} fadeOut={0.7} />
-          ) : (
-            <p style={{ textAlign: 'center', fontSize: '1.2rem', opacity: 0.7 }}>No projects found. Add some via the workflow!</p>
+          {/* Tabs */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '30px 20px', maxWidth: '600px', margin: '0 auto' }}>
+            <button
+              onClick={() => setActiveTab('projects')}
+              style={{
+                background: activeTab === 'projects' ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255,255,255,0.1)',
+                color: '#fff',
+                border: activeTab === 'projects' ? 'none' : '1px solid rgba(255,255,255,0.2)',
+                borderRadius: '12px',
+                padding: '12px 30px',
+                fontSize: '1.1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                transition: 'all 0.3s ease',
+                boxShadow: activeTab === 'projects' ? '0 4px 15px rgba(102, 126, 234, 0.4)' : 'none'
+              }}
+            >
+              <i className="nf nf-md-briefcase" style={{ fontSize: '1.3rem' }}></i>
+              Projects
+            </button>
+            <button
+              onClick={() => setActiveTab('gdstats')}
+              style={{
+                background: activeTab === 'gdstats' ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255,255,255,0.1)',
+                color: '#fff',
+                border: activeTab === 'gdstats' ? 'none' : '1px solid rgba(255,255,255,0.2)',
+                borderRadius: '12px',
+                padding: '12px 30px',
+                fontSize: '1.1rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                transition: 'all 0.3s ease',
+                boxShadow: activeTab === 'gdstats' ? '0 4px 15px rgba(102, 126, 234, 0.4)' : 'none'
+              }}
+            >
+              <i className="nf nf-md-gamepad_variant" style={{ fontSize: '1.3rem' }}></i>
+              GD Stats
+            </button>
+          </div>
+
+          {/* Projects Tab */}
+          {activeTab === 'projects' && (
+            <div style={{ padding: '0 20px 60px', maxWidth: '1400px', margin: '0 auto' }}>
+              <h2 style={{ fontSize: '2.5rem', textAlign: 'center', marginBottom: '40px', textShadow: '0 0 20px rgba(103,80,164,0.5)' }}>My Projects</h2>
+              {projects.length > 0 ? (
+                <ChromaGrid items={projects} radius={350} damping={0.5} fadeOut={0.7} />
+              ) : (
+                <p style={{ textAlign: 'center', fontSize: '1.2rem', opacity: 0.7 }}>No projects found. Add some via the workflow!</p>
+              )}
+            </div>
           )}
-        </div>
 
-        <div style={{ padding: '40px 20px', textAlign: 'center', background: 'rgba(0,0,0,0.3)', marginTop: '60px' }}>
-          <p style={{ margin: 0, fontSize: '1.1rem' }}>Made with ❤️ and shit by <strong>MalikHw47</strong></p>
-        </div>
-              </ClickSpark>
+          {/* GD Stats Tab */}
+          {activeTab === 'gdstats' && (
+            <div style={{ padding: '0 20px 60px', maxWidth: '1400px', margin: '0 auto' }}>
+              <h2 style={{ fontSize: '2.5rem', textAlign: 'center', marginBottom: '40px', textShadow: '0 0 20px rgba(103,80,164,0.5)' }}>Geometry Dash Stats</h2>
+              {gdLoading ? (
+                <div style={{ textAlign: 'center', fontSize: '1.5rem', padding: '60px 0' }}>
+                  <i className="nf nf-md-loading" style={{ fontSize: '3rem', animation: 'spin 1s linear infinite' }}></i>
+                  <p style={{ marginTop: '20px' }}>Loading stats...</p>
+                  <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+                </div>
+              ) : gdData ? (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', padding: '20px' }}>
+                  {gdStats.map(stat => (
+                    <div
+                      key={stat.key}
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(103,80,164,0.2) 0%, rgba(26,22,37,0.8) 100%)',
+                        borderRadius: '16px',
+                        padding: '30px',
+                        textAlign: 'center',
+                        border: `2px solid ${stat.color}40`,
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                        transition: 'all 0.3s ease',
+                        cursor: 'default'
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)';
+                        e.currentTarget.style.boxShadow = `0 8px 30px ${stat.color}60`;
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+                      }}
+                    >
+                      <i className={stat.icon} style={{ fontSize: '3.5rem', color: stat.color, marginBottom: '15px', display: 'block' }}></i>
+                      <div style={{ fontSize: '3rem', fontWeight: 'bold', color: stat.color, marginBottom: '10px' }}>
+                        {gdData[stat.key]?.toLocaleString() || '0'}
+                      </div>
+                      <div style={{ fontSize: '1.1rem', opacity: 0.8, textTransform: 'uppercase', letterSpacing: '1px' }}>
+                        {stat.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div style={{ textAlign: 'center', fontSize: '1.2rem', opacity: 0.7, padding: '60px 0' }}>
+                  <i className="nf nf-md-alert_circle" style={{ fontSize: '3rem', marginBottom: '20px', display: 'block' }}></i>
+                  <p>Failed to load GD stats. Please try again later.</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div style={{ padding: '40px 20px', textAlign: 'center', background: 'rgba(0,0,0,0.3)', marginTop: '60px' }}>
+            <p style={{ margin: 0, fontSize: '1.1rem' }}>Made with ❤️ and shit by <strong>MalikHw47</strong></p>
+          </div>
+        </ClickSpark>
       </div>
     </div>
   );
