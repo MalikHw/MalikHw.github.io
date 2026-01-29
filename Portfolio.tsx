@@ -72,7 +72,9 @@ export default function Portfolio() {
   const [activeTab, setActiveTab] = useState<'projects' | 'gdstats'>('projects');
   const [gdData, setGdData] = useState<GDData | null>(null);
   const [gdLoading, setGdLoading] = useState(false);
-  const [showDonate, setShowDonate] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalUrl, setModalUrl] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -108,6 +110,12 @@ export default function Portfolio() {
     }
   }, [activeTab, gdData]);
 
+  const openModal = (url: string, title: string) => {
+    setModalUrl(url);
+    setModalTitle(title);
+    setShowModal(true);
+  };
+
   const gdStats = [
     { key: 'stars' as const, label: 'Stars', icon: 'nf nf-md-star', color: '#FFD700' },
     { key: 'cp' as const, label: 'Creator Points', icon: 'nf nf-md-trophy', color: '#FF6B6B' },
@@ -130,35 +138,114 @@ export default function Portfolio() {
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)', color: '#fff', fontFamily: 'system-ui, -apple-system, sans-serif', position: 'relative' }}>
       <AnimatedBackground />
 
-      {/* Donate Button */}
-      <button
-        onClick={() => setShowDonate(true)}
-        style={{
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          zIndex: 1000,
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '50px',
-          padding: '12px 24px',
-          fontSize: '1rem',
-          fontWeight: '600',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)',
-          transition: 'all 0.3s ease'
-        }}
-      >
-        <i className="nf nf-md-heart" style={{ fontSize: '1.2rem' }}></i>
-        Donate
-      </button>
+      <style>{`
+        @keyframes glow-pulse {
+          0%, 100% {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4), 0 0 20px rgba(102, 126, 234, 0.3);
+          }
+          50% {
+            box-shadow: 0 4px 25px rgba(102, 126, 234, 0.6), 0 0 40px rgba(102, 126, 234, 0.5);
+          }
+        }
 
-      {/* Donate Modal */}
-      {showDonate && (
+        @keyframes scale-in {
+          0% {
+            transform: scale(0);
+            opacity: 0;
+          }
+          50% {
+            transform: scale(1.1);
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+
+        .top-button {
+          animation: glow-pulse 2s ease-in-out infinite, scale-in 0.5s ease-out;
+        }
+
+        .top-button:hover {
+          transform: scale(1.05);
+          box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6) !important;
+        }
+
+        .modal-enter {
+          animation: modal-scale 0.3s ease-out;
+        }
+
+        @keyframes modal-scale {
+          0% {
+            transform: scale(0.8);
+            opacity: 0;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+
+        .project-button {
+          transition: all 0.2s ease;
+        }
+
+        .project-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+      `}</style>
+
+      {/* Top Buttons */}
+      <div style={{ position: 'fixed', top: '20px', right: '20px', zIndex: 1000, display: 'flex', gap: '12px' }}>
+        <button
+          onClick={() => openModal('https://malikhw.github.io/donate', 'Donate')}
+          className="top-button"
+          style={{
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '50px',
+            padding: '12px 24px',
+            fontSize: '1rem',
+            fontWeight: '600',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            transition: 'all 0.3s ease'
+          }}
+        >
+          <i className="nf nf-md-heart" style={{ fontSize: '1.2rem' }}></i>
+          Donate
+        </button>
+
+        <button
+          onClick={() => openModal('https://streamlabs.com/sl_id_79bfdf5f-f9bb-3746-9bdf-1e389269d1b7/merch', 'Merch Store')}
+          className="top-button"
+          style={{
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '50px',
+            padding: '12px 24px',
+            fontSize: '1rem',
+            fontWeight: '600',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            transition: 'all 0.3s ease',
+            animationDelay: '0.1s'
+          }}
+        >
+          <i className="nf nf-md-shopping" style={{ fontSize: '1.2rem' }}></i>
+          Merch Store
+        </button>
+      </div>
+
+      {/* Modal */}
+      {showModal && (
         <div
           style={{
             position: 'fixed',
@@ -173,9 +260,10 @@ export default function Portfolio() {
             justifyContent: 'center',
             padding: '20px'
           }}
-          onClick={() => setShowDonate(false)}
+          onClick={() => setShowModal(false)}
         >
           <div
+            className="modal-enter"
             style={{
               position: 'relative',
               width: '90%',
@@ -190,7 +278,7 @@ export default function Portfolio() {
             onClick={e => e.stopPropagation()}
           >
             <button
-              onClick={() => setShowDonate(false)}
+              onClick={() => setShowModal(false)}
               style={{
                 position: 'absolute',
                 top: '15px',
@@ -213,9 +301,10 @@ export default function Portfolio() {
               <i className="nf nf-md-close"></i>
             </button>
             <iframe
-              src="https://malikhw.github.io/donate"
+              src={modalUrl}
               style={{ width: '100%', height: '100%', border: 'none' }}
-              title="Donate"
+              title={modalTitle}
+              sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox"
             />
           </div>
         </div>
@@ -227,15 +316,27 @@ export default function Portfolio() {
           <h1 style={{ fontSize: '4rem', margin: '0', fontWeight: 'bold', textShadow: '0 0 40px rgba(103,80,164,0.8)' }}>MalikHw47</h1>
           <p style={{ fontSize: '1.5rem', margin: '20px 0 0', opacity: 0.9 }}>Small Dev, GD player, and Professional Shit-Poster</p>
           <div style={{ marginTop: '30px', display: 'flex', gap: '20px', justifyContent: 'center' }}>
-            <a href="https://youtube.com/@MalikHw47" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem', transition: 'transform 0.3s' }}>
+            <button
+              onClick={() => openModal('https://youtube.com/@MalikHw47', 'YouTube')}
+              style={{ background: 'none', border: 'none', color: '#fff', fontSize: '2rem', cursor: 'pointer', transition: 'transform 0.3s' }}
+              className="project-button"
+            >
               <i className="nf nf-md-youtube"></i>
-            </a>
-            <a href="https://twitch.tv/MalikHw47" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem' }}>
+            </button>
+            <button
+              onClick={() => openModal('https://twitch.tv/MalikHw47', 'Twitch')}
+              style={{ background: 'none', border: 'none', color: '#fff', fontSize: '2rem', cursor: 'pointer', transition: 'transform 0.3s' }}
+              className="project-button"
+            >
               <i className="nf nf-md-twitch"></i>
-            </a>
-            <a href="https://github.com/MalikHw" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontSize: '2rem' }}>
+            </button>
+            <button
+              onClick={() => openModal('https://github.com/MalikHw', 'GitHub')}
+              style={{ background: 'none', border: 'none', color: '#fff', fontSize: '2rem', cursor: 'pointer', transition: 'transform 0.3s' }}
+              className="project-button"
+            >
               <i className="nf nf-md-github"></i>
-            </a>
+            </button>
           </div>
         </div>
 
@@ -243,6 +344,7 @@ export default function Portfolio() {
         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '30px 20px', maxWidth: '600px', margin: '0 auto' }}>
           <button
             onClick={() => setActiveTab('projects')}
+            className="project-button"
             style={{
               background: activeTab === 'projects' ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255,255,255,0.1)',
               color: '#fff',
@@ -264,6 +366,7 @@ export default function Portfolio() {
           </button>
           <button
             onClick={() => setActiveTab('gdstats')}
+            className="project-button"
             style={{
               background: activeTab === 'gdstats' ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255,255,255,0.1)',
               color: '#fff',
@@ -307,11 +410,10 @@ export default function Portfolio() {
                     <p style={{ margin: '0 0 20px', opacity: 0.9, lineHeight: '1.6', fontSize: '1rem' }}>{project.description}</p>
                     <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                       {project.buttons?.map((btn, btnIdx) => (
-                        <a
+                        <button
                           key={btnIdx}
-                          href={btn.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          onClick={() => openModal(btn.url, btn.text)}
+                          className="project-button"
                           style={{
                             display: 'inline-flex',
                             alignItems: 'center',
@@ -319,17 +421,16 @@ export default function Portfolio() {
                             padding: '10px 20px',
                             background: btnIdx === 0 ? project.borderColor : 'rgba(255,255,255,0.1)',
                             color: '#fff',
-                            textDecoration: 'none',
+                            border: btnIdx === 0 ? 'none' : '1px solid rgba(255,255,255,0.2)',
                             borderRadius: '8px',
                             fontSize: '0.95rem',
                             fontWeight: '500',
-                            transition: 'all 0.2s ease',
-                            border: btnIdx === 0 ? 'none' : '1px solid rgba(255,255,255,0.2)'
+                            cursor: 'pointer'
                           }}
                         >
                           {btn.icon && <i className={btn.icon} style={{ fontSize: '1.1rem' }}></i>}
                           {btn.text}
-                        </a>
+                        </button>
                       ))}
                     </div>
                   </div>
