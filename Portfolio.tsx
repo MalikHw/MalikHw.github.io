@@ -111,7 +111,7 @@ export default function Portfolio() {
       {/* Aurora Background */}
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
         <Aurora
-          colorStops={["#7cff67","#B19EEF","#5227FF"]}
+          colorStops={["#850000","#853500","#850045"]}
           blend={0.5}
           amplitude={1.0}
           speed={1}
