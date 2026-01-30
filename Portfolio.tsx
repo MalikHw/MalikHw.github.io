@@ -1,48 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-
-// Simple animated background component
-const AnimatedBackground = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    let frame = 0;
-    const animate = () => {
-      ctx.fillStyle = 'rgba(15, 12, 41, 0.1)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      for (let i = 0; i < 50; i++) {
-        const x = (Math.sin(frame * 0.001 + i) * canvas.width) / 2 + canvas.width / 2;
-        const y = (Math.cos(frame * 0.002 + i * 0.5) * canvas.height) / 2 + canvas.height / 2;
-        
-        ctx.fillStyle = `rgba(103, 80, 164, ${0.3 - (i / 100)})`;
-        ctx.beginPath();
-        ctx.arc(x, y, 2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      frame++;
-      requestAnimationFrame(animate);
-    };
-    animate();
-
-    return () => window.removeEventListener('resize', resize);
-  }, []);
-
-  return <canvas ref={canvasRef} style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.4 }} />;
-};
+import Aurora from './Aurora';
 
 interface Project {
   title: string;
@@ -150,8 +107,16 @@ export default function Portfolio() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)', color: '#fff', fontFamily: 'system-ui, -apple-system, sans-serif', position: 'relative' }}>
-      <AnimatedBackground />
+    <div style={{ minHeight: '100vh', background: '#0f0c29', color: '#fff', fontFamily: 'system-ui, -apple-system, sans-serif', position: 'relative' }}>
+      {/* Aurora Background */}
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
+        <Aurora
+          colorStops={["#7cff67","#B19EEF","#5227FF"]}
+          blend={0.5}
+          amplitude={1.0}
+          speed={1}
+        />
+      </div>
 
       <style>{`
         @keyframes glow-pulse {
