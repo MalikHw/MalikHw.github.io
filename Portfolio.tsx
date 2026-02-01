@@ -30,7 +30,9 @@ export default function Portfolio() {
   const [gdData, setGdData] = useState<GDData | null>(null);
   const [gdLoading, setGdLoading] = useState(false);
   const [showDonateDropdown, setShowDonateDropdown] = useState(false);
+  const [isStreamOnline, setIsStreamOnline] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -81,6 +83,34 @@ export default function Portfolio() {
         });
     }
   }, [activeTab, gdData]);
+
+  // Check if stream is offline by looking for "OFFLINE" text in iframe
+  useEffect(() => {
+    const checkStreamStatus = () => {
+      if (iframeRef.current) {
+        try {
+          const iframeDoc = iframeRef.current.contentDocument || iframeRef.current.contentWindow?.document;
+          if (iframeDoc) {
+            const bodyText = iframeDoc.body.innerText || iframeDoc.body.textContent || '';
+            if (bodyText.includes('OFFLINE')) {
+              setIsStreamOnline(false);
+            } else {
+              setIsStreamOnline(true);
+            }
+          }
+        } catch (e) {
+          // Cross-origin iframe - can't access content directly
+          // Keep iframe visible by default
+          console.log('Cannot access iframe content (cross-origin)');
+        }
+      }
+    };
+
+    // Check after iframe loads
+    const timer = setInterval(checkStreamStatus, 5000);
+    
+    return () => clearInterval(timer);
+  }, []);
 
   const donateLinks = [
     { text: '☕ Donate (Ko-Fi)', url: 'https://ko-fi.com/MalikHw47', color: '#7aa2f7' },
@@ -153,6 +183,17 @@ export default function Portfolio() {
           }
         }
 
+        @keyframes fade-in {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
         .top-button {
           animation: glow-pulse 2s ease-in-out infinite, scale-in 0.5s ease-out;
         }
@@ -173,6 +214,10 @@ export default function Portfolio() {
         .project-button:hover {
           transform: translateY(-2px);
           box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .stream-container {
+          animation: fade-in 0.6s ease-out;
         }
       `}</style>
 
@@ -326,6 +371,82 @@ export default function Portfolio() {
             </a>
           </div>
         </div>
+
+        {/* Live Stream Section */}
+        {isStreamOnline && (
+          <div className="stream-container" style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+            <div style={{ 
+              background: 'linear-gradient(135deg, rgba(103,80,164,0.2) 0%, rgba(26,22,37,0.8) 100%)',
+              borderRadius: '20px',
+              padding: '30px',
+              border: '2px solid rgba(102, 126, 234, 0.3)',
+              boxShadow: '0 8px 30px rgba(0,0,0,0.4)'
+            }}>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '12px', 
+                marginBottom: '20px',
+                justifyContent: 'center'
+              }}>
+                <div style={{
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%',
+                  background: '#ff0000',
+                  boxShadow: '0 0 10px #ff0000',
+                  animation: 'glow-pulse 2s ease-in-out infinite'
+                }}></div>
+                <h2 style={{ 
+                  fontSize: '2rem', 
+                  margin: 0,
+                  textShadow: '0 0 20px rgba(103,80,164,0.5)'
+                }}>
+                  🔴 Live Now
+                </h2>
+              </div>
+              <div style={{ 
+                position: 'relative',
+                paddingBottom: '56.25%',
+                height: 0,
+                overflow: 'hidden',
+                borderRadius: '12px',
+                background: '#000'
+              }}>
+                <iframe 
+                  ref={iframeRef}
+                  src="https://player.restream.io?token=2123471e69ed8bf8cb11cd207c282b1" 
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    border: 'none'
+                  }}
+                  allow="fullscreen"
+                  onLoad={() => {
+                    // Check stream status after iframe loads
+                    setTimeout(() => {
+                      try {
+                        const iframeDoc = iframeRef.current?.contentDocument || iframeRef.current?.contentWindow?.document;
+                        if (iframeDoc) {
+                          const bodyText = iframeDoc.body.innerText || iframeDoc.body.textContent || '';
+                          if (bodyText.includes('OFFLINE')) {
+                            setIsStreamOnline(false);
+                          }
+                        }
+                      } catch (e) {
+                        // Cross-origin restriction - can't access iframe content
+                        console.log('Cannot check stream status (cross-origin)');
+                      }
+                    }, 2000);
+                  }}
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Tabs */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '30px 20px', maxWidth: '600px', margin: '0 auto' }}>
