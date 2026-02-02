@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Aurora from './Aurora';
 import TargetCursor from './TargetCursor';
+import TextType from './TextType';
 
 interface Project {
   title: string;
@@ -233,6 +234,12 @@ export default function Portfolio() {
           transform: translateY(-2px);
           box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
+
+        /* Force hide default cursor on interactive elements */
+        .cursor-target,
+        .cursor-target * {
+          cursor: none !important;
+        }
       `}</style>
 
       {/* Top Buttons */}
@@ -282,6 +289,7 @@ export default function Portfolio() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="cursor-target"
                   style={{
                     display: 'block',
                     width: '100%',
@@ -353,8 +361,32 @@ export default function Portfolio() {
       <div style={{ position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <div style={{ background: 'linear-gradient(180deg, rgba(103,80,164,0.3) 0%, transparent 100%)', padding: '80px 20px', textAlign: 'center' }}>
-          <h1 style={{ fontSize: '4rem', margin: '0', fontWeight: 'bold', textShadow: '0 0 40px rgba(103,80,164,0.8)' }}>MalikHw47</h1>
-          <p style={{ fontSize: '1.5rem', margin: '20px 0 0', opacity: 0.9 }}>Small Dev, GD player, and Professional Shit-Poster</p>
+          <h1 style={{ fontSize: '4rem', margin: '0', fontWeight: 'bold', textShadow: '0 0 40px rgba(103,80,164,0.8)' }}>
+            <TextType 
+              text={["MalikHw47"]}
+              typingSpeed={40}
+              pauseDuration={1500}
+              showCursor={false}
+              loop={false}
+            />
+          </h1>
+          <p style={{ fontSize: '1.5rem', margin: '20px 0 0', opacity: 0.9, minHeight: '2rem' }}>
+            <TextType 
+              text={[
+                "Small Dev, GD player, and Professional Shit-Poster",
+                "And a Miku/Teto fan!!",
+                "Hardest is sonik wafe-",
+                "MIKU MIKU BEAMMM"
+              ]}
+              typingSpeed={40}
+              deletingSpeed={50}
+              pauseDuration={1500}
+              showCursor
+              cursorCharacter="●"
+              cursorBlinkDuration={0.5}
+              initialDelay={800}
+            />
+          </p>
           <div style={{ marginTop: '30px', display: 'flex', gap: '20px', justifyContent: 'center' }}>
             <a
               href="https://youtube.com/@MalikHw47"
