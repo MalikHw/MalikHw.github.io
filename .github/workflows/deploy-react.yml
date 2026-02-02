@@ -178,8 +178,17 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          # Remove old build files but keep source
-          find . -maxdepth 1 -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) ! -name "Portfolio.tsx" ! -name "main.tsx" -exec rm {} \;
+          # Create a list of files to keep (source files)
+          KEEP_FILES="Portfolio.tsx Aurora.tsx Aurora.css TargetCursor.tsx TargetCursor.css TextType.tsx TextType.css main.tsx projects.json youtube.json README.md .github .git .gitignore"
+          
+          # Remove old build files but keep source files
+          for file in *.html *.js; do
+            if [ -f "$file" ] && [[ ! " $KEEP_FILES " =~ " $file " ]]; then
+              rm "$file"
+            fi
+          done
+          
+          # Remove old assets directory
           rm -rf assets 2>/dev/null || true
           
           # Copy build files to root
