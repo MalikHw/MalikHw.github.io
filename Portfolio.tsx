@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Aurora from './Aurora';
+import TargetCursor from './TargetCursor';
 
 interface Project {
   title: string;
@@ -56,13 +57,24 @@ export default function Portfolio() {
         setLoading(false);
       });
 
-    fetch('youtube.json')
-      .then(res => res.json())
+    fetch('/youtube.json')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then(data => {
+        console.log('YouTube data loaded:', data);
         setYoutubeData(data);
       })
       .catch(err => {
         console.error('Failed to load YouTube data:', err);
+        // Fallback to default video if fetch fails
+        setYoutubeData({
+          src: "https://www.youtube.com/embed/lvSsbSbUYnk",
+          title: "TETORIS"
+        });
       });
   }, []);
 
@@ -147,6 +159,14 @@ export default function Portfolio() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#0f0c29', color: '#fff', fontFamily: 'system-ui, -apple-system, sans-serif', position: 'relative' }}>
+      {/* TargetCursor */}
+      <TargetCursor 
+        spinDuration={2}
+        hideDefaultCursor
+        parallaxOn
+        hoverDuration={0.35}
+      />
+
       {/* Aurora Background */}
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
         <Aurora
@@ -220,7 +240,7 @@ export default function Portfolio() {
         <div ref={dropdownRef} style={{ position: 'relative' }}>
           <button
             onClick={() => setShowDonateDropdown(!showDonateDropdown)}
-            className="top-button"
+            className="top-button cursor-target"
             style={{
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               color: '#fff',
@@ -307,7 +327,7 @@ export default function Portfolio() {
           href="https://streamlabs.com/sl_id_79bfdf5f-f9bb-3746-9bdf-1e389269d1b7/merch"
           target="_blank"
           rel="noopener noreferrer"
-          className="top-button"
+          className="top-button cursor-target"
           style={{
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             color: '#fff',
@@ -341,7 +361,7 @@ export default function Portfolio() {
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: '#fff', fontSize: '2rem', transition: 'transform 0.3s', display: 'inline-block' }}
-              className="project-button"
+              className="project-button cursor-target"
             >
               <i className="nf nf-md-youtube"></i>
             </a>
@@ -350,7 +370,7 @@ export default function Portfolio() {
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: '#fff', fontSize: '2rem', transition: 'transform 0.3s', display: 'inline-block' }}
-              className="project-button"
+              className="project-button cursor-target"
             >
               <i className="nf nf-md-twitch"></i>
             </a>
@@ -359,7 +379,7 @@ export default function Portfolio() {
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: '#fff', fontSize: '2rem', transition: 'transform 0.3s', display: 'inline-block' }}
-              className="project-button"
+              className="project-button cursor-target"
             >
               <i className="nf nf-md-github"></i>
             </a>
@@ -370,7 +390,7 @@ export default function Portfolio() {
         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '30px 20px', maxWidth: '600px', margin: '0 auto' }}>
           <button
             onClick={() => setActiveTab('projects')}
-            className="project-button"
+            className="project-button cursor-target"
             style={{
               background: activeTab === 'projects' ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255,255,255,0.1)',
               color: '#fff',
@@ -392,7 +412,7 @@ export default function Portfolio() {
           </button>
           <button
             onClick={() => setActiveTab('gdstats')}
-            className="project-button"
+            className="project-button cursor-target"
             style={{
               background: activeTab === 'gdstats' ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255,255,255,0.1)',
               color: '#fff',
@@ -441,7 +461,7 @@ export default function Portfolio() {
                           href={btn.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="project-button"
+                          className="project-button cursor-target"
                           style={{
                             display: 'inline-flex',
                             alignItems: 'center',
