@@ -1,6 +1,19 @@
 {
   "projects": [
     {
+      "title": "GD Icon Maker",
+      "description": "A cool tool to make an icon for Geometry Dash based on a picture you have",
+      "borderColor": "#0a83bf",
+      "gradient": "linear-gradient(145deg, #225d8a, #000)",
+      "buttons": [
+        {
+          "text": "Visit",
+          "url": "https://gdiconmaker.rf.gd",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
+    },
+    {
       "title": "FileFucker",
       "description": "A file transfer solution with no bullshit logins required. Just drag, drop, and fuck off!",
       "borderColor": "#4F46E5",
