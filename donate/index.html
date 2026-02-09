@@ -15,6 +15,7 @@
       --accent: #7aa2f7;
       --accent2: #f7768e;
       --accent3: #9ece6a;
+      --accent4: #5513bf
       --text: #eaeaf0;
     }
 
@@ -68,6 +69,7 @@
     }
 
     .donate { background: var(--accent); }
+    .discord{ background: var(--accent4); }
     .gift   { background: var(--accent2); }
     .mhv9   { background: var(--accent3); }
 
@@ -85,12 +87,17 @@
     const LINKS = {
       donate: "https://ko-fi.com/MalikHw47",
       throne: "https://throne.com/MalikHw47",
+      discord: "https://discord.gg/PECb5wua7";
       mhv9: "https://absolllute.com/store/mega_hack?gift=1"
     };
   </script>
 
   <div class="container">
     <h1>Support MalikHw 💙</h1>
+
+    <a class="btn boost" href="#" onclick="location.href = LINKS.discord">
+      💎 Boost Server (Discord)
+    </a>
 
     <a class="btn donate" href="#" onclick="location.href = LINKS.donate">
       ☕ Donate (Ko-Fi)
