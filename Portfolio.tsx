@@ -136,6 +136,7 @@ export default function Portfolio() {
 
   const donateLinks = [
     { text: '☕ Donate (Ko-Fi)', url: 'https://ko-fi.com/MalikHw47', color: '#7aa2f7' },
+    { text: '💎 Boost Server (Discord)', url: 'https://discord.gg/G9bZ92eg2n', color: '#5913ad' },
     { text: '🎁 Get a Gift (Throne)', url: 'https://throne.com/MalikHw47', color: '#f7768e' },
     { text: '🚀 Gift MHv9', url: 'https://absolllute.com/store/mega_hack?gift=1', color: '#9ece6a' }
   ];
