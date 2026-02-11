@@ -111,14 +111,14 @@ export default function Portfolio() {
     }
   }, [activeTab, gdData]);
 
-  useEffect(() => {
-    // Load Twitch embed script
-    const script = document.createElement('script');
-    script.src = 'https://embed.twitch.tv/embed/v1.js';
-    script.async = true;
-    document.body.appendChild(script);
+useEffect(() => {
+    // 1. Load Twitch embed script
+    const twitchScript = document.createElement('script');
+    twitchScript.src = 'https://embed.twitch.tv/embed/v1.js';
+    twitchScript.async = true;
+    document.body.appendChild(twitchScript);
 
-    script.onload = () => {
+    twitchScript.onload = () => {
       if (twitchEmbedRef.current && (window as any).Twitch) {
         new (window as any).Twitch.Embed(twitchEmbedRef.current, {
           width: '100%',
@@ -129,8 +129,29 @@ export default function Portfolio() {
       }
     };
 
+    // 2. Load Ko-fi widget script
+    const kofiScript = document.createElement('script');
+    kofiScript.src = 'https://storage.ko-fi.com/cdn/scripts/overlay-widget.js';
+    kofiScript.async = true;
+    document.body.appendChild(kofiScript);
+
+    kofiScript.onload = () => {
+      if ((window as any).kofiWidgetOverlay) {
+        (window as any).kofiWidgetOverlay.draw('malikhw47', {
+          'type': 'floating-chat',
+          'floating-chat.donateButton.text': 'Donate',
+          'floating-chat.donateButton.background-color': '#ff5f5f',
+          'floating-chat.donateButton.text-color': '#fff'
+        });
+      }
+    };
+
+    // Cleanup: Remove scripts if you leave the page
     return () => {
-      document.body.removeChild(script);
+      document.body.removeChild(twitchScript);
+      document.body.removeChild(kofiScript);
+      const kofiWidget = document.getElementById('kofi-widget-overlay');
+      if (kofiWidget) kofiWidget.remove();
     };
   }, []);
 
