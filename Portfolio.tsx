@@ -140,7 +140,7 @@ useEffect(() => {
         (window as any).kofiWidgetOverlay.draw('malikhw47', {
           'type': 'floating-chat',
           'floating-chat.donateButton.text': 'Donate',
-          'floating-chat.donateButton.background-color': '#ff5f5f',
+          'floating-chat.donateButton.background-color': '#2e2eb3',
           'floating-chat.donateButton.text-color': '#fff'
         });
       }
@@ -156,7 +156,6 @@ useEffect(() => {
   }, []);
 
   const donateLinks = [
-    { text: '☕ Donate (Ko-Fi)', url: 'https://ko-fi.com/MalikHw47', color: '#7aa2f7' },
     { text: '💎 Boost Server (Discord)', url: 'https://discord.gg/G9bZ92eg2n', color: '#5913ad' },
     { text: '🎁 Get a Gift (Throne)', url: 'https://throne.com/MalikHw47', color: '#f7768e' },
     { text: '🚀 Gift MHv9', url: 'https://absolllute.com/store/mega_hack?gift=1', color: '#9ece6a' }
