@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Visualizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow: hidden;
+            font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a0033, #000033, #001a33);
+        }
+        
+        #canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            transition: filter 0.3s ease;
+        }
+        
+        #canvas.blur {
+            filter: blur(8px);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+        }
+        
+        .overlay h2 {
+            margin-bottom: 20px;
+            color: #ff1493;
+        }
+        
+        .overlay ul {
+            list-style: none;
+            text-align: left;
+            line-height: 1.8;
+        }
+        
+        .overlay li {
+            margin: 8px 0;
+        }
+        
+        .overlay kbd {
+            background: #ff1493;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .overlay button {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: #ff1493;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .overlay button:hover {
+            background: #ff69b4;
+        }
+        
+        #status {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 5;
+        }
+        
+        #status.recording {
+            background: rgba(255, 20, 147, 0.8);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="status">Press H for keybinds</div>
+    
+    <div id="keybindsOverlay" class="overlay">
+        <h2>🎵 Audio Visualizer Keybinds</h2>
+        <ul>
+            <li><kbd>R</kbd> Start/Stop Recording</li>
+            <li><kbd>B</kbd> Toggle Blur Effect</li>
+            <li><kbd>Space</kbd> Play/Pause Audio</li>
+            <li><kbd>F</kbd> Choose Audio File</li>
+            <li><kbd>D</kbd> Choose Image File</li>
+            <li><kbd>T</kbd> Add/Edit Subtitle Text</li>
+            <li><kbd>H</kbd> Show/Hide This Help</li>
+        </ul>
+        <button onclick="closeKeybinds()">Got it!</button>
+    </div>
+    
+    <input type="file" id="audioInput" accept="audio/*">
+    <input type="file" id="imageInput" accept="image/*">
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const statusDiv = document.getElementById('status');
+        const keybindsOverlay = document.getElementById('keybindsOverlay');
+        const audioInput = document.getElementById('audioInput');
+        const imageInput = document.getElementById('imageInput');
+        
+        let audioContext, analyser, dataArray, bufferLength, source;
+        let isPlaying = false;
+        let isRecording = false;
+        let mediaRecorder, recordedChunks = [];
+        let blurEnabled = false;
+        let userImage = null;
+        let subtitleText = '';
+        let audio = null;
+        
+        // Set canvas size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Initialize audio context
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+            }
+        }
+        
+        // Load audio file
+        audioInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            initAudio();
+            
+            if (audio) {
+                audio.pause();
+                audio = null;
+            }
+            
+            audio = new Audio();
+            audio.src = URL.createObjectURL(file);
+            
+            if (source) {
+                source.disconnect();
+            }
+            
+            source = audioContext.createMediaElementSource(audio);
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+            
+            audio.play();
+            isPlaying = true;
+            updateStatus('Audio loaded - Playing');
+            draw();
+        });
+        
+        // Load image file
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const img = new Image();
+            img.onload = () => {
+                // Resize to 256x256
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = 256;
+                tempCanvas.height = 256;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(img, 0, 0, 256, 256);
+                
+                userImage = new Image();
+                userImage.src = tempCanvas.toDataURL();
+                updateStatus('Image loaded');
+            };
+            img.src = URL.createObjectURL(file);
+        });
+        
+        // Draw visualizer
+        function draw() {
+            requestAnimationFrame(draw);
+            
+            if (!analyser) return;
+            
+            analyser.getByteFrequencyData(dataArray);
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#1a0033');
+            gradient.addColorStop(0.5, '#000033');
+            gradient.addColorStop(1, '#001a33');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Calculate average amplitude for pulsing
+            const average = dataArray.reduce((a, b) => a + b) / bufferLength;
+            const normalizedAvg = average / 255;
+            
+            // Draw bars from center
+            const barWidth = 4;
+            const barGap = 2;
+            const totalBarWidth = barWidth + barGap;
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            // Draw bars to the right and mirror to left
+            const numBars = Math.min(bufferLength / 2, Math.floor(canvas.width / 2 / totalBarWidth));
+            
+            for (let i = 0; i < numBars; i++) {
+                const barHeight = (dataArray[i] / 255) * (canvas.height / 2) * 0.8;
+                
+                // Bright pink gradient
+                const barGradient = ctx.createLinearGradient(0, centerY - barHeight, 0, centerY + barHeight);
+                barGradient.addColorStop(0, '#ff1493');
+                barGradient.addColorStop(0.5, '#ff69b4');
+                barGradient.addColorStop(1, '#ff1493');
+                ctx.fillStyle = barGradient;
+                
+                const x = centerX + (i * totalBarWidth);
+                
+                // Draw bar going up
+                ctx.fillRect(x, centerY - barHeight, barWidth, barHeight);
+                // Draw bar going down
+                ctx.fillRect(x, centerY, barWidth, barHeight);
+                
+                // Mirror to left
+                const xMirror = centerX - (i * totalBarWidth) - barWidth;
+                ctx.fillRect(xMirror, centerY - barHeight, barWidth, barHeight);
+                ctx.fillRect(xMirror, centerY, barWidth, barHeight);
+            }
+            
+            // Draw pulsing image
+            if (userImage) {
+                const pulseScale = 1 + (normalizedAvg * 0.3); // Pulse between 1x and 1.3x
+                const imgSize = 256 * pulseScale;
+                ctx.save();
+                ctx.globalAlpha = 0.9;
+                ctx.drawImage(
+                    userImage,
+                    centerX - imgSize / 2,
+                    centerY - imgSize / 2,
+                    imgSize,
+                    imgSize
+                );
+                ctx.restore();
+            }
+            
+            // Draw subtitle
+            if (subtitleText) {
+                ctx.save();
+                ctx.font = '24px "Segoe UI", "Noto Sans", Arial, sans-serif';
+                ctx.fillStyle = 'white';
+                ctx.textAlign = 'center';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                ctx.shadowBlur = 10;
+                ctx.fillText(subtitleText, canvas.width / 2, canvas.height - 50);
+                ctx.restore();
+            }
+        }
+        
+        // Recording functions
+        function startRecording() {
+            if (isRecording) return;
+            
+            recordedChunks = [];
+            const stream = canvas.captureStream(30);
+            
+            // Add audio if available
+            if (audio && audioContext) {
+                const dest = audioContext.createMediaStreamDestination();
+                source.connect(dest);
+                analyser.connect(audioContext.destination);
+                
+                const audioTrack = dest.stream.getAudioTracks()[0];
+                if (audioTrack) {
+                    stream.addTrack(audioTrack);
+                }
+            }
+            
+            mediaRecorder = new MediaRecorder(stream, {
+                mimeType: 'video/webm;codecs=vp9',
+                videoBitsPerSecond: 5000000
+            });
+            
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) {
+                    recordedChunks.push(e.data);
+                }
+            };
+            
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `visualizer_${Date.now()}.webm`;
+                a.click();
+                updateStatus('Recording saved!');
+            };
+            
+            mediaRecorder.start();
+            isRecording = true;
+            statusDiv.classList.add('recording');
+            updateStatus('🔴 Recording...');
+        }
+        
+        function stopRecording() {
+            if (!isRecording) return;
+            
+            mediaRecorder.stop();
+            isRecording = false;
+            statusDiv.classList.remove('recording');
+            updateStatus('Recording stopped');
+        }
+        
+        function updateStatus(message) {
+            statusDiv.textContent = message;
+        }
+        
+        function closeKeybinds() {
+            keybindsOverlay.style.display = 'none';
+        }
+        
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            // Prevent if typing in prompt
+            if (e.target.tagName === 'INPUT' && e.target.type === 'text') return;
+            
+            const key = e.key.toLowerCase();
+            
+            switch(key) {
+                case 'r':
+                    if (isRecording) {
+                        stopRecording();
+                    } else {
+                        startRecording();
+                    }
+                    break;
+                    
+                case 'b':
+                    blurEnabled = !blurEnabled;
+                    canvas.classList.toggle('blur', blurEnabled);
+                    updateStatus(`Blur: ${blurEnabled ? 'ON' : 'OFF'}`);
+                    break;
+                    
+                case ' ':
+                    e.preventDefault();
+                    if (audio) {
+                        if (isPlaying) {
+                            audio.pause();
+                            isPlaying = false;
+                            updateStatus('Paused');
+                        } else {
+                            audio.play();
+                            isPlaying = true;
+                            updateStatus('Playing');
+                        }
+                    } else {
+                        updateStatus('No audio loaded - Press F');
+                    }
+                    break;
+                    
+                case 'f':
+                    audioInput.click();
+                    break;
+                    
+                case 'd':
+                    imageInput.click();
+                    break;
+                    
+                case 'h':
+                    keybindsOverlay.style.display = 
+                        keybindsOverlay.style.display === 'none' ? 'block' : 'none';
+                    break;
+                    
+                case 't':
+                    const text = prompt('Enter subtitle text:', subtitleText);
+                    if (text !== null) {
+                        subtitleText = text;
+                        updateStatus('Subtitle updated');
+                    }
+                    break;
+            }
+        });
+        
+        // Start animation loop
+        draw();
+    </script>
+</body>
+</html>
