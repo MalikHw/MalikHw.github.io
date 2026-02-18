@@ -15,6 +15,9 @@
             overflow: hidden;
             font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif;
             background: linear-gradient(135deg, #1a0033, #000033, #001a33);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         #canvas {
@@ -22,6 +25,7 @@
             width: 100vw;
             height: 100vh;
             transition: filter 0.3s ease;
+            object-fit: contain;
         }
         
         #canvas.blur {
@@ -90,11 +94,56 @@
             border-radius: 5px;
             font-size: 14px;
             z-index: 5;
+            cursor: pointer;
+        }
+        
+        #status:hover {
+            background: rgba(255, 20, 147, 0.5);
         }
         
         #status.recording {
             background: rgba(255, 20, 147, 0.8);
             animation: pulse 1s infinite;
+        }
+        
+        /* Mobile controls */
+        #mobileControls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            display: none;
+            z-index: 15;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        #mobileControls.show {
+            display: flex;
+        }
+        
+        .mobile-btn {
+            background: #ff1493;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif;
+        }
+        
+        .mobile-btn:active {
+            background: #ff69b4;
+        }
+        
+        @media (max-width: 768px) {
+            #mobileControls {
+                display: flex;
+            }
         }
         
         @keyframes pulse {
@@ -120,13 +169,25 @@
             <li><kbd>F</kbd> Choose Audio File</li>
             <li><kbd>D</kbd> Choose Image File</li>
             <li><kbd>T</kbd> Add/Edit Subtitle Text</li>
+            <li><kbd>Scroll</kbd> Change Bar Count</li>
             <li><kbd>H</kbd> Show/Hide This Help</li>
         </ul>
+        <p style="margin-top: 15px; font-size: 12px; opacity: 0.7;">Resolution: 1920x1080 • Current Bars: <span id="barCountDisplay">64</span></p>
         <button onclick="closeKeybinds()">Got it!</button>
     </div>
     
     <input type="file" id="audioInput" accept="audio/*">
     <input type="file" id="imageInput" accept="image/*">
+    
+    <div id="mobileControls">
+        <button class="mobile-btn" onclick="mobileAction('record')">🔴 Record</button>
+        <button class="mobile-btn" onclick="mobileAction('blur')">💫 Blur</button>
+        <button class="mobile-btn" onclick="mobileAction('play')">⏯️ Play/Pause</button>
+        <button class="mobile-btn" onclick="mobileAction('audio')">🎵 Audio</button>
+        <button class="mobile-btn" onclick="mobileAction('image')">🖼️ Image</button>
+        <button class="mobile-btn" onclick="mobileAction('subtitle')">💬 Subtitle</button>
+        <button class="mobile-btn" onclick="mobileAction('bars')">📊 Bars</button>
+    </div>
 
     <script>
         const canvas = document.getElementById('canvas');
@@ -135,6 +196,7 @@
         const keybindsOverlay = document.getElementById('keybindsOverlay');
         const audioInput = document.getElementById('audioInput');
         const imageInput = document.getElementById('imageInput');
+        const barCountDisplay = document.getElementById('barCountDisplay');
         
         let audioContext, analyser, dataArray, bufferLength, source;
         let isPlaying = false;
@@ -144,14 +206,86 @@
         let userImage = null;
         let subtitleText = '';
         let audio = null;
+        let maxBars = 64; // Default bar count
         
-        // Set canvas size
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        // Force 1920x1080 resolution
+        canvas.width = 1920;
+        canvas.height = 1080;
+        
+        // Check if mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        // Mouse wheel to change bar count
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const delta = Math.sign(e.deltaY);
+            maxBars = Math.max(16, Math.min(128, maxBars - delta * 4));
+            barCountDisplay.textContent = maxBars;
+            updateStatus(`Bars: ${maxBars}`);
+        }, { passive: false });
+        
+        // Status click to toggle keybinds on mobile
+        statusDiv.addEventListener('click', () => {
+            if (isMobile) {
+                keybindsOverlay.style.display = 
+                    keybindsOverlay.style.display === 'none' ? 'block' : 'none';
+            }
+        });
+        
+        // Mobile action handler
+        function mobileAction(action) {
+            switch(action) {
+                case 'record':
+                    if (isRecording) stopRecording();
+                    else startRecording();
+                    break;
+                case 'blur':
+                    blurEnabled = !blurEnabled;
+                    canvas.classList.toggle('blur', blurEnabled);
+                    updateStatus(`Blur: ${blurEnabled ? 'ON' : 'OFF'}`);
+                    break;
+                case 'play':
+                    if (audio) {
+                        if (isPlaying) {
+                            audio.pause();
+                            isPlaying = false;
+                            updateStatus('Paused');
+                        } else {
+                            audio.play();
+                            isPlaying = true;
+                            updateStatus('Playing');
+                        }
+                    } else {
+                        updateStatus('No audio loaded');
+                    }
+                    break;
+                case 'audio':
+                    audioInput.click();
+                    break;
+                case 'image':
+                    imageInput.click();
+                    break;
+                case 'subtitle':
+                    const text = prompt('Enter subtitle text:', subtitleText);
+                    if (text !== null) {
+                        subtitleText = text;
+                        updateStatus('Subtitle updated');
+                    }
+                    break;
+                case 'bars':
+                    const bars = prompt('Enter number of bars (16-128):', maxBars);
+                    if (bars !== null) {
+                        const num = parseInt(bars);
+                        if (num >= 16 && num <= 128) {
+                            maxBars = num;
+                            barCountDisplay.textContent = maxBars;
+                            updateStatus(`Bars: ${maxBars}`);
+                        }
+                    }
+                    break;
+            }
         }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        window.mobileAction = mobileAction;
         
         // Initialize audio context
         function initAudio() {
@@ -241,8 +375,8 @@
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
             
-            // Draw bars to the right and mirror to left
-            const numBars = Math.min(bufferLength / 2, Math.floor(canvas.width / 2 / totalBarWidth));
+            // Use maxBars variable controlled by mouse wheel
+            const numBars = Math.min(maxBars, bufferLength / 2);
             
             for (let i = 0; i < numBars; i++) {
                 const barHeight = (dataArray[i] / 255) * (canvas.height / 2) * 0.8;
