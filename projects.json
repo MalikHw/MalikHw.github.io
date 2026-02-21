@@ -1,6 +1,19 @@
 {
   "projects": [
     {
+      "title": "ZenBrowser installer",
+      "description": "just a 1-liner to install zen browser on most linux distors! tested with debian",
+      "borderColor": "#B5B5B5",
+      "gradient": "linear-gradient(145deg, #323233, #000)",
+      "buttons": [
+        {
+          "text": "Check Out",
+          "url": "https://github.com/MalikHw/zb-installer-script/",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
+    },
+    {
       "title": "GD Icon Maker",
       "description": "A cool tool to make an icon for Geometry Dash based on a picture you have",
       "borderColor": "#0a83bf",
