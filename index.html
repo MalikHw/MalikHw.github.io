@@ -1,24 +1,272 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MalikHw47 - Portfolio</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: system-ui, -apple-system, sans-serif;
-        overflow-x: hidden;
-      }
-    </style>
-    <script type="module" crossorigin src="/assets/index-D_Mwr6IX.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-_Vlsyh3y.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JCI El Fahes</title>
+  <link rel="stylesheet" href="https://www.nerdfonts.com/assets/css/webfont.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Fonds animés -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <!-- Curseur personnalisé -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-logo">
+      <i class="nf nf-md-star_circle"></i>
+      JCI El Fahes
+    </div>
+    <div class="nav-links">
+      <a href="#about">À propos</a>
+      <a href="#history">Historique</a>
+      <a href="#programs">Programmes</a>
+      <a href="#values">Valeurs</a>
+      <a href="#video">Vidéo</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-eyebrow">
+      <i class="nf nf-fa-globe"></i>
+      Jeune Chambre Internationale &mdash; Tunisie
+    </div>
+    <h1 class="hero-title">JCI<br><span>El Fahes</span></h1>
+    <p class="hero-sub">Donner aux jeunes leaders âgés de 18 à 40 ans les moyens de créer un changement positif et durable dans leurs communautés et au-delà.</p>
+    <div class="hero-cta-group">
+      <a href="#about" class="btn-primary">Découvrir</a>
+      <a href="#programs" class="btn-outline">Nos Programmes</a>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Défiler</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- BARRE DE STATISTIQUES -->
+  <div class="stat-bar">
+    <div class="stat-item reveal">
+      <div class="stat-num">120<span>+</span></div>
+      <div class="stat-label">Pays membres</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-num">200<span>K</span></div>
+      <div class="stat-label">Membres dans le monde</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-num">5<span>K</span></div>
+      <div class="stat-label">Communautés locales</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-num">1961</div>
+      <div class="stat-label">JCI Tunisie fondée</div>
+    </div>
+  </div>
+
+  <!-- BANNIÈRE CONGRÈS MONDIAL -->
+  <div class="wc-banner reveal">
+    <i class="nf nf-fa-trophy"></i>
+    <div class="wc-banner-text">
+      <h3>Congrès Mondial JCI 2025 &mdash; Tunis, Tunisie</h3>
+      <p>Pour la deuxième fois de son histoire, la Tunisie accueille le prestigieux Congrès Mondial de la JCI du 4 au 8 novembre 2025 &mdash; un rendez-vous unique pour les leaders et entrepreneurs du monde entier.</p>
+    </div>
+  </div>
+
+  <!-- À PROPOS -->
+  <div class="divider"></div>
+  <section class="content-section" id="about">
+    <div class="two-col">
+      <div>
+        <div class="section-tag reveal"><i class="nf nf-fa-info_circle"></i> À Propos</div>
+        <h2 class="section-title reveal">La <em>Jeune Chambre</em> Internationale</h2>
+        <p class="section-text reveal">
+          La <strong>Jeune Chambre Internationale (JCI)</strong> est une organisation internationale non gouvernementale à but non lucratif, dédiée au développement des jeunes leaders âgés de 18 à 40 ans. Elle vise à créer des changements positifs et durables à travers l'action citoyenne, le leadership et l'entrepreneuriat.
+        </p>
+        <p class="section-text reveal">
+          Présente dans plus de 120 pays et regroupant près de 200 000 membres actifs répartis dans quelque 5 000 communautés, la JCI est aujourd'hui le principal réseau mondial de jeunes citoyens engagés.
+        </p>
+        <p class="section-text reveal" style="margin-top:16px;">
+          La JCI El Fahes est la branche locale affiliée à la JCI Tunisie, œuvrant pour l'autonomisation des jeunes de la région à travers des formations, des projets citoyens et des initiatives locales.
+        </p>
+      </div>
+      <div class="info-cards-stack">
+        <div class="info-card reveal">
+          <p class="info-card-label">Mission</p>
+          <p>Offrir aux jeunes des opportunités de développement du leadership et de l'esprit entrepreneurial afin de leur donner la capacité de créer des <strong>changements positifs</strong>.</p>
+        </div>
+        <div class="info-card info-card-gold reveal reveal-delay-1">
+          <p class="info-card-label">Vision</p>
+          <p>Être le <strong>premier réseau mondial</strong> de jeunes leaders actifs et responsables.</p>
+        </div>
+        <blockquote class="styled reveal reveal-delay-2">
+          « Servir l'humanité constitue l'œuvre la plus noble d'une vie. »
+          <small>&mdash; Credo de la JCI</small>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORIQUE -->
+  <div class="divider"></div>
+  <section class="content-section" id="history">
+    <div class="section-tag reveal"><i class="nf nf-fa-history"></i> Historique</div>
+    <h2 class="section-title reveal">Une histoire de <em>leadership</em></h2>
+    <p class="section-text reveal">Des États-Unis jusqu'à la Tunisie, la JCI a forgé au fil des décennies un héritage de formation citoyenne et d'engagement.</p>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1915</div>
+        <div class="timeline-text">Fondation de la JCI aux États-Unis par <strong>Henry Gissenbier Jr.</strong>, avec la conviction que les jeunes bien formés peuvent devenir des leaders éthiques et influents.</div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1959</div>
+        <div class="timeline-text">Le Dr Salah El Mehdi découvre la JCI lors d'une visite aux États-Unis et ramène les documents constitutifs en Tunisie, posant les bases de son implantation nationale.</div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2 Février 1961</div>
+        <div class="timeline-text">Tenue du Congrès fondateur de la JCI Tunisie. Un comité de 24 membres élit <strong>Hassib Ben Ammar</strong> comme premier président national.</div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1970</div>
+        <div class="timeline-text">La JCI Tunisie devient membre permanent à part entière de la JCI mondiale, après présentation de sa candidature lors du Congrès de Dublin.</div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">Aujourd'hui</div>
+        <div class="timeline-text">La JCI Tunisie regroupe de nombreuses organisations locales sur tout le territoire, dont <strong>JCI El Fahes</strong>, engagée dans le développement du leadership régional.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMMES -->
+  <div class="divider"></div>
+  <section class="content-section" id="programs">
+    <div class="section-tag reveal"><i class="nf nf-fa-rocket"></i> Programmes</div>
+    <h2 class="section-title reveal">Nos <em>programmes</em></h2>
+    <p class="section-text reveal">Des formations concrètes et des projets à fort impact pour développer les compétences des jeunes de la région.</p>
+    <div class="programs-grid">
+      <div class="program-card reveal">
+        <div class="program-icon"><i class="nf nf-fa-users"></i></div>
+        <h3>Leadership</h3>
+        <p>Formations et ateliers pour développer vos capacités de leader et de gestion de projets.</p>
+        <ul>
+          <li>Communication et prise de décision</li>
+          <li>Gestion d'équipe et de projets</li>
+          <li>Coaching et mentorat</li>
+          <li>Réseaux professionnels nationaux et internationaux</li>
+        </ul>
+      </div>
+      <div class="program-card reveal reveal-delay-1">
+        <div class="program-icon"><i class="nf nf-fa-lightbulb_o"></i></div>
+        <h3>Entrepreneuriat</h3>
+        <p>Encadrement pour les jeunes porteurs de projets et idées innovantes.</p>
+        <ul>
+          <li>Prise de parole en public</li>
+          <li>Gestion du temps et du stress</li>
+          <li>Leadership d'équipe</li>
+          <li>Accès aux réseaux d'entrepreneurs</li>
+        </ul>
+      </div>
+      <div class="program-card reveal reveal-delay-2">
+        <div class="program-icon"><i class="nf nf-fa-heart"></i></div>
+        <h3>Impact Social</h3>
+        <p>Réalisation de projets sociaux visant à améliorer la qualité de vie dans la communauté locale.</p>
+        <ul>
+          <li>Projets citoyens locaux</li>
+          <li>Participation internationale</li>
+          <li>Promotion de la citoyenneté active</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALEURS -->
+  <div class="divider"></div>
+  <section class="content-section" id="values">
+    <div class="section-tag reveal"><i class="nf nf-fa-star"></i> Valeurs</div>
+    <h2 class="section-title reveal">Ce en quoi nous <em>croyons</em></h2>
+    <p class="section-text reveal">Les valeurs fondatrices qui guident chaque membre de la JCI, en Tunisie comme partout dans le monde.</p>
+    <div class="values-grid">
+      <div class="value-pill reveal"><i class="nf nf-fa-shield"></i><span>Leadership responsable</span></div>
+      <div class="value-pill reveal reveal-delay-1"><i class="nf nf-fa-handshake_o"></i><span>Engagement citoyen</span></div>
+      <div class="value-pill reveal reveal-delay-2"><i class="nf nf-fa-line_chart"></i><span>Développement personnel</span></div>
+      <div class="value-pill reveal"><i class="nf nf-fa-globe"></i><span>Solidarité internationale</span></div>
+      <div class="value-pill reveal reveal-delay-1"><i class="nf nf-fa-leaf"></i><span>Impact durable</span></div>
+      <div class="value-pill reveal reveal-delay-2"><i class="nf nf-fa-fire"></i><span>Esprit entrepreneurial</span></div>
+    </div>
+  </section>
+
+  <!-- VIDÉO -->
+  <div class="divider"></div>
+  <section class="content-section" id="video">
+    <div class="section-tag reveal"><i class="nf nf-fa-play_circle"></i> Vidéo</div>
+    <h2 class="section-title reveal">JCI El Fahes <em>en action</em></h2>
+    <div class="video-wrap reveal">
+      <iframe
+        src="https://www.youtube.com/embed/_EjC3ubg8ZQ"
+        title="JCI El Fahes — Vidéo officielle"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="divider"></div>
+  <section class="content-section" id="contact">
+    <div class="section-tag reveal"><i class="nf nf-fa-envelope"></i> Contact</div>
+    <h2 class="section-title reveal">Rejoignez-<em>nous</em></h2>
+    <p class="section-text reveal">Vous souhaitez intégrer la JCI El Fahes ou en savoir plus sur nos activités ? Contactez-nous !</p>
+    <div class="contact-grid">
+      <div class="contact-card reveal">
+        <i class="nf nf-fa-envelope" style="color:var(--accent)"></i>
+        <div class="contact-label">Adresse e-mail</div>
+        <div class="contact-value"><a href="mailto:jcielfahes@gmail.com">jcielfahes@gmail.com</a></div>
+      </div>
+      <div class="contact-card reveal reveal-delay-1">
+        <i class="nf nf-fa-phone" style="color:var(--gold)"></i>
+        <div class="contact-label">Téléphone</div>
+        <div class="contact-value">+216 71 000 000</div>
+      </div>
+      <div class="contact-card reveal reveal-delay-2">
+        <i class="nf nf-fa-map_marker" style="color:#7fc8ff;font-size:1.6rem;"></i>
+        <div class="contact-label">Adresse</div>
+        <div class="contact-value">Zaghouan, El Fahs</div>
+      </div>
+      <div class="contact-card reveal">
+        <i class="nf nf-fa-facebook_square" style="color:#4e9bff;font-size:1.6rem;"></i>
+        <div class="contact-label">Facebook</div>
+        <div class="contact-value">JCI El Fahes</div>
+      </div>
+      <div class="contact-card reveal reveal-delay-1">
+        <i class="nf nf-fa-instagram" style="color:#e9649a;font-size:1.6rem;"></i>
+        <div class="contact-label">Instagram</div>
+        <div class="contact-value">@jci-elfahes</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIED DE PAGE -->
+  <footer>
+    <p>&copy; 2025 <strong>JCI El Fahes</strong> &mdash; Membre de la JCI Tunisie &amp; Jeune Chambre Internationale</p>
+    <p>Zaghouan, El Fahs &middot; Tunisie</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
 </html>
