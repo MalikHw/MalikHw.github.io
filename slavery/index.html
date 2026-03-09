@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Slavery in the United States</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #1a0a00;
+      --parchment: #f5ead6;
+      --rust: #8b2500;
+      --gold: #b8860b;
+      --ash: #c9bfaf;
+      --dark: #120600;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--dark);
+      color: var(--parchment);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(160deg, #1a0500 0%, #000 60%, #0d0200 100%);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(184,134,11,0.03) 3px,
+        rgba(184,134,11,0.03) 4px
+      );
+      pointer-events: none;
+    }
+    .hero-year {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(6rem, 20vw, 16rem);
+      font-weight: 900;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(184,134,11,0.25);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: -0.02em;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 800px; }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 0.35em 1em;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s forwards;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--parchment);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+    .hero h1 em {
+      display: block;
+      font-style: italic;
+      color: var(--rust);
+    }
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 1.05rem;
+      color: var(--ash);
+      max-width: 580px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.7s forwards;
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.6;
+      animation: fadeUp 1s 1.2s forwards;
+    }
+    .scroll-hint span { width: 1px; height: 40px; background: var(--gold); animation: grow 1.5s 1.5s infinite; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(18, 6, 0, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(184,134,11,0.2);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    nav a {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ash);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--gold); }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(184,134,11,0.3);
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--parchment);
+      margin-bottom: 1.8rem;
+    }
+    h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--parchment);
+      margin: 2rem 0 0.8rem;
+    }
+    p { color: var(--ash); margin-bottom: 1.2rem; }
+    p strong { color: var(--parchment); font-weight: 400; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(184,134,11,0.15);
+      margin: 0 2rem;
+    }
+
+    /* ── IMAGE GRID ── */
+    .img-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin: 2.5rem 0;
+    }
+    .img-card {
+      position: relative;
+      aspect-ratio: 4/3;
+      background: #1e0e02;
+      border: 1px solid rgba(184,134,11,0.2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .img-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: sepia(40%) contrast(0.9);
+      transition: filter 0.3s;
+    }
+    .img-card:hover img { filter: sepia(10%) contrast(1); }
+    .img-placeholder {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: rgba(184,134,11,0.4);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .img-placeholder svg { opacity: 0.3; }
+    .img-caption {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.72rem;
+      color: var(--ash);
+      border-top: 1px solid rgba(184,134,11,0.15);
+      background: rgba(0,0,0,0.3);
+      font-style: italic;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 2rem; margin: 2rem 0; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--rust), transparent);
+    }
+    .tl-item { position: relative; margin-bottom: 2.2rem; }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -2.4rem;
+      top: 0.45rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--rust);
+      box-shadow: 0 0 0 3px rgba(139,37,0,0.2);
+    }
+    .tl-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+    }
+    .tl-text { color: var(--ash); font-size: 0.95rem; }
+
+    /* ── PULLQUOTE ── */
+    blockquote {
+      border-left: 3px solid var(--rust);
+      margin: 3rem 0;
+      padding: 1.2rem 2rem;
+      background: rgba(139,37,0,0.07);
+    }
+    blockquote p {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-style: italic;
+      color: var(--parchment);
+      margin-bottom: 0.5rem;
+    }
+    blockquote cite {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── STATS ROW ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1px;
+      background: rgba(184,134,11,0.15);
+      border: 1px solid rgba(184,134,11,0.15);
+      margin: 2.5rem 0;
+    }
+    .stat {
+      background: var(--dark);
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--rust);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ash); margin-top: 0.4rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0a0300;
+      border-top: 1px solid rgba(184,134,11,0.15);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .footer-rule {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .footer-names {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .footer-names span {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--parchment);
+    }
+    .footer-copy {
+      font-size: 0.7rem;
+      color: rgba(201,191,175,0.35);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes grow {
+      0%, 100% { transform: scaleY(0); transform-origin: top; }
+      50%       { transform: scaleY(1); transform-origin: top; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-year">1619</div>
+  <div class="hero-content">
+    <div class="hero-tag">American History · High School Project</div>
+    <h1>Slavery<em>in the United States</em></h1>
+    <p class="hero-sub">An examination of one of America's darkest institutions — its origins, its brutality, its resistance, and its lasting legacy.</p>
+  </div>
+  <div class="scroll-hint">Scroll <span></span></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#origins">Origins</a>
+  <a href="#conditions">Conditions</a>
+  <a href="#resistance">Resistance</a>
+  <a href="#abolition">Abolition</a>
+  <a href="#legacy">Legacy</a>
+  <a href="#gallery">Gallery</a>
+</nav>
+
+<!-- ORIGINS -->
+<section id="origins">
+  <div class="section-label">Chapter 01</div>
+  <h2>Origins of American Slavery</h2>
+  <p>
+    The history of slavery in America begins in <strong>1619</strong>, when the first enslaved Africans were brought to the English colony of Virginia. Initially, some Africans arrived under contracts similar to indentured servitude. However, by the mid-17th century, colonial legislatures began passing laws that codified slavery as a permanent, race-based institution.
+  </p>
+  <p>
+    The <strong>transatlantic slave trade</strong> was one of the largest forced migrations in human history. Between the 16th and 19th centuries, an estimated 12 to 12.5 million Africans were shipped to the Americas under horrific conditions. Roughly 400,000 of them arrived in what would become the United States.
+  </p>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num">1619</div><div class="stat-label">First Enslaved Africans in Virginia</div></div>
+    <div class="stat"><div class="stat-num">12M+</div><div class="stat-label">Africans Transported Across Atlantic</div></div>
+    <div class="stat"><div class="stat-num">246</div><div class="stat-label">Years of Legalized Slavery in the US</div></div>
+    <div class="stat"><div class="stat-num">4M</div><div class="stat-label">Enslaved People at End of Civil War</div></div>
+  </div>
+
+  <h3>The Legal Architecture of Slavery</h3>
+  <p>
+    Slavery was systematically encoded into American law. The <strong>slave codes</strong> denied enslaved people the right to own property, marry legally, testify in court, or learn to read. The U.S. Constitution's Three-Fifths Compromise (1787) counted enslaved people as three-fifths of a person for congressional representation — ensuring slave states wielded outsized political power.
+  </p>
+</section>
+
+<hr class="divider"/>
+
+<!-- CONDITIONS -->
+<section id="conditions">
+  <div class="section-label">Chapter 02</div>
+  <h2>Conditions of Enslavement</h2>
+  <p>
+    Enslaved people were forced to labor under brutal conditions, primarily on plantations growing tobacco, rice, indigo, and — after the invention of the cotton gin in 1793 — cotton. The cotton economy of the Deep South depended almost entirely on enslaved labor, making the institution deeply entangled with American economic prosperity.
+  </p>
+
+  <blockquote>
+    <p>"I appear before the immense assembly this evening as a thief and a robber. I stole this head, these limbs, this body from my master, and ran off with them."</p>
+    <cite>— Frederick Douglass, 1847</cite>
+  </blockquote>
+
+  <p>
+    Enslaved people endured <strong>physical violence</strong>, family separation, sexual exploitation, and psychological degradation. Families were deliberately torn apart through slave auctions. The domestic slave trade — trading enslaved people between Southern states — separated an estimated one million families between 1820 and 1860.
+  </p>
+
+  <!-- Gallery rows 1–2 -->
+  <div class="img-grid">
+    <div class="img-card">
+      <img src="pic1.png" alt="Historical image 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+      <div class="img-placeholder" style="display:none">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        pic1.png
+      </div>
+      <div class="img-caption">Plantation life in the antebellum South</div>
+    </div>
+    <div class="img-card">
+      <img src="pic2.png" alt="Historical image 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+      <div class="img-placeholder" style="display:none">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        pic2.png
+      </div>
+      <div class="img-caption">The transatlantic slave trade routes</div>
+    </div>
+    <div class="img-card">
+      <img src="pic3.png" alt="Historical image 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+      <div class="img-placeholder" style="display:none">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        pic3.png
+      </div>
+      <div class="img-caption">Slave auction documents and records</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- RESISTANCE -->
+<section id="resistance">
+  <div class="section-label">Chapter 03</div>
+  <h2>Resistance &amp; the Fight for Freedom</h2>
+  <p>
+    Enslaved people were never passive victims. They resisted in countless ways — from subtle acts like breaking tools and feigning illness, to organized rebellions and escape. Their resistance was a constant source of fear for slaveholders and a testament to the enduring human will for freedom.
+  </p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-year">1739</div>
+      <div class="tl-text"><strong>Stono Rebellion</strong> — One of the earliest and largest slave uprisings in colonial America, near Charleston, South Carolina. About 20 enslaved people marched toward Spanish Florida seeking freedom.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1791–1804</div>
+      <div class="tl-text"><strong>Haitian Revolution</strong> — The only successful slave-led revolution in history. Though in the Caribbean, it terrified American slaveholders and emboldened enslaved people across the South.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1831</div>
+      <div class="tl-text"><strong>Nat Turner's Rebellion</strong> — Turner led a group of enslaved men through Southampton County, Virginia. The rebellion killed around 60 white people and resulted in harsh crackdowns across Southern states.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1849</div>
+      <div class="tl-text"><strong>Harriet Tubman Escapes</strong> — Tubman escaped slavery and returned south approximately 13 times, guiding around 70 enslaved people to freedom via the Underground Railroad.</div>
+    </div>
+  </div>
+
+  <!-- Gallery rows 3–4 -->
+  <div class="img-grid">
+    <div class="img-card">
+      <img src="pic4.png" alt="Historical image 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+      <div class="img-placeholder" style="display:none">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        pic4.png
+      </div>
+      <div class="img-caption">Harriet Tubman and the Underground Railroad</div>
+    </div>
+    <div class="img-card">
+      <img src="pic5.png" alt="Historical image 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+      <div class="img-placeholder" style="display:none">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        pic5.png
+      </div>
+      <div class="img-caption">Abolitionist movement portraits and pamphlets</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ABOLITION -->
+<section id="abolition">
+  <div class="section-label">Chapter 04</div>
+  <h2>Abolition &amp; the Civil War</h2>
+  <p>
+    The abolitionist movement grew steadily through the early 19th century, with figures like <strong>Frederick Douglass</strong>, <strong>Sojourner Truth</strong>, and <strong>William Lloyd Garrison</strong> demanding an immediate end to slavery. Their newspapers, speeches, and pamphlets shifted public opinion in the North.
+  </p>
+  <p>
+    When Abraham Lincoln was elected president in 1860, Southern states began seceding from the Union, fearing the restriction of slavery. The resulting <strong>Civil War (1861–1865)</strong> became the bloodiest conflict in American history, with slavery at its core.
+  </p>
+  <p>
+    On January 1, 1863, Lincoln issued the <strong>Emancipation Proclamation</strong>, declaring enslaved people in Confederate states to be free. It was a turning point — transforming the war's purpose and allowing Black men to enlist in the Union Army. The war ended in April 1865 with Confederate surrender.
+  </p>
+  <p>
+    The <strong>13th Amendment</strong>, ratified on December 6, 1865, formally abolished slavery throughout the United States — though freedom was far from complete, as the era of Reconstruction and Jim Crow would soon demonstrate.
+  </p>
+</section>
+
+<hr class="divider"/>
+
+<!-- LEGACY -->
+<section id="legacy">
+  <div class="section-label">Chapter 05</div>
+  <h2>The Lasting Legacy</h2>
+  <p>
+    Slavery's end did not bring equality. The <strong>Black Codes</strong> and later <strong>Jim Crow laws</strong> enforced racial segregation and disenfranchisement for nearly a century. Systemic racism — in housing, education, employment, and criminal justice — continues to reflect the unresolved consequences of 246 years of slavery.
+  </p>
+  <p>
+    The legacy of slavery is visible in the racial wealth gap, mass incarceration, and ongoing civil rights struggles. Movements like the <strong>Civil Rights Movement</strong> of the 1950s–60s and <strong>Black Lives Matter</strong> in the 21st century are direct responses to an incomplete reckoning with this history.
+  </p>
+  <p>
+    Understanding this history is not about guilt — it is about <strong>truth, accountability, and building a more just society</strong>. As Frederick Douglass said: <em>"Knowledge makes a man unfit to be a slave."</em>
+  </p>
+
+  <!-- Gallery pic 6 -->
+  <div class="img-grid" style="max-width: 360px;">
+    <div class="img-card">
+      <img src="pic6.png" alt="Historical image 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+      <div class="img-placeholder" style="display:none">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        pic6.png
+      </div>
+      <div class="img-caption">The road to civil rights and equality</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-rule">Project Authors</div>
+  <div class="footer-names">
+    <span>MalikHw</span>
+    <span>MalekAl</span>
+    <span>YoussefHm</span>
+  </div>
+  <p class="footer-copy">High School History Project &nbsp;·&nbsp; American History &nbsp;·&nbsp; 2026</p>
+</footer>
+
+</body>
+</html>
