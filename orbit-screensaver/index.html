@@ -5,31 +5,29 @@
   "@context": "https://schema.org",
   "@type": "Organization",
   "url": "https://malikhw.github.io/orbit-screensaver",
-  "logo": "https://malikhw github.io/orbit-screensaver/orb6.png"
+  "logo": "https://malikhw.github.io/orbit-screensaver/orb6.png"
 }
 </script>
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ORBIT Screensaver</title>
-  <meta name="description" content="A Windows screensaver where physics-simulated orbs fall into a ball pit. Inspired by Orbit (Extreme Demon) by Mindcap. Built with C++, Box2D, and OpenGL."/>
+  <meta name="description" content="A Windows screensaver where physics-simulated orbs fall into a ball pit. Now also available on Android. Inspired by Orbit (Extreme Demon) by Mindcap. Built with C++, Box2D, and OpenGL."/>
   <meta name="author" content="MalikHw47"/>
-  <meta name="keywords" content="orbit screensaver, orbit, windows screensaver, geometry dash, MalikHw47, ballpit, opengl, box2d"/>
+  <meta name="keywords" content="orbit screensaver, orbit, windows screensaver, android screensaver, geometry dash, MalikHw47, ballpit, opengl, box2d"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="ORBIT Screensaver"/>
-  <meta property="og:description" content="Things fall. Balls go into a pit. A Windows screensaver inspired by Orbit (GD Extreme Demon) by Mindcap."/>
+  <meta property="og:description" content="Things fall. Balls go into a pit. A Windows &amp; Android screensaver inspired by Orbit (GD Extreme Demon) by Mindcap."/>
   <meta property="og:image" content="orb6.png"/>
   <meta property="og:url" content="https://malikhw.github.io/orbit-screensaver"/>
   <meta name="twitter:card" content="summary"/>
   <meta name="twitter:title" content="ORBIT Screensaver"/>
-  <meta name="twitter:description" content="Things fall. Balls go into a pit. A Windows screensaver inspired by Orbit (GD Extreme Demon) by Mindcap."/>
+  <meta name="twitter:description" content="Things fall. Balls go into a pit. A Windows &amp; Android screensaver inspired by Orbit (GD Extreme Demon) by Mindcap."/>
   <meta name="twitter:image" content="orb6.png"/>
   <link rel="icon" type="image/png" href="orb6.png"/>
   <link rel="apple-touch-icon" href="orb6.png"/>
   <link rel="stylesheet" href="https://www.nerdfonts.com/assets/css/webfont.css"/>
   <style>
-
-	
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --black:  #000008;
@@ -38,6 +36,7 @@
       --pink:   #f472b6;
       --white:  #e8e8ff;
       --muted:  #5a5a8a;
+      --green:  #4ade80;
     }
     html { scroll-behavior: smooth; }
     body {
@@ -117,14 +116,20 @@
       display: flex; flex-direction: column; align-items: center; gap: .9rem;
       margin-top: 2.4rem; opacity: 0; animation: fade-up .8s ease 1.1s forwards;
     }
+    .download-row { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; }
     .btn-download {
-      display: inline-block; padding: .72rem 2.2rem;
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .72rem 2.2rem;
       background: var(--cyan); color: #000;
       font-family: 'Segoe UI', sans-serif; font-size: .95rem; font-weight: 600;
       border-radius: 3px; text-decoration: none; letter-spacing: .04em;
       transition: background .18s, transform .15s;
     }
     .btn-download:hover { background: #00dde6; transform: translateY(-2px); }
+    .btn-download.android {
+      background: var(--green); color: #000;
+    }
+    .btn-download.android:hover { background: #22c55e; transform: translateY(-2px); }
     .hero-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; }
     .hero-badges img { height: 20px; border-radius: 2px; }
     .scroll-hint {
@@ -175,6 +180,7 @@
     .b-box2d  { border-color: #f97316; color: #f97316; }
     .b-imgui  { border-color: #a855f7; color: #a855f7; }
     .b-win    { border-color: #3b82f6; color: #3b82f6; }
+    .b-android{ border-color: #4ade80; color: #4ade80; }
     .b-why    { border-color: #4b5563; color: #6b7280; }
     #install { padding: 5rem 0; }
     #install h2 {
@@ -207,6 +213,20 @@
       border-radius: 4px; font-size: .76rem; color: #999; line-height: 1.7;
     }
     .note-card strong { color: #fbbf24; }
+    .android-note-card {
+      margin-top: 2rem; max-width: 620px; padding: 1.1rem 1.3rem;
+      border: 1px solid rgba(74,222,128,0.22);
+      background: rgba(74,222,128,0.025);
+      border-radius: 4px; font-size: .76rem; color: #999; line-height: 1.9;
+    }
+    .android-note-card strong { color: var(--green); }
+    .android-note-card h3 { font-size: .85rem; color: var(--green); margin-bottom: .6rem; font-weight: 600; }
+    .android-steps { display: flex; flex-direction: column; gap: .5rem; margin-top: .5rem; }
+    .android-step {
+      display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem;
+      font-size: .75rem; color: #7777aa;
+    }
+    .android-step-num { color: var(--green); font-weight: 700; opacity: .7; }
     details.mesa { margin-top: 1.8rem; max-width: 620px; }
     details.mesa summary {
       font-size: .7rem; letter-spacing: .08em; color: var(--muted);
@@ -240,10 +260,14 @@
       background: #07071a; transition: border-color .22s;
     }
     .preview-item:hover { border-color: rgba(0,245,255,0.28); }
+    .preview-item.android-preview:hover { border-color: rgba(74,222,128,0.28); }
     .preview-item video,
     .preview-item img {
       width: 100%; height: 100%; object-fit: cover;
       display: block; min-height: 150px;
+    }
+    .preview-item.android-preview img {
+      object-fit: contain; background: #07071a;
     }
     .preview-label {
       position: absolute; bottom: 0; left: 0; right: 0;
@@ -252,11 +276,16 @@
       font-size: .58rem; letter-spacing: .14em; color: var(--muted);
       text-transform: uppercase;
     }
+    .preview-label.android-label { color: var(--green); }
     .video-wrap {
       margin-top: 1.2rem; border-radius: 4px; overflow: hidden;
       border: 1px solid rgba(168,85,247,0.18);
     }
     .video-wrap video { width: 100%; display: block; }
+    .preview-row2 {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 1rem;
+    }
+    @media (max-width: 600px) { .preview-row2 { grid-template-columns: 1fr 1fr; } }
     #credits { padding: 5rem 0; }
     #credits h2 {
       font-size: clamp(1.3rem, 3.5vw, 1.9rem); font-weight: 600;
@@ -326,24 +355,32 @@
 
     <section id="hero" aria-label="Hero">
       <div class="hero-glow" aria-hidden="true"></div>
-      <p class="hero-eyebrow">Windows Screensaver</p>
+      <p class="hero-eyebrow">Windows &amp; Android Screensaver</p>
       <h1 class="hero-title">ORBIT</h1>
       <p class="hero-sub">Inspired by <em>Orbit</em> by Mindcap &mdash; extreme demon, GD</p>
-      <p class="hero-desc">Things fall. Balls go into a pit.<br/>OLED burn-in is scary. This helps.</p>
+      <p class="hero-desc">Things fall. Balls go into a pit.<br/>OLED burn-in is scary. This helps.<br/>Now on Windows <em>and</em> Android.</p>
       <div class="hero-download-block">
-        <a href="https://github.com/MalikHw/orbit-screensaver/releases/latest/download/orbit-screensaver.zip"
-           class="btn-download">DOWNLOAD</a>
+        <div class="download-row">
+          <a href="https://github.com/MalikHw/orbit-screensaver/releases/latest/download/orbit-screensaver.zip"
+             class="btn-download">
+            <i class="nf nf-md-microsoft_windows"></i> DOWNLOAD FOR WINDOWS
+          </a>
+          <a href="https://github.com/MalikHw/orbit-screensaver-android/releases/latest/download/orbit-screensaver.apk"
+             class="btn-download android">
+            <i class="nf nf-md-android"></i> DOWNLOAD FOR ANDROID
+          </a>
+        </div>
         <div class="hero-badges">
-          <img src="https://img.shields.io/badge/language-C%2B%2B-red"                        				alt="C++"/>
-          <img src="https://img.shields.io/badge/status-why%20does%20this%20exist-lightgrey"  				alt="status"/>
-          <img src="https://img.shields.io/github/stars/MalikHw/orbit-screensaver"          			    alt="stars"/>
-          <img src="https://img.shields.io/github/license/MalikHw/orbit-screensaver"         				alt="license"/>
-          <img src="https://img.shields.io/github/v/release/MalikHw/orbit-screensaver?cacheSeconds=60"		alt="release"/>
-          <img src="https://img.shields.io/github/downloads/MalikHw/orbit-screensaver/total?cacheSeconds=60"alt="downloads"/>
-          <img src="https://img.shields.io/badge/platform-Windows-blue?logo=windows"         				alt="Windows"/>
-          <img src="https://img.shields.io/badge/OpenGL-1.1+-lightgrey?logo=opengl"          				alt="OpenGL"/>
-          <img src="https://img.shields.io/badge/UI-Dear%20ImGui-purple"                     				alt="ImGui"/>
-          <img src="https://img.shields.io/badge/physics-Box2D-orange"                       				alt="Box2D"/>
+          <img src="https://img.shields.io/badge/language-C%2B%2B-red"                        alt="C++"/>
+          <img src="https://img.shields.io/badge/status-why%20does%20this%20exist-lightgrey"  alt="status"/>
+          <img src="https://img.shields.io/github/stars/MalikHw/orbit-screensaver"            alt="stars"/>
+          <img src="https://img.shields.io/github/license/MalikHw/orbit-screensaver"          alt="license"/>
+          <img src="https://img.shields.io/github/v/release/MalikHw/orbit-screensaver?cacheSeconds=60" alt="release"/>
+          <img src="https://img.shields.io/github/downloads/MalikHw/orbit-screensaver/total?cacheSeconds=60" alt="downloads"/>
+          <img src="https://img.shields.io/badge/platform-Windows%20%7C%20Android-blue?logo=windows" alt="Platforms"/>
+          <img src="https://img.shields.io/badge/OpenGL-1.1+-lightgrey?logo=opengl"            alt="OpenGL"/>
+          <img src="https://img.shields.io/badge/UI-Dear%20ImGui-purple"                       alt="ImGui"/>
+          <img src="https://img.shields.io/badge/physics-Box2D-orange"                         alt="Box2D"/>
         </div>
       </div>
       <div class="scroll-hint" aria-hidden="true">SCROLL</div>
@@ -354,17 +391,19 @@
       <div class="inner">
         <div class="about-text reveal">
           <h2>Wtf is <span>this</span>?</h2>
-          <p><i class="nf nf-md-monitor"></i> A <span>Windows screensaver</span> where physics-simulated orbs fall and pile up in an endless ball pit.</p>
+          <p><i class="nf nf-md-monitor"></i> A <span>Windows &amp; Android screensaver</span> where physics-simulated orbs fall and pile up in an endless ball pit.</p>
           <p><i class="nf nf-md-ray_end"></i> Inspired by the ending of <span>Orbit</span> — an extreme demon in Geometry Dash by Mindcap, verified by Zoink.</p>
           <p><i class="nf nf-custom-cpp"></i> Built with <span>C++</span>, <span>Box2D</span> physics, <span>OpenGL</span> rendering, and no free time.</p>
+          <p><i class="nf nf-md-android"></i> <span>Android port</span> uses Kotlin + JNI + EGL/GLES2 — runs as a native Android Dream Service screensaver.</p>
           <p><i class="nf nf-fa-gear"></i> Configurable — orb count, speed, backgrounds, custom textures, FPS cap, and more.</p>
           <div class="badges" role="list">
-            <span class="badge b-cpp"   role="listitem">C++</span>
-            <span class="badge b-gl"    role="listitem">OpenGL 1.1+</span>
-            <span class="badge b-box2d" role="listitem">Box2D</span>
-            <span class="badge b-imgui" role="listitem">Dear ImGui</span>
-            <span class="badge b-win"   role="listitem">Windows</span>
-            <span class="badge b-why"   role="listitem">why does this exist</span>
+            <span class="badge b-cpp"    role="listitem">C++</span>
+            <span class="badge b-gl"     role="listitem">OpenGL 1.1+</span>
+            <span class="badge b-box2d"  role="listitem">Box2D</span>
+            <span class="badge b-imgui"  role="listitem">Dear ImGui</span>
+            <span class="badge b-win"    role="listitem">Windows</span>
+            <span class="badge b-android"role="listitem">Android 10+</span>
+            <span class="badge b-why"    role="listitem">why does this exist</span>
           </div>
         </div>
       </div>
@@ -412,6 +451,29 @@
             <p><span>3.</span> Done. Software OpenGL renderer is now active.</p>
           </div>
         </details>
+
+        <div class="android-note-card reveal">
+          <h3><i class="nf nf-md-android"></i> &nbsp;Android Installation</h3>
+          <div class="android-steps">
+            <div class="android-step">
+              <span class="android-step-num">01</span>
+              <span>Download the APK using the green button above.</span>
+            </div>
+            <div class="android-step">
+              <span class="android-step-num">02</span>
+              <span>Allow installation from unknown sources when prompted — tap <strong style="color:var(--green)">Install anyway</strong>. (It's self-signed, not on Play Store.)</span>
+            </div>
+            <div class="android-step">
+              <span class="android-step-num">03</span>
+              <span>Go to <strong style="color:var(--green)">Settings → Display → Screen saver</strong> (or "Daydream") and select <strong style="color:var(--green)">Orbit</strong>.</span>
+            </div>
+            <div class="android-step">
+              <span class="android-step-num">04</span>
+              <span>Open the Orbit app to configure orbs, speed, background, and more.</span>
+            </div>
+          </div>
+          <p style="margin-top:.7rem;font-size:.7rem;color:var(--muted);">Requires Android 10+ (API 29). Works on Samsung One UI, stock Android, and most skins.</p>
+        </div>
       </div>
     </section>
 
@@ -421,12 +483,22 @@
         <h2>See it in <span>action</span></h2>
         <div class="preview-grid">
           <div class="preview-item reveal">
-            <video src="video.mp4" autoplay loop muted playsinline aria-label="W friend for recording"></video>
-            <div class="preview-label" aria-hidden="true">Screensaver in action</div>
+            <video src="video.mp4" autoplay loop muted playsinline aria-label="Screensaver in action"></video>
+            <div class="preview-label" aria-hidden="true">Windows — Screensaver in action</div>
           </div>
           <div class="preview-item reveal">
             <img src="settings.png" alt="Orbit Screensaver — settings panel" loading="lazy"/>
-            <div class="preview-label" aria-hidden="true">Settings panel</div>
+            <div class="preview-label" aria-hidden="true">Windows — Settings panel</div>
+          </div>
+        </div>
+        <div class="preview-row2">
+          <div class="preview-item android-preview reveal">
+            <img src="android-screenshot.png" alt="Orbit Screensaver running on Android" loading="lazy"/>
+            <div class="preview-label android-label" aria-hidden="true">Android — Screensaver</div>
+          </div>
+          <div class="preview-item android-preview reveal">
+            <img src="android-settings.png" alt="Orbit Android settings screen" loading="lazy"/>
+            <div class="preview-label android-label" aria-hidden="true">Android — Settings</div>
           </div>
         </div>
       </div>
@@ -561,6 +633,4 @@
   </script>
 
 </body>
-
 </html>
-
