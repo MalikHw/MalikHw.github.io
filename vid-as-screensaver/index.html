@@ -1,0 +1,252 @@
+website is rushed af, dont mind this
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Video Screensaver</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f5f0;
+    --fg: #111;
+    --muted: #666;
+    --border: #ddd;
+    --accent: #3DDC84;
+    --card: #fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111;
+      --fg: #eee;
+      --muted: #888;
+      --border: #2a2a2a;
+      --accent: #3DDC84;
+      --card: #1a1a1a;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 64px 24px 96px;
+    line-height: 1.6;
+  }
+  
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    animation: up 0.5s cubic-bezier(.22,.8,.36,1) forwards;
+  }
+  @keyframes up {
+    to { opacity: 1; transform: none; }
+  }
+  .reveal:nth-child(1) { animation-delay: 0.05s }
+  .reveal:nth-child(2) { animation-delay: 0.15s }
+  .reveal:nth-child(3) { animation-delay: 0.25s }
+  .reveal:nth-child(4) { animation-delay: 0.35s }
+  .reveal:nth-child(5) { animation-delay: 0.45s }
+  .reveal:nth-child(6) { animation-delay: 0.55s }
+
+  header { margin-bottom: 40px; }
+  header h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 300;
+    margin-bottom: 14px;
+  }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; }
+  .badges img { height: 20px; }
+
+  .btn-download {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 22px;
+    background: var(--accent);
+    color: #111;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: opacity 0.15s;
+  }
+  .btn-download:hover { opacity: 0.85; }
+
+  .screenshot-wrap {
+    margin: 40px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .screenshot-wrap img {
+    width: 50%;
+    display: block;
+  }
+
+  .video-wrap {
+    margin: 0 0 40px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #000;
+  }
+  
+  section { margin-bottom: 48px; }
+  section h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  ol { padding-left: 0; list-style: none; counter-reset: steps; }
+  ol li {
+    counter-increment: steps;
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+    font-size: 0.95rem;
+  }
+  ol li::before {
+    content: counter(steps);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    min-width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .modes { display: flex; flex-direction: column; gap: 8px; }
+  .mode {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-size: 0.9rem;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+  .mode-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    min-width: 60px;
+    flex-shrink: 0;
+  }
+  .mode-desc { color: var(--muted); font-size: 0.85rem; }
+  
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  footer a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  footer a:hover { color: var(--fg); }
+</style>
+</head>
+<body>
+
+<div class="reveal">
+  <header>
+    <h1>Video Screensaver</h1>
+    <p>play any video as your android screensaver. made this cuz i couldn't find it on the play store. also i was bored.</p>
+    <div class="badges">
+      <img src="https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white" alt="Android"/>
+      <img src="https://img.shields.io/badge/Kotlin-blueviolet?logo=kotlin&logoColor=white" alt="Kotlin"/>
+      <img src="https://img.shields.io/badge/license-MIT-blue" alt="License"/>
+      <img src="https://img.shields.io/badge/made_at-2am-black" alt="made at 2am"/>
+      <img src="https://img.shields.io/github/downloads/MalikHw/vidasscreensaver/total?color=brightgreen" alt="Downloads"/>
+      <img src="https://img.shields.io/github/issues-pr/MalikHw/vidasscreensaver" alt="PRs"/>
+    </div>
+    <a class="btn-download" href="https://github.com/MalikHw/vidasscreensaver/releases/latest/download/app-release.apk">download apk</a>
+  </header>
+</div>
+
+<div class="reveal">
+  <div class="screenshot-wrap">
+    <img src="screenshot.jpg" alt="app screenshot" width="200"/>
+  </div>
+</div>
+
+<div class="reveal">
+  <div class="video-wrap">
+    <p><div style="position: relative;padding-bottom: 177.78%;height: 0;overflow: hidden;width: 100%;"><iframe style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;" src="https://www.youtube.com/embed/tkYStagKtO4?autoplay=1&controls=1&start=0&loop=0&mute=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></p>
+  </div>
+</div>
+
+<div class="reveal">
+  <section>
+    <h2>how to use</h2>
+    <ol>
+      <li>open the app</li>
+      <li>hit <strong>Choose Video</strong> and pick any mp4 — or tap <strong>Browse Catalog</strong> for something pre-made</li>
+      <li>tweak playback stuff (sound, loop, scale mode)</li>
+      <li>hit <strong>Save</strong></li>
+      <li>tap <strong>Open System Daydream Settings</strong> and set this as your screensaver</li>
+      <li>plug in your phone and watch it go</li>
+    </ol>
+  </section>
+</div>
+
+<div class="reveal">
+  <section>
+    <h2>scale modes</h2>
+    <div class="modes">
+      <div class="mode"><span class="mode-name">fit</span><span class="mode-desc">whole video visible, black bars if needed</span></div>
+      <div class="mode"><span class="mode-name">stretch</span><span class="mode-desc">fills screen, ratio goes bye bye</span></div>
+      <div class="mode"><span class="mode-name">zoom</span><span class="mode-desc">fills screen, crops the edges — default, looks the best imo</span></div>
+      <div class="mode"><span class="mode-name">adapt</span><span class="mode-desc">fit + explicit black bars, great for screwed videos on wide screens</span></div>
+    </div>
+  </section>
+</div>
+
+<div class="reveal">
+  <section>
+    <h2>contributing</h2>
+    <p style="font-size:0.9rem">got a cool video for the catalog? <a href="https://github.com/MalikHw/vidasscreensaver/issues/new?template=video-request.md" style="color:var(--fg)">open an issue</a> and submit it.</p>
+  </section>
+
+  <footer>
+    <a href="https://github.com/MalikHw/vidasscreensaver">source</a>
+    <a href="https://malikhw.github.io/donate">donate</a>
+    <a href="https://youtube.com/@MalikHw47">youtube</a>
+  </footer>
+</div>
+
+</body>
+</html>

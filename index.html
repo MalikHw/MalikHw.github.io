@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MalikHw47</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <script type="importmap">{"imports":{"@material/web/":"https://esm.run/@material/web/"}}</script>
+  <script type="module">
+    import '@material/web/all.js';
+    import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+  </script>
+</head>
+<body>
+
+<canvas id="aurora"></canvas>
+
+<header class="top-bar">
+  <span class="wordmark">MalikHw47</span>
+  <div class="top-actions">
+    <div class="donate-wrap" id="donateWrap">
+      <md-filled-button id="donateBtn">
+        <span class="nf nf-md-heart" slot="icon"></span>
+        Donate <span class="nf nf-md-chevron_down" id="donChev" style="margin-left:4px;font-size:.9rem"></span>
+      </md-filled-button>
+      <div class="donate-menu" id="donateMenu">
+        <a href="https://discord.gg/G9bZ92eg2n" target="_blank" rel="noopener" class="dlink" style="--c:#5913ad"><span class="nf nf-md-discord"></span> Boost Server (Discord)</a>
+        <a href="https://throne.com/MalikHw47" target="_blank" rel="noopener" class="dlink" style="--c:#f7768e"><span class="nf nf-md-gift"></span> Get a Gift (Throne)</a>
+        <a href="https://absolllute.com/store/mega_hack?gift=1" target="_blank" rel="noopener" class="dlink" style="--c:#9ece6a"><span class="nf nf-md-gamepad_variant"></span> Gift MHv9</a>
+        <div class="dthanks">Thanks for the support! 💜</div>
+      </div>
+    </div>
+    <md-filled-tonal-button id="merchBtn">
+      <span class="nf nf-md-shopping" slot="icon"></span>
+      Merch
+    </md-filled-tonal-button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1 class="hero-name">MalikHw47</h1>
+    <p class="hero-sub"><span id="typewriter"></span><span class="tblink">●</span></p>
+    <p class="hero-desc">Small Dev, GD player, and Professional Shit-Poster. Also a Miku/Teto fan!!</p>
+    <div class="socials">
+      <md-filled-tonal-icon-button id="yt-btn" title="YouTube"><span class="nf nf-md-youtube"></span></md-filled-tonal-icon-button>
+      <md-filled-tonal-icon-button id="tw-btn" title="Twitch"><span class="nf nf-md-twitch"></span></md-filled-tonal-icon-button>
+      <md-filled-tonal-icon-button id="dc-btn" title="Discord"><span class="nf nf-md-discord"></span></md-filled-tonal-icon-button>
+    </div>
+  </section>
+
+  <section class="tabs-section">
+    <md-tabs id="mainTabs">
+      <md-primary-tab id="tab-projects" active>
+        <span class="nf nf-md-briefcase" slot="icon"></span>
+        Projects
+      </md-primary-tab>
+      <md-primary-tab id="tab-gd">
+        <span class="nf nf-md-gamepad_variant" slot="icon"></span>
+        GD Stats
+      </md-primary-tab>
+    </md-tabs>
+
+    <div id="panel-projects" class="panel">
+      <h2 class="sec-title">My Projects</h2>
+      <div id="projectsGrid" class="proj-grid">
+        <p class="loading-txt">Loading projects…</p>
+      </div>
+    </div>
+
+    <div id="panel-gd" class="panel hidden">
+      <h2 class="sec-title">Geometry Dash Stats</h2>
+      <div id="gdGrid" class="gd-grid">
+        <p class="loading-txt">Loading stats…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="embeds-section">
+    <h2 class="sec-title">Watch Me Live &amp; Latest Video</h2>
+    <div class="embeds-grid">
+      <div class="embed-card">
+        <h3 class="embed-lbl" style="color:#9146FF"><span class="nf nf-md-twitch"></span> Live on Twitch</h3>
+        <div id="twitchEmbed" class="embed-box"></div>
+      </div>
+      <div class="embed-card">
+        <h3 class="embed-lbl" style="color:#FF0000"><span class="nf nf-md-youtube"></span> Latest Video</h3>
+        <div id="ytBox" class="embed-box"><p class="loading-txt">Loading video…</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Made with ❤️ and shit by <strong>MalikHw47</strong></p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

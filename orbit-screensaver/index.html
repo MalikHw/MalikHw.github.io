@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "url": "https://malikhw.github.io/orbit-screensaver",
+  "logo": "https://malikhw.github.io/orbit-screensaver/orb6.png"
+}
+</script>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ORBIT Screensaver</title>
+  <meta name="description" content="A Windows screensaver where physics-simulated orbs fall into a ball pit. Now also available on Android. Inspired by Orbit (Extreme Demon) by Mindcap. Built with C++, Box2D, and OpenGL."/>
+  <meta name="author" content="MalikHw47"/>
+  <meta name="keywords" content="orbit screensaver, orbit, windows screensaver, android screensaver, geometry dash, MalikHw47, ballpit, opengl, box2d"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="ORBIT Screensaver"/>
+  <meta property="og:description" content="Things fall. Balls go into a pit. A Windows &amp; Android screensaver inspired by Orbit (GD Extreme Demon) by Mindcap."/>
+  <meta property="og:image" content="orb6.png"/>
+  <meta property="og:url" content="https://malikhw.github.io/orbit-screensaver"/>
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="ORBIT Screensaver"/>
+  <meta name="twitter:description" content="Things fall. Balls go into a pit. A Windows &amp; Android screensaver inspired by Orbit (GD Extreme Demon) by Mindcap."/>
+  <meta name="twitter:image" content="orb6.png"/>
+  <link rel="icon" type="image/png" href="orb6.png"/>
+  <link rel="apple-touch-icon" href="orb6.png"/>
+  <link rel="stylesheet" href="https://www.nerdfonts.com/assets/css/webfont.css"/>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613515169840820"
+     crossorigin="anonymous"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:  #000008;
+      --cyan:   #00f5ff;
+      --purple: #a855f7;
+      --pink:   #f472b6;
+      --white:  #e8e8ff;
+      --muted:  #5a5a8a;
+      --green:  #4ade80;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+    }
+    #stars-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .nebula { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .nebula::before {
+      content: ''; position: absolute;
+      width: 800px; height: 800px; top: -200px; left: -200px;
+      background: radial-gradient(ellipse, rgba(168,85,247,0.07) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: nebula-a 20s ease-in-out infinite alternate;
+    }
+    .nebula::after {
+      content: ''; position: absolute;
+      width: 600px; height: 600px; bottom: -100px; right: -100px;
+      background: radial-gradient(ellipse, rgba(0,245,255,0.05) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: nebula-b 25s ease-in-out infinite alternate;
+    }
+    @keyframes nebula-a { 0%{transform:translate(0,0) scale(1);} 100%{transform:translate(80px,60px) scale(1.2);} }
+    @keyframes nebula-b { 0%{transform:translate(0,0) scale(1);} 100%{transform:translate(-60px,-80px) scale(1.15);} }
+    #orbs-container { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+    .fall-orb {
+      position: absolute;
+      background-size: cover; background-position: center; background-repeat: no-repeat;
+      border-radius: 50%;
+      animation: orb-fall linear infinite;
+    }
+    .fall-orb.is-cube { border-radius: 4px; }
+    @keyframes orb-fall {
+      0%   { transform: translateY(-120px) rotate(0deg);   opacity: 0; }
+      5%   { opacity: 0.8; }
+      92%  { opacity: 0.65; }
+      100% { transform: translateY(110vh)  rotate(540deg); opacity: 0; }
+    }
+    main { position: relative; z-index: 2; }
+    .inner { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 4rem 2rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 60%, rgba(168,85,247,0.09) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 50% 55%, rgba(0,245,255,0.05) 0%, transparent 60%);
+    }
+    .hero-eyebrow {
+      font-size: .72rem; letter-spacing: .4em; text-transform: uppercase;
+      color: var(--cyan); opacity: 0;
+      animation: fade-up .8s ease .3s forwards;
+      margin-bottom: 1.4rem;
+    }
+    .hero-title {
+      font-size: clamp(4rem, 14vw, 10rem); font-weight: 700; line-height: .9;
+      color: var(--white); text-shadow: 0 0 50px rgba(0,245,255,0.2);
+      opacity: 0; animation: fade-up .9s ease .5s forwards;
+    }
+    .hero-sub {
+      font-size: .88rem; color: var(--muted); letter-spacing: .04em;
+      margin-top: 1rem; opacity: 0; animation: fade-up .8s ease .7s forwards;
+    }
+    .hero-sub em { color: var(--purple); font-style: normal; }
+    .hero-desc {
+      max-width: 420px; font-size: .83rem; line-height: 1.8; color: #8888bb;
+      margin-top: 1.2rem; opacity: 0; animation: fade-up .8s ease .9s forwards;
+    }
+    .hero-download-block {
+      display: flex; flex-direction: column; align-items: center; gap: .9rem;
+      margin-top: 2.4rem; opacity: 0; animation: fade-up .8s ease 1.1s forwards;
+    }
+    .download-row { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; }
+    .btn-download {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .72rem 2.2rem;
+      background: var(--cyan); color: #000;
+      font-family: 'Segoe UI', sans-serif; font-size: .95rem; font-weight: 600;
+      border-radius: 3px; text-decoration: none; letter-spacing: .04em;
+      transition: background .18s, transform .15s;
+    }
+    .btn-download:hover { background: #00dde6; transform: translateY(-2px); }
+    .btn-download.android {
+      background: var(--green); color: #000;
+    }
+    .btn-download.android:hover { background: #22c55e; transform: translateY(-2px); }
+    .hero-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; }
+    .hero-badges img { height: 20px; border-radius: 2px; }
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      font-size: .62rem; letter-spacing: .3em; color: var(--muted);
+      opacity: 0; animation: fade-up .6s ease 2s forwards;
+    }
+    .scroll-hint::after {
+      content: ''; width: 1px; height: 36px;
+      background: linear-gradient(var(--muted), transparent);
+      animation: scroll-pulse 2s ease-in-out infinite;
+    }
+    @keyframes scroll-pulse { 0%,100%{opacity:.3;} 50%{opacity:1;} }
+    .divider {
+      max-width: 1000px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--muted), transparent);
+    }
+    .divider-label {
+      font-size: .6rem; letter-spacing: .3em; color: var(--muted);
+      text-transform: uppercase; white-space: nowrap;
+    }
+    #about { padding: 5rem 0; }
+    #about h2 {
+      font-size: clamp(1.3rem, 3.5vw, 1.9rem); font-weight: 600;
+      color: var(--white); margin-bottom: 1.6rem;
+    }
+    #about h2 span { color: var(--cyan); }
+    .about-text { max-width: 660px; }
+    .about-text p {
+      font-size: .88rem; line-height: 1.9; color: #9999bb;
+      border-left: 2px solid rgba(168,85,247,0.35);
+      padding-left: 1rem; margin-bottom: .7rem;
+    }
+    .about-text p span { color: var(--cyan); }
+    .badges { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1.6rem; }
+    .badge {
+      display: inline-flex; align-items: center;
+      padding: .22rem .65rem; border: 1px solid; border-radius: 2px;
+      font-size: .62rem; letter-spacing: .04em;
+    }
+    .b-cpp    { border-color: #ef4444; color: #ef4444; }
+    .b-gl     { border-color: #6b7280; color: #6b7280; }
+    .b-box2d  { border-color: #f97316; color: #f97316; }
+    .b-imgui  { border-color: #a855f7; color: #a855f7; }
+    .b-win    { border-color: #3b82f6; color: #3b82f6; }
+    .b-android{ border-color: #4ade80; color: #4ade80; }
+    .b-why    { border-color: #4b5563; color: #6b7280; }
+    #install { padding: 5rem 0; }
+    #install h2 {
+      font-size: clamp(1.3rem, 3.5vw, 1.9rem); font-weight: 600;
+      color: var(--white); margin-bottom: 1.8rem;
+    }
+    #install h2 span { color: var(--cyan); }
+    .steps { display: flex; flex-direction: column; gap: .7rem; max-width: 620px; }
+    .step {
+      display: grid; grid-template-columns: 2.2rem 1fr; gap: .9rem; align-items: start;
+      padding: .9rem 1.1rem;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.015);
+      border-radius: 4px; transition: border-color .22s;
+      list-style: none;
+    }
+    .step:hover { border-color: rgba(168,85,247,0.3); }
+    .step-num { font-size: 1rem; font-weight: 700; color: var(--purple); opacity: .5; line-height: 1.4; }
+    .step-content h3 { font-size: .78rem; font-weight: 600; color: var(--white); margin-bottom: .2rem; }
+    .step-content p  { font-size: .76rem; color: #7777aa; line-height: 1.7; }
+    .step-content code {
+      font-family: 'Cascadia Code', 'Consolas', monospace;
+      color: var(--cyan); background: rgba(0,245,255,0.07);
+      padding: .08rem .38rem; border-radius: 2px; font-size: .7rem;
+    }
+    .note-card {
+      margin-top: .7rem; max-width: 620px; padding: .85rem 1.1rem;
+      border: 1px solid rgba(251,191,36,0.22);
+      background: rgba(251,191,36,0.025);
+      border-radius: 4px; font-size: .76rem; color: #999; line-height: 1.7;
+    }
+    .note-card strong { color: #fbbf24; }
+    .android-note-card {
+      margin-top: 2rem; max-width: 620px; padding: 1.1rem 1.3rem;
+      border: 1px solid rgba(74,222,128,0.22);
+      background: rgba(74,222,128,0.025);
+      border-radius: 4px; font-size: .76rem; color: #999; line-height: 1.9;
+    }
+    .android-note-card strong { color: var(--green); }
+    .android-note-card h3 { font-size: .85rem; color: var(--green); margin-bottom: .6rem; font-weight: 600; }
+    .android-steps { display: flex; flex-direction: column; gap: .5rem; margin-top: .5rem; }
+    .android-step {
+      display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem;
+      font-size: .75rem; color: #7777aa;
+    }
+    .android-step-num { color: var(--green); font-weight: 700; opacity: .7; }
+    details.mesa { margin-top: 1.8rem; max-width: 620px; }
+    details.mesa summary {
+      font-size: .7rem; letter-spacing: .08em; color: var(--muted);
+      cursor: pointer; list-style: none;
+      padding: .65rem .9rem;
+      border: 1px solid rgba(255,255,255,0.07); border-radius: 4px;
+      display: flex; align-items: center; gap: .45rem;
+      transition: color .2s, border-color .2s; user-select: none;
+    }
+    details.mesa[open] summary { border-radius: 4px 4px 0 0; }
+    details.mesa summary:hover { color: var(--white); border-color: rgba(255,255,255,0.16); }
+    .mesa-body {
+      padding: .85rem .9rem; font-size: .76rem; color: #7777aa; line-height: 2;
+      border: 1px solid rgba(255,255,255,0.05); border-top: none;
+      border-radius: 0 0 4px 4px;
+    }
+    .mesa-body span { color: var(--cyan); }
+    #preview { padding: 5rem 0; }
+    #preview h2 {
+      font-size: clamp(1.3rem, 3.5vw, 1.9rem); font-weight: 600;
+      color: var(--white); margin-bottom: 1.8rem;
+    }
+    #preview h2 span { color: var(--purple); }
+    .preview-grid {
+      display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;
+    }
+    @media (max-width: 600px) { .preview-grid { grid-template-columns: 1fr; } }
+    .preview-item {
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 4px;
+      background: #07071a; transition: border-color .22s;
+    }
+    .preview-item:hover { border-color: rgba(0,245,255,0.28); }
+    .preview-item.android-preview:hover { border-color: rgba(74,222,128,0.28); }
+    .preview-item video,
+    .preview-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; min-height: 150px;
+    }
+    .preview-item.android-preview img {
+      object-fit: contain; background: #07071a;
+    }
+    .preview-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: .38rem .65rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      font-size: .58rem; letter-spacing: .14em; color: var(--muted);
+      text-transform: uppercase;
+    }
+    .preview-label.android-label { color: var(--green); }
+    .video-wrap {
+      margin-top: 1.2rem; border-radius: 4px; overflow: hidden;
+      border: 1px solid rgba(168,85,247,0.18);
+    }
+    .video-wrap video { width: 100%; display: block; }
+    .preview-row2 {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 1rem;
+    }
+    @media (max-width: 600px) { .preview-row2 { grid-template-columns: 1fr 1fr; } }
+    #credits { padding: 5rem 0; }
+    #credits h2 {
+      font-size: clamp(1.3rem, 3.5vw, 1.9rem); font-weight: 600;
+      color: var(--white); margin-bottom: 1.8rem;
+    }
+    #credits h2 span { color: var(--pink); }
+    .credits-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: .9rem; margin-bottom: 1.8rem;
+    }
+    .credit-card {
+      padding: 1.3rem;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.015);
+      border-radius: 4px; transition: border-color .22s, transform .18s;
+    }
+    .credit-card:hover { border-color: rgba(168,85,247,0.22); transform: translateY(-2px); }
+    .credit-role { font-size: .58rem; letter-spacing: .22em; color: var(--purple); text-transform: uppercase; margin-bottom: .35rem; }
+    .credit-name { font-size: .95rem; font-weight: 600; color: var(--white); margin-bottom: .35rem; }
+    .credit-desc { font-size: .73rem; color: #6666aa; line-height: 1.7; }
+    .author-block {
+      padding: 1.4rem;
+      border: 1px solid rgba(0,245,255,0.1);
+      background: rgba(0,245,255,0.015);
+      border-radius: 4px;
+      display: flex; flex-direction: column; gap: .9rem;
+    }
+    .author-name { font-size: 1.25rem; font-weight: 700; color: var(--cyan); }
+    .author-tag  { font-size: .68rem; color: var(--muted); margin-top: .15rem; }
+    .social-links { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .social-link {
+      display: inline-flex; align-items: center; gap: .32rem;
+      padding: .32rem .75rem;
+      border: 1px solid rgba(255,255,255,0.09); border-radius: 3px;
+      font-size: .7rem; color: #8888bb; text-decoration: none;
+      transition: color .18s, border-color .18s;
+    }
+    .social-link:hover { color: var(--white); border-color: rgba(0,245,255,0.35); }
+    footer {
+      position: relative; z-index: 2;
+      text-align: center; padding: 2.2rem 2rem;
+      font-size: .62rem; letter-spacing: .14em; color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin-top: 4rem;
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer p + p { margin-top: .35rem; font-size: .54rem; opacity: .55; }
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.45); border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+  <canvas id="stars-canvas"></canvas>
+  <div class="nebula" aria-hidden="true"></div>
+  <div id="orbs-container" aria-hidden="true"></div>
+
+  <main>
+
+    <section id="hero" aria-label="Hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <p class="hero-eyebrow">Windows &amp; Android Screensaver</p>
+      <h1 class="hero-title">ORBIT</h1>
+      <p class="hero-sub">Inspired by <em>Orbit</em> by Mindcap &mdash; extreme demon, GD</p>
+      <p class="hero-desc">Things fall. Balls go into a pit.<br/>OLED burn-in is scary. This helps.<br/>Now on Windows <em>and</em> Android.</p>
+      <div class="hero-download-block">
+        <div class="download-row">
+          <a href="https://github.com/MalikHw/orbit-screensaver/releases/latest/download/orbit-screensaver.zip"
+             class="btn-download">
+            <i class="nf nf-md-microsoft_windows"></i> DOWNLOAD FOR WINDOWS
+          </a>
+          <a href="https://github.com/MalikHw/orbit-screensaver-android/releases/latest/download/orbit-screensaver.apk"
+             class="btn-download android">
+            <i class="nf nf-md-android"></i> DOWNLOAD FOR ANDROID
+          </a>
+        </div>
+        <div class="hero-badges">
+          <img src="https://img.shields.io/badge/language-C%2B%2B-red"                        alt="C++"/>
+          <img src="https://img.shields.io/badge/status-why%20does%20this%20exist-lightgrey"  alt="status"/>
+          <img src="https://img.shields.io/github/stars/MalikHw/orbit-screensaver"            alt="stars"/>
+          <img src="https://img.shields.io/github/license/MalikHw/orbit-screensaver"          alt="license"/>
+          <img src="https://img.shields.io/github/v/release/MalikHw/orbit-screensaver" alt="release"/>
+          <img src="https://img.shields.io/github/v/release/MalikHw/orbit-screensaver-android?logo=android" alt="release"/>
+          <img src="https://img.shields.io/github/downloads/MalikHw/orbit-screensaver/total" alt="Downloads"/>
+          <img src="https://img.shields.io/github/downloads/MalikHw/orbit-screensaver-android/total?logo=android" alt="Downloads"/>
+          <img src="https://img.shields.io/badge/platform-Windows%20%7C%20Android-blue?logo=windows" alt="Platforms"/>
+          <img src="https://img.shields.io/badge/OpenGL-1.1+-lightgrey?logo=opengl"            alt="OpenGL"/>
+          <img src="https://img.shields.io/badge/UI-Dear%20ImGui-purple"                       alt="ImGui"/>
+          <img src="https://img.shields.io/badge/physics-Box2D-orange"                         alt="Box2D"/>
+        </div>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">SCROLL</div>
+    </section>
+
+    <div class="divider" aria-hidden="true"><span class="divider-label">01 — About</span></div>
+    <section id="about" aria-label="About">
+      <div class="inner">
+        <div class="about-text reveal">
+          <h2>Wtf is <span>this</span>?</h2>
+          <p><i class="nf nf-md-monitor"></i> A <span>Windows &amp; Android screensaver</span> where physics-simulated orbs fall and pile up in an endless ball pit.</p>
+          <p><i class="nf nf-md-ray_end"></i> Inspired by the ending of <span>Orbit</span> — an extreme demon in Geometry Dash by Mindcap, verified by Zoink.</p>
+          <p><i class="nf nf-custom-cpp"></i> Built with <span>C++</span>, <span>Box2D</span> physics, <span>OpenGL</span> rendering, and no free time.</p>
+          <p><i class="nf nf-md-android"></i> <span>Android port</span> uses Kotlin + JNI + EGL/GLES2 — runs as a native Android Dream Service screensaver.</p>
+          <p><i class="nf nf-fa-gear"></i> Configurable — orb count, speed, backgrounds, custom textures, FPS cap, and more.</p>
+          <div class="badges" role="list">
+            <span class="badge b-cpp"    role="listitem">C++</span>
+            <span class="badge b-gl"     role="listitem">OpenGL 1.1+</span>
+            <span class="badge b-box2d"  role="listitem">Box2D</span>
+            <span class="badge b-imgui"  role="listitem">Dear ImGui</span>
+            <span class="badge b-win"    role="listitem">Windows</span>
+            <span class="badge b-android"role="listitem">Android 10+</span>
+            <span class="badge b-why"    role="listitem">why does this exist</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true"><span class="divider-label">02 — Installation</span></div>
+    <section id="install" aria-label="Installation">
+      <div class="inner">
+        <h2><span>Install</span> the Screensaver</h2>
+        <ol class="steps">
+          <li class="step reveal">
+            <div class="step-num">01</div>
+            <div class="step-content">
+              <h3>Download &amp; Extract</h3>
+              <p>Grab the zip above. Extract all files to a folder of your choice.<br/>
+              Recommended: <code>C:\Users\you\orbit\</code></p>
+            </div>
+          </li>
+          <li class="step reveal">
+            <div class="step-num">02</div>
+            <div class="step-content">
+              <h3>Install the Screensaver</h3>
+              <p>Right-click <code>orbit_screensaver.scr</code> and click <code>Install</code>.<br/>
+              Windows sets it as your screensaver automatically.</p>
+            </div>
+          </li>
+          <li class="step reveal">
+            <div class="step-num">03</div>
+            <div class="step-content">
+              <h3>Configure</h3>
+              <p>Go to <code>Win+I &rarr; Personalization &rarr; Lock screen &rarr; Screen saver</code>
+              and click <code>Settings</code>.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="note-card reveal">
+          <strong>Note:</strong> Right-clicking the .scr to open Configure is currently broken &amp; being fixed.
+          Use Windows screensaver settings instead.
+        </p>
+        <details class="mesa reveal">
+          <summary>Software Renderer (Mesa3D) &mdash; for low-end PCs or white square issues</summary>
+          <div class="mesa-body">
+            <p><span>1.</span> Open screensaver settings.</p>
+            <p><span>2.</span> Click <code>"Install Mesa3D"</code> &mdash; downloads automatically.</p>
+            <p><span>3.</span> Done. Software OpenGL renderer is now active.</p>
+          </div>
+        </details>
+
+        <div class="android-note-card reveal">
+          <h3><i class="nf nf-md-android"></i> &nbsp;Android Installation</h3>
+          <div class="android-steps">
+            <div class="android-step">
+              <span class="android-step-num">01</span>
+              <span>Download the APK using the green button above.</span>
+            </div>
+            <div class="android-step">
+              <span class="android-step-num">02</span>
+              <span>Allow installation from unknown sources when prompted — tap <strong style="color:var(--green)">Install anyway</strong>. (It's self-signed, not on Play Store.)</span>
+            </div>
+            <div class="android-step">
+              <span class="android-step-num">03</span>
+              <span>Go to <strong style="color:var(--green)">Settings → Display → Screen saver</strong> (or "Daydream") and select <strong style="color:var(--green)">Orbit</strong>.</span>
+            </div>
+            <div class="android-step">
+              <span class="android-step-num">04</span>
+              <span>Open the Orbit app to configure orbs, speed, background, and more.</span>
+            </div>
+          </div>
+          <p style="margin-top:.7rem;font-size:.7rem;color:var(--muted);">Requires Android 10+ (API 29). Works on Samsung One UI, stock Android, and most skins.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true"><span class="divider-label">03 — Preview</span></div>
+    <section id="preview" aria-label="Preview">
+      <div class="inner">
+        <h2>See it in <span>action</span></h2>
+        <div class="preview-grid">
+          <div class="preview-item reveal">
+            <video src="video.mp4" autoplay loop muted playsinline aria-label="Screensaver in action"></video>
+            <div class="preview-label" aria-hidden="true">Windows — Screensaver in action</div>
+          </div>
+          <div class="preview-item reveal">
+            <img src="settings.png" alt="Orbit Screensaver — settings panel" loading="lazy"/>
+            <div class="preview-label" aria-hidden="true">Windows — Settings panel</div>
+          </div>
+        </div>
+        <div class="preview-row2">
+          <div class="preview-item android-preview reveal">
+            <img src="android-settings.png" alt="Orbit Android settings screen" loading="lazy"/>
+            <div class="preview-label android-label" aria-hidden="true">Android — Settings</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true"><span class="divider-label">04 — Credits</span></div>
+    <section id="credits" aria-label="Credits">
+      <div class="inner">
+        <h2>Credits &amp; <span>Links</span></h2>
+        <div class="credits-grid">
+          <div class="credit-card reveal">
+            <p class="credit-role">Level Creator</p>
+            <p class="credit-name">Mindcap</p>
+            <p class="credit-desc">Creator of "Orbit" — the extreme demon in Geometry Dash that inspired this whole project.</p>
+          </div>
+          <div class="credit-card reveal">
+            <p class="credit-role">Ballpit Creator</p>
+            <p class="credit-name">Hdanke</p>
+            <p class="credit-desc">Created the iconic ball pit physics sequence inside the Orbit level.</p>
+          </div>
+          <div class="credit-card reveal">
+            <p class="credit-role">Verifier</p>
+            <p class="credit-name">Zoink</p>
+            <p class="credit-desc">Verified Orbit by Mindcap — the moment that sent this whole thing into motion. BRR.</p>
+          </div>
+        </div>
+        <div class="author-block reveal">
+          <div>
+            <p class="author-name">MalikHw47</p>
+            <p class="author-tag">// screensaver dev, somehow</p>
+          </div>
+          <nav class="social-links" aria-label="Social links">
+            <a class="social-link" href="https://malikhw.github.io"                    target="_blank" rel="noopener"><i class="nf nf-md-web"></i> Website</a>
+            <a class="social-link" href="https://youtube.com/@MalikHw47"               target="_blank" rel="noopener"><i class="nf nf-fa-youtube"></i> YouTube</a>
+            <a class="social-link" href="https://github.com/MalikHw/orbit-screensaver" target="_blank" rel="noopener"><i class="nf nf-dev-github"></i> GitHub</a>
+            <a class="social-link" href="https://discord.gg/G9bZ92eg2n"                target="_blank" rel="noopener"><i class="nf nf-fa-discord"></i> Discord</a>
+            <a class="social-link" href="https://twitch.tv/MalikHw47"                  target="_blank" rel="noopener"><i class="nf nf-fa-twitch"></i> Twitch</a>
+            <a class="social-link" href="https://ko-fi.com/malikhw47"                  target="_blank" rel="noopener"><i class="nf nf-fa-coffee"></i> Ko-fi</a>
+            <a class="social-link" href="https://throne.com/MalikHw47"                 target="_blank" rel="noopener"><i class="nf nf-cod-gift"></i> Throne</a>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>ORBIT Screensaver &mdash; by <a href="https://malikhw.github.io">MalikHw47</a>
+       &mdash; GPL-v3 &mdash;
+       <a href="https://github.com/MalikHw/orbit-screensaver">Source Code</a></p>
+    <p>Inspired by Orbit (Extreme Demon) by Mindcap &nbsp;&bull;&nbsp; it works on my machine&trade;</p>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('stars-canvas');
+    const sctx   = canvas.getContext('2d');
+    let SW, SH, stars = [];
+
+    function initStars() {
+      SW = canvas.width  = window.innerWidth;
+      SH = canvas.height = window.innerHeight;
+      stars = [];
+      for (let i = 0; i < 200; i++) {
+        stars.push({
+          x: Math.random() * SW, y: Math.random() * SH,
+          r: Math.random() * 1.3 + 0.2,
+          speed: Math.random() * .12 + .04,
+          opacity: Math.random() * .7 + .2,
+          twinkle: Math.random() * Math.PI * 2
+        });
+      }
+    }
+
+    function drawStars() {
+      sctx.clearRect(0, 0, SW, SH);
+      const now = Date.now() / 1000;
+      stars.forEach(s => {
+        const op = s.opacity * (0.6 + 0.4 * Math.sin(now * 1.1 + s.twinkle));
+        sctx.beginPath();
+        sctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        sctx.fillStyle = `rgba(200,200,255,${op})`;
+        sctx.fill();
+        s.y += s.speed;
+        if (s.y > SH) { s.y = 0; s.x = Math.random() * SW; }
+      });
+      requestAnimationFrame(drawStars);
+    }
+
+    window.addEventListener('resize', initStars);
+    initStars();
+    drawStars();
+
+    const orbContainer = document.getElementById('orbs-container');
+    const ORB_COUNT = 10;
+
+    function spawnOrb() {
+      const orb   = document.createElement('div');
+      const size  = 26 + Math.random() * 42;
+      const dur   = 9  + Math.random() * 14;
+      const delay = -Math.random() * dur;
+      orb.className = 'fall-orb';
+      orb.style.cssText =
+        `width:${size}px;height:${size}px;` +
+        `left:${Math.random() * 98}vw;` +
+        `background-image:url(orb${Math.floor(Math.random() * ORB_COUNT) + 1}.png);` +
+        `animation-duration:${dur}s;animation-delay:${delay}s;`;
+      orbContainer.appendChild(orb);
+    }
+    for (let i = 0; i < 24; i++) spawnOrb();
+
+    function spawnCube() {
+      const cube = document.createElement('div');
+      const size = 30 + Math.random() * 40;
+      const dur  = 10 + Math.random() * 8;
+      cube.className = 'fall-orb is-cube';
+      cube.style.cssText =
+        `width:${size}px;height:${size}px;` +
+        `left:${Math.random() * 94}vw;` +
+        `background-image:url(cube.png);` +
+        `animation-duration:${dur}s;animation-delay:0s;`;
+      orbContainer.appendChild(cube);
+      setTimeout(() => cube.remove(), (dur + 1) * 1000);
+      setTimeout(spawnCube, 45000 + Math.random() * 30000);
+    }
+    setTimeout(spawnCube, 5000);
+
+    const reveals  = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+  </script>
+
+</body>
+</html>
+
+
+
+
+

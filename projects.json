@@ -1,0 +1,141 @@
+{
+  "projects": [
+    {
+      "title": "Eat Teto",
+      "description": "just spam teto",
+      "borderColor": "#b81659",
+      "gradient": "linear-gradient(145deg, #de3a7e, #000)",
+      "buttons": [
+        {
+          "text": "Visit",
+          "url": "https://malikhw.github.io/EatKano/",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
+    },
+    {
+      "title": "Rich Input Handlr",
+      "description": "a python library to handle ANYTHING more than y/n",
+      "borderColor": "#4F46E5",
+      "gradient": "linear-gradient(145deg, #4F46E5, #000)",
+      "buttons": [
+        {
+          "text": "Source",
+          "url": "https://github.com/MalikHw/rich-input-handlr",
+          "icon": "nf nf-dev-github"
+        },
+        {
+          "text": "PyPi",
+          "url": "https://pypi.org/project/rich-input-handlr/",
+          "icon": "nf nf-dev-pypi"
+        }
+      ]
+    },
+    {
+      "title": "Video As Screensaver",
+      "description": "a video as an android screensaver",
+      "borderColor": "#3DDC84",
+      "gradient": "linear-gradient(165deg, #3DDC84, #000)",
+      "buttons": [
+        {
+          "text": "Visit",
+          "url": "https://malikhw.github.io/vid-as-screensaver",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
+    },
+    {
+      "title": "Discord Webhook Sender",
+      "description": "just sends a message to a discord webhook, site works on potatoes tho",
+      "borderColor": "#4F46E5",
+      "gradient": "linear-gradient(145deg, #4F46E5, #000)",
+      "buttons": [
+        {
+          "text": "Visit",
+          "url": "https://malikhw.github.io/webhook-sender/",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
+    },
+    {
+      "title": "Orbit Screensaver",
+      "description": "Orbit ballpit by Hdanke but in a windows screensaver form",
+      "borderColor": "#4F46E5",
+      "gradient": "linear-gradient(145deg, #4F46E5, #000)",
+      "buttons": [
+        {
+          "text": "Visit",
+          "url": "https://malikhw.github.io/orbit-screensaver",
+          "icon": "nf nf-fa-link"
+        },
+        {
+          "text": "source",
+          "url": "https://github.com/MalikHw/orbit-screensaver/releases/",
+          "icon": "nf nf-dev-github"
+        }
+      ]
+    },
+    {
+      "title": "ZenBrowser installer",
+      "description": "just a 1-liner to install zen browser on most linux distors! tested with debian",
+      "borderColor": "#B5B5B5",
+      "gradient": "linear-gradient(145deg, #323233, #000)",
+      "buttons": [
+        {
+          "text": "Check Out",
+          "url": "https://github.com/MalikHw/zb-installer-script/",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
+    },
+    {
+      "title": "GD Icon Maker",
+      "description": "A cool tool to make an icon for Geometry Dash based on a picture you have",
+      "borderColor": "#0a83bf",
+      "gradient": "linear-gradient(145deg, #225d8a, #000)",
+      "buttons": [
+        {
+          "text": "Visit",
+          "url": "https://gdiconmaker.rf.gd",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
+    },
+    {
+      "title": "Twitch-Chat-MHw",
+      "description": "See the Twitch chat from your damn terminal!",
+      "borderColor": "#8B5CF6",
+      "gradient": "linear-gradient(225deg, #8B5CF6, #000)",
+      "buttons": [
+        {
+          "text": "Download",
+          "url": "https://github.com/MalikHw/twitch-chatbox-MHw/releases",
+          "icon": "nf nf-md-download"
+        }
+      ]
+    },
+    {
+      "title": "MikuTab",
+      "description": "A NewTab replacement for a Mikufied one!!",
+      "borderColor": "#06B6D4",
+      "gradient": "linear-gradient(135deg, #06B6D4, #000)",
+      "buttons": [
+        {
+          "text": "Source",
+          "url": "https://github.com/MalikHw/MikuTheme",
+          "icon": "nf nf-md-github"
+        },
+        {
+          "text": "Edge Store",
+          "url": "https://microsoftedge.microsoft.com/addons/detail/mikutab/gjjkbbpbncpclmlffdckbahgibbnhdaa",
+          "icon": "nf nf-md-microsoft_edge"
+        },
+        {
+          "text": "Firefox",
+          "url": "https://addons.mozilla.org/en-US/firefox/addon/mikutab/",
+          "icon": "nf nf-md-firefox"
+        }
+      ]
+    }
+  ]
+}
