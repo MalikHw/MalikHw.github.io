@@ -153,7 +153,7 @@
   adsenseScript.crossOrigin = 'anonymous';
   document.head.appendChild(adsenseScript);
 
-  const text = 'Small Dev, GD player, and Professional Shit-Poster';
+  const text = 'test - test';
   let ci = 0;
   const tw = document.getElementById('typewriter');
 
