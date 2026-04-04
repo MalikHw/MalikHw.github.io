@@ -1,0 +1,128 @@
+name: Add New Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'Project Title'
+        required: true
+        type: string
+      description:
+        description: 'Project Description'
+        required: true
+        type: string
+      borderColor:
+        description: 'Border Color (hex)'
+        required: false
+        type: string
+        default: '#4F46E5'
+      gradient:
+        description: 'Gradient CSS (e.g., linear-gradient(145deg, #4F46E5, #000))'
+        required: false
+        type: string
+        default: 'linear-gradient(145deg, #4F46E5, #000)'
+      button1_text:
+        description: 'Button 1 Text'
+        required: true
+        type: string
+        default: 'Visit'
+      button1_url:
+        description: 'Button 1 URL'
+        required: true
+        type: string
+      button1_icon:
+        description: 'Button 1 Icon (NerdFont class, e.g., nf nf-md-open_in_new)'
+        required: false
+        type: string
+        default: 'nf nf-md-open_in_new'
+      button2_text:
+        description: 'Button 2 Text (Optional)'
+        required: false
+        type: string
+      button2_url:
+        description: 'Button 2 URL (Optional)'
+        required: false
+        type: string
+      button2_icon:
+        description: 'Button 2 Icon (Optional)'
+        required: false
+        type: string
+      button3_text:
+        description: 'Button 3 Text (Optional)'
+        required: false
+        type: string
+      button3_url:
+        description: 'Button 3 URL (Optional)'
+        required: false
+        type: string
+      button3_icon:
+        description: 'Button 3 Icon (Optional)'
+        required: false
+        type: string
+
+jobs:
+  add-project:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Add project to JSON
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq
+          
+          BUTTONS='[]'
+          
+          BUTTONS=$(echo "$BUTTONS" | jq --arg text "${{ github.event.inputs.button1_text }}" \
+            --arg url "${{ github.event.inputs.button1_url }}" \
+            --arg icon "${{ github.event.inputs.button1_icon }}" \
+            '. + [{text: $text, url: $url, icon: $icon}]')
+          
+          if [ -n "${{ github.event.inputs.button2_text }}" ] && [ -n "${{ github.event.inputs.button2_url }}" ]; then
+            BUTTONS=$(echo "$BUTTONS" | jq --arg text "${{ github.event.inputs.button2_text }}" \
+              --arg url "${{ github.event.inputs.button2_url }}" \
+              --arg icon "${{ github.event.inputs.button2_icon }}" \
+              '. + [{text: $text, url: $url, icon: $icon}]')
+          fi
+          
+          if [ -n "${{ github.event.inputs.button3_text }}" ] && [ -n "${{ github.event.inputs.button3_url }}" ]; then
+            BUTTONS=$(echo "$BUTTONS" | jq --arg text "${{ github.event.inputs.button3_text }}" \
+              --arg url "${{ github.event.inputs.button3_url }}" \
+              --arg icon "${{ github.event.inputs.button3_icon }}" \
+              '. + [{text: $text, url: $url, icon: $icon}]')
+          fi
+          
+          NEW_PROJECT=$(jq -n \
+            --arg title "${{ github.event.inputs.title }}" \
+            --arg description "${{ github.event.inputs.description }}" \
+            --arg borderColor "${{ github.event.inputs.borderColor }}" \
+            --arg gradient "${{ github.event.inputs.gradient }}" \
+            --argjson buttons "$BUTTONS" \
+            '{
+              title: $title,
+              description: $description,
+              borderColor: $borderColor,
+              gradient: $gradient,
+              buttons: $buttons
+            }')
+          
+          jq --argjson new "$NEW_PROJECT" '.projects = [$new] + .projects' projects.json > projects.tmp.json
+          mv projects.tmp.json projects.json
+          
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add projects.json
+          git commit -m "Add new project: ${{ github.event.inputs.title }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
