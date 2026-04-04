@@ -1,76 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Webhook Sender</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613515169840820"
-     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discord Webhook Sender</title>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #f0f4ff;
+    color: #1a1a2e;
+    line-height: 1.6;
+}
+header {
+    background-color: #1a56db;
+    color: white;
+    padding: 24px 32px;
+}
+header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+header p {
+    color: #c7d9ff;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+nav {
+    background-color: #1648c2;
+    display: flex;
+    gap: 4px;
+    padding: 0 32px;
+}
+nav a {
+    color: #c7d9ff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 10px 14px;
+    display: inline-block;
+}
+nav a:hover {
+    color: white;
+    background-color: #1a56db;
+}
+.container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+.tool-card {
+    background: white;
+    border: 1px solid #d0deff;
+    border-radius: 8px;
+    padding: 28px;
+    margin-bottom: 48px;
+}
+.tool-card h2 {
+    font-size: 1.2rem;
+    color: #1a56db;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e8eeff;
+}
+label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 5px;
+}
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #b0c4ff;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: #1a1a2e;
+    background: #f8faff;
+    outline: none;
+    margin-bottom: 16px;
+}
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #1a56db;
+    background: white;
+}
+textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+button {
+    background-color: #1a56db;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #1648c2;
+}
+#status {
+    margin-top: 12px;
+    font-size: 0.88rem;
+    color: #1a56db;
+    min-height: 1.2em;
+}
+#status.error {
+    color: #c0392b;
+}
+.emoji-guide {
+    background: #f0f4ff;
+    border: 1px solid #d0deff;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-top: 20px;
+}
+.emoji-guide h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1a56db;
+    margin-bottom: 10px;
+}
+.emoji-guide ul,
+.emoji-guide ol {
+    padding-left: 20px;
+    font-size: 0.88rem;
+    color: #333;
+}
+.emoji-guide li {
+    margin-bottom: 5px;
+}
+code {
+    background: #dce8ff;
+    color: #1a3a8f;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 0.85rem;
+}
+.info-section {
+    margin-bottom: 44px;
+}
+.info-section h2 {
+    font-size: 1.25rem;
+    color: #1a56db;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #d0deff;
+}
+.info-section h3 {
+    font-size: 1rem;
+    color: #1648c2;
+    margin: 20px 0 8px;
+}
+.info-section p {
+    font-size: 0.93rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+.info-section ul,
+.info-section ol {
+    padding-left: 22px;
+    font-size: 0.92rem;
+    color: #333;
+}
+.info-section li {
+    margin-bottom: 6px;
+}
+.use-case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+}
+.use-case-card {
+    background: white;
+    border: 1px solid #d0deff;
+    border-radius: 6px;
+    padding: 14px 16px;
+}
+.use-case-card h4 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1a56db;
+    margin-bottom: 4px;
+}
+.use-case-card p {
+    font-size: 0.82rem;
+    color: #555;
+    margin: 0;
+}
+.highlight-box {
+    background: #e8eeff;
+    border-left: 3px solid #1a56db;
+    padding: 14px 18px;
+    border-radius: 0 5px 5px 0;
+    margin: 14px 0;
+    font-size: 0.9rem;
+    color: #1a2a5e;
+}
+footer {
+    background-color: #1a1a2e;
+    color: #b0b8d0;
+    padding: 36px 32px 24px;
+}
+.footer-inner {
+    max-width: 860px;
+    margin: 0 auto;
+}
+.footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-bottom: 28px;
+}
+.footer-brand h3 {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+.footer-brand p {
+    font-size: 0.83rem;
+    max-width: 220px;
+}
+.footer-links h4 {
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+.footer-links ul li {
+    margin-bottom: 7px;
+}
+.footer-links ul li a {
+    color: #b0b8d0;
+    text-decoration: none;
+    font-size: 0.87rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.footer-links ul li a:hover {
+    color: white;
+}
+.footer-divider {
+    border: none;
+    border-top: 1px solid #2a2a44;
+    margin-bottom: 16px;
+}
+.footer-bottom {
+    font-size: 0.8rem;
+    color: #666880;
+    text-align: center;
+}
+.link-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    fill: currentColor;
+}
+@media (max-width: 600px) {
+    header, nav { padding-left: 16px; padding-right: 16px; }
+    .container { padding: 24px 16px; }
+}
+</style>
 </head>
 <body>
+<header>
     <h1>Discord Webhook Sender</h1>
-    
-    <label for="webhookId">Webhook URL:</label><br>
-    <input type="text" id="webhookId" placeholder="https://discord.com/api/webhooks/..." size="80"><br><br>
-    
-    <label for="message">Message:</label><br>
-    <textarea id="message" rows="5" cols="80" placeholder="Type your message here..."></textarea><br><br>
-    
-    <button onclick="sendWebhook()">Send</button>
-    <p id="status"></p>
-    
-    <hr>
-    
-    <h3>How to use emojis:</h3>
-    <ul>
-        <li><b>Normal emojis:</b> Just paste them directly! 💀 👍 ❤️</li>
-        <li><b>Discord emojis (normal):</b> Use format <code>&lt;:emoji_name:emoji_id&gt;</code></li>
-        <li><b>Discord emojis (animated):</b> Use format <code>&lt;a:emoji_name:emoji_id&gt;</code></li>
-    </ul>
-    
-    <p><b>To get Discord emoji ID:</b></p>
-    <ol>
-        <li>In Discord, type <code>\:emoji_name:</code> and send it</li>
-        <li>Discord will show the full format with the ID</li>
-        <li>Copy that entire thing into your message</li>
-    </ol>
-    
-    <p><b>Example:</b> <code>&lt;:pepe:123456789012345678&gt;</code> or <code>&lt;a:dancing:987654321098765432&gt;</code></p>
-
-    <script>
-        async function sendWebhook() {
-            const webhookUrl = document.getElementById('webhookId').value;
-            const message = document.getElementById('message').value;
-            const status = document.getElementById('status');
-            
-            if (!webhookUrl || !message) {
-                status.textContent = 'Please fill in both fields!';
-                return;
-            }
-            
-            status.textContent = 'Sending...';
-            
-            try {
-                const response = await fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        content: message
-                    })
-                });
-                
-                if (response.ok || response.status === 204) {
-                    status.textContent = 'Message sent successfully!';
-                    document.getElementById('message').value = '';
-                } else {
-                    status.textContent = 'Error: ' + response.status + ' - Check your webhook URL!';
-                }
-            } catch (error) {
-                status.textContent = 'Error: ' + error.message;
-            }
+    <p>Send messages to any Discord channel directly from your browser — no bot required.</p>
+</header>
+<nav>
+    <a href="#tool">Send Message</a>
+    <a href="#what-is-discord">Discord</a>
+    <a href="#what-is-webhook">Webhooks</a>
+    <a href="#how-to-use">How to Use</a>
+    <a href="#use-cases">Use Cases</a>
+</nav>
+<div class="container">
+    <div class="tool-card" id="tool">
+        <h2>Send a Message</h2>
+        <label for="webhookId">Webhook URL</label>
+        <input type="text" id="webhookId" placeholder="https://discord.com/api/webhooks/...">
+        <label for="message">Message</label>
+        <textarea id="message" placeholder="Type your message here..."></textarea>
+        <button onclick="sendWebhook()">Send Message</button>
+        <p id="status"></p>
+        <div class="emoji-guide">
+            <h3>Using Emojis</h3>
+            <ul>
+                <li><b>Standard emojis:</b> Paste them straight in. 💀 👍 ❤️ all work fine.</li>
+                <li><b>Discord custom emojis:</b> Use <code>&lt;:emoji_name:emoji_id&gt;</code></li>
+                <li><b>Animated Discord emojis:</b> Use <code>&lt;a:emoji_name:emoji_id&gt;</code></li>
+                <li><b>Embeds?: </b> soon</li>
+            </ul>
+            <p style="margin-top:10px; font-size:0.88rem; color:#333;"><b>To grab a Discord emoji ID:</b></p>
+            <ol>
+                <li>In Discord, type <code>\:emoji_name:</code> and send it</li>
+                <li>Discord will reply with the full format including the ID</li>
+                <li>Copy that into your message here</li>
+            </ol>
+            <p style="margin-top:8px; font-size:0.85rem; color:#555;">Example: <code>&lt;:pepe:123456789012345678&gt;</code> or <code>&lt;a:dancing:987654321098765432&gt;</code></p>
+        </div>
+    </div>
+    <div class="info-section" id="what-is-discord">
+        <h2>What is Discord?</h2>
+        <p>Discord is a chat app. It started in 2015 as a tool for gamers to talk while playing, and it's since become a general-purpose community platform used by everyone from indie developers to large-scale study groups.</p>
+        <p>The core concept is simple: you join or create <b>servers</b>, which are essentially chat spaces divided into <b>channels</b>. Each channel is either text or voice. You can have a server just for yourself, or one with tens of thousands of members.</p>
+        <h3>Servers and Channels</h3>
+        <p>A server is your community's home base. Inside it, channels are where the actual conversation happens. A gaming server might have <code>#announcements</code>, <code>#general</code>, and <code>#looking-for-group</code>. A dev team might have <code>#builds</code>, <code>#alerts</code>, and <code>#off-topic</code>. You control what channels exist and who can see them.</p>
+        <h3>Roles and Permissions</h3>
+        <p>Discord has a roles system. You assign roles to members, and roles carry permissions — things like who can send messages in a channel, who can manage other users, or who can see certain channels at all. It's straightforward once you get the hang of it, and it's what makes Discord work for everything from a 3-person friend group to a 50,000-member open-source project.</p>
+        <div class="highlight-box">Discord is free to use. The paid tier (Nitro) adds things like animated avatars, larger file uploads, and custom emojis across servers. None of that affects webhooks.</div>
+    </div>
+    <div class="info-section" id="what-is-webhook">
+        <h2>What is a Webhook?</h2>
+        <p>A webhook is a URL that accepts POST requests and does something with them. In Discord's case, sending a JSON payload to a webhook URL posts a message to a specific channel. That's the whole thing.</p>
+        <p>You don't need a bot, you don't need OAuth, you don't need to manage tokens. You create a webhook in your server settings, get a URL, and anything that can send an HTTP request can post to your channel.</p>
+        <h3>How It Differs From a Bot</h3>
+        <p>A bot is a separate Discord account with its own permissions and presence in your server. It can respond to commands, join voice channels, manage users — bots are full participants. Webhooks are one-directional: they only post messages, and they don't show up as members. For simple notifications, webhooks are much less overhead to set up.</p>
+        <h3>What the Payload Looks Like</h3>
+        <p>The simplest webhook message is just a <code>content</code> field in JSON:</p>
+        <div class="highlight-box"><code>{ "content": "Hello from a webhook!" }</code></div>
+        <p>Discord also supports richer payloads with <b>embeds</b> — structured cards with titles, descriptions, colors, images, and footers. This tool focuses on plain text messages, which covers most everyday use.</p>
+        <h3>Security</h3>
+        <p>Webhook URLs are credentials. Anyone who has one can post to your channel. Don't share them publicly, don't commit them to public repos. If one leaks, delete it in your server settings and create a new one.</p>
+    </div>
+    <div class="info-section" id="how-to-use">
+        <h2>How to Create and Use a Webhook</h2>
+        <h3>Creating the Webhook in Discord</h3>
+        <ol>
+            <li>Open Discord and go to your server</li>
+            <li>Right-click the channel you want to post to and select <b>Edit Channel</b></li>
+            <li>Go to the <b>Integrations</b> tab, then click <b>Webhooks</b></li>
+            <li>Click <b>New Webhook</b></li>
+            <li>Give it a name (this shows as the sender in chat) and optionally upload an avatar</li>
+            <li>Click <b>Copy Webhook URL</b></li>
+        </ol>
+        <h3>Using This Tool</h3>
+        <ol>
+            <li>Paste that URL into the <b>Webhook URL</b> field above</li>
+            <li>Type your message in the <b>Message</b> field</li>
+            <li>Hit <b>Send Message</b></li>
+        </ol>
+        <p>The message will appear in your Discord channel within a second or two. If something goes wrong, the status line will tell you the HTTP error code — most of the time it's a wrong URL, so double-check that first.</p>
+        <div class="highlight-box">Discord's webhooks rate-limit at 30 requests per minute per webhook. For casual use, you'll never hit this. For automated systems sending many messages, add a small delay between requests.</div>
+    </div>
+    <div class="info-section" id="use-cases">
+        <h2>Things People Actually Use Webhooks For</h2>
+        <p>Webhooks are useful anywhere you want a notification dropped into Discord without building a full bot.</p>
+        <div class="use-case-grid">
+            <div class="use-case-card">
+                <h4>CI/CD Alerts</h4>
+                <p>Post a message when a build passes or fails. GitHub Actions, GitLab CI, and Jenkins all have webhook steps built in.</p>
+            </div>
+            <div class="use-case-card">
+                <h4>Monitoring</h4>
+                <p>Send an alert when a server goes down, an error rate spikes, or a cron job finishes.</p>
+            </div>
+            <div class="use-case-card">
+                <h4>Announcements</h4>
+                <p>Automate community announcements — new blog posts, product releases, scheduled events.</p>
+            </div>
+            <div class="use-case-card">
+                <h4>E-commerce Events</h4>
+                <p>Get a Discord ping every time your store gets a new order. Shopify and WooCommerce both support outgoing webhooks.</p>
+            </div>
+            <div class="use-case-card">
+                <h4>Game Events</h4>
+                <p>Post in-game events to a Discord channel — player joins, achievements, leaderboard changes.</p>
+            </div>
+            <div class="use-case-card">
+                <h4>Quick Manual Messages</h4>
+                <p>Sometimes you just want to post something to a channel without opening Discord. That's what this tool is for.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <h3>Discord Webhook Sender</h3>
+                <p>A small tool for sending messages to Discord channels via webhooks. Made by MalikHw47.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="https://discord.gg/tV6nrxKm" target="_blank" rel="noopener"><svg class="link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>My Discord Profile</a></li>
+                    <li><a href="https://discord.gg/G9bZ92eg2n" target="_blank" rel="noopener"><svg class="link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.054a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>Discord Server</a></li>
+                    <li><a href="https://youtube.com/@MalikHw47" target="_blank" rel="noopener"><svg class="link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>YouTube — @MalikHw47</a></li>
+                    <li><a href="https://github.com/MalikHw" target="_blank" rel="noopener"><svg class="link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub — MalikHw</a></li>
+                    <li><a href="https://twitch.tv/MalikHw47" target="_blank" rel="noopener"><svg class="link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>Twitch — MalikHw47</a></li>
+                </ul>
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <p class="footer-bottom">Made by MalikHw47 &nbsp;·&nbsp; Not affiliated with Discord Inc.</p>
+    </div>
+</footer>
+<script>
+async function sendWebhook() {
+    const webhookUrl = document.getElementById('webhookId').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const status = document.getElementById('status');
+    status.className = '';
+    if (!webhookUrl || !message) {
+        status.textContent = 'Fill in both fields before sending.';
+        status.className = 'error';
+        return;
+    }
+    status.textContent = 'Sending...';
+    try {
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: message })
+        });
+        if (response.ok || response.status === 204) {
+            status.textContent = 'Message sent.';
+            document.getElementById('message').value = '';
+        } else {
+            status.textContent = 'Error ' + response.status + ' — double-check your webhook URL.';
+            status.className = 'error';
         }
-    </script>
+    } catch (error) {
+        status.textContent = 'Error: ' + error.message;
+        status.className = 'error';
+    }
+}
+</script>
 </body>
 </html>
