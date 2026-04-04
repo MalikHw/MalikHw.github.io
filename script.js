@@ -67,13 +67,13 @@
   let gdLoaded = false;
 
   const gdStats = [
-    { key: 'stars',     label: 'Stars',        icon: 'nf nf-md-star',            color: '#FFD700' },
-    { key: 'cp',        label: 'Creator Points',icon: 'nf nf-md-trophy',          color: '#FF6B6B' },
-    { key: 'rank',      label: 'Rank',          icon: 'nf nf-md-podium',          color: '#4ECDC4' },
-    { key: 'diamonds',  label: 'Diamonds',      icon: 'nf nf-md-diamond_stone',   color: '#95E1D3' },
-    { key: 'demons',    label: 'Demons',        icon: 'nf nf-md-ghost',           color: '#F38181' },
-    { key: 'userCoins', label: 'User Coins',    icon: 'nf nf-md-coin',            color: '#AA96DA' },
-    { key: 'coins',     label: 'Secret Coins',  icon: 'nf nf-md-circle_multiple', color: '#FCBAD3' }
+    { key: 'stars', label: 'Stars', icon: 'nf nf-md-star', color: '#FFD700' },
+    { key: 'cp', abel: 'Creator Points',icon: 'nf nf-md-trophy', color: '#FF6B6B' },
+    { key: 'rank', label: 'Rank', icon: 'nf nf-md-podium', color: '#4ECDC4' },
+    { key: 'diamonds', label: 'Diamonds', icon: 'nf nf-md-diamond_stone', color: '#95E1D3' },
+    { key: 'demons', label: 'Demons', icon: 'nf nf-md-ghost', color: '#F38181' },
+    { key: 'userCoins', label: 'User Coins', icon: 'nf-fa-coins', color: '#AA96DA' },
+    { key: 'coins', label: 'Secret Coins', icon: 'nf nf-md-circle_multiple', color: '#FCBAD3' }
   ];
 
   function loadGd() {
