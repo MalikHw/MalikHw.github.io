@@ -153,7 +153,7 @@
   adsenseScript.crossOrigin = 'anonymous';
   document.head.appendChild(adsenseScript);
 
-  const text = 'test - test';
+  const text = 'GD Player - Dev';
   let ci = 0;
   const tw = document.getElementById('typewriter');
 
