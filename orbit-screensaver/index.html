@@ -12,7 +12,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ORBIT Screensaver</title>
-  <meta name="description" content="A Windows screensaver where physics-simulated orbs fall into a ball pit. Now also available on Android. Inspired by Orbit (Extreme Demon) by Mindcap. Built with C++, Box2D, and OpenGL."/>
+  <meta name="description" content="A Windows screensaver where physics-simulated orbs fall into a ball pit. Now also available on Android. Inspired by Orbit (Top 5 Extreme Demon) by Mindcap. Built with C++, Box2D, and OpenGL."/>
   <meta name="author" content="MalikHw47"/>
   <meta name="keywords" content="orbit screensaver, orbit, windows screensaver, android screensaver, geometry dash, MalikHw47, ballpit, opengl, box2d"/>
   <meta property="og:type" content="website"/>
@@ -288,6 +288,7 @@
       display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 1rem;
     }
     @media (max-width: 600px) { .preview-row2 { grid-template-columns: 1fr 1fr; } }
+    #faq { padding: 5rem 0; }
     #credits { padding: 5rem 0; }
     #credits h2 {
       font-size: clamp(1.3rem, 3.5vw, 1.9rem); font-weight: 600;
@@ -360,7 +361,7 @@
       <p class="hero-eyebrow">Windows &amp; Android Screensaver</p>
       <h1 class="hero-title">ORBIT</h1>
       <p class="hero-sub">Inspired by <em>Orbit</em> by Mindcap &mdash; extreme demon, GD</p>
-      <p class="hero-desc">Things fall. Balls go into a pit.<br/>OLED burn-in is scary. This helps.<br/>Now on Windows <em>and</em> Android.</p>
+      <p class="hero-desc">Things fall. Balls go into a pit.<br/>OLED burn-in is bad. This helps.<br/>Now on Windows <em>and</em> Android.</p>
       <div class="hero-download-block">
         <div class="download-row">
           <a href="https://github.com/MalikHw/orbit-screensaver/releases/latest/download/orbit-screensaver.zip"
@@ -387,14 +388,14 @@
           <img src="https://img.shields.io/badge/physics-Box2D-orange"                         alt="Box2D"/>
         </div>
       </div>
-      <div class="scroll-hint" aria-hidden="true">SCROLL</div>
+      <div class="scroll-hint" aria-hidden="true">go down</div>
     </section>
 
     <div class="divider" aria-hidden="true"><span class="divider-label">01 — About</span></div>
     <section id="about" aria-label="About">
       <div class="inner">
         <div class="about-text reveal">
-          <h2>Wtf is <span>this</span>?</h2>
+          <h2>WHAT EXACTLY is <span>this</span>?</h2>
           <p><i class="nf nf-md-monitor"></i> A <span>Windows &amp; Android screensaver</span> where physics-simulated orbs fall and pile up in an endless ball pit.</p>
           <p><i class="nf nf-md-ray_end"></i> Inspired by the ending of <span>Orbit</span> — an extreme demon in Geometry Dash by Mindcap, verified by Zoink.</p>
           <p><i class="nf nf-custom-cpp"></i> Built with <span>C++</span>, <span>Box2D</span> physics, <span>OpenGL</span> rendering, and no free time.</p>
@@ -504,7 +505,81 @@
       </div>
     </section>
 
-    <div class="divider" aria-hidden="true"><span class="divider-label">04 — Credits</span></div>
+    <div class="divider" aria-hidden="true"><span class="divider-label">04 — FAQ</span></div>
+    <section id="faq" aria-label="FAQ">
+      <div class="inner">
+        <h2 style="font-size:clamp(1.3rem,3.5vw,1.9rem);font-weight:600;color:var(--white);margin-bottom:1.8rem;">Frequently Asked <span style="color:var(--cyan);">Questions</span></h2>
+
+        <div style="max-width:720px;display:flex;flex-direction:column;gap:2.4rem;">
+
+          <div class="reveal">
+            <p style="font-size:.6rem;letter-spacing:.28em;color:var(--purple);text-transform:uppercase;margin-bottom:.9rem;">The Basics</p>
+
+            <div style="display:flex;flex-direction:column;gap:1.4rem;">
+              <div style="border-left:2px solid rgba(0,245,255,0.25);padding-left:1rem;">
+                <p style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.45rem;">What is the ORBIT Screensaver?</p>
+                <p style="font-size:.8rem;color:#8888bb;line-height:1.85;">A screensaver for Windows and Android. Orbs spawn at the top of the screen, fall under simulated physics, and pile up in a ball pit at the bottom. It loops forever. That's the whole thing.</p>
+              </div>
+
+              <div style="border-left:2px solid rgba(0,245,255,0.25);padding-left:1rem;">
+                <p style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.45rem;">What is a screensaver, and do I still need one?</p>
+                <p style="font-size:.8rem;color:#8888bb;line-height:1.85;">Originally, screensavers existed to prevent burn-in on CRT monitors — a real problem where static images would etch themselves into the screen over time. Modern LCDs don't have the same issue, but OLED panels (increasingly common on phones, laptops, and monitors) can develop image retention from long static content. Beyond that, most people just use screensavers because they look good when the machine sits idle. A moving display beats a black screen or your desktop wallpaper stamped on the lock screen.</p>
+              </div>
+
+              <div style="border-left:2px solid rgba(0,245,255,0.25);padding-left:1rem;">
+                <p style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.45rem;">Is this free to use?</p>
+                <p style="font-size:.8rem;color:#8888bb;line-height:1.85;">Yes. ORBIT is open-source under the GPL-v3 license and the source is on GitHub. Download it, use it, modify it — the only condition is that any modifications you distribute must stay open-source under the same license.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal">
+            <p style="font-size:.6rem;letter-spacing:.28em;color:var(--purple);text-transform:uppercase;margin-bottom:.9rem;">The GD Connection</p>
+
+            <div style="display:flex;flex-direction:column;gap:1.4rem;">
+              <div style="border-left:2px solid rgba(168,85,247,0.3);padding-left:1rem;">
+                <p style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.45rem;">What is Geometry Dash?</p>
+                <p style="font-size:.8rem;color:#8888bb;line-height:1.85;">Geometry Dash is a rhythm-based platformer where you guide a small icon through obstacle courses synced to music. The base game is simple enough, but the community-built levels are a different story. Players use an in-game editor that has been pushed far beyond its original scope — some levels run 15 minutes, use thousands of objects, and contain art, cutscenes, and physics sequences that have nothing to do with the core gameplay.</p>
+              </div>
+
+              <div style="border-left:2px solid rgba(168,85,247,0.3);padding-left:1rem;">
+                <p style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.45rem;">What inspired this project?</p>
+                <p style="font-size:.8rem;color:#8888bb;line-height:1.85;">The level Orbit by Mindcap and more™ ends with a ball pit sequence — dozens of orbs falling into a curved container, bouncing around under physics. It's a short moment in a long level, but it stuck with people(rip). This screensaver is that moment, extracted and looped indefinitely. Nothing more to it, really.</p>
+              </div>
+
+              <div style="border-left:2px solid rgba(168,85,247,0.3);padding-left:1rem;">
+                <p style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.45rem;">Who are Mindcap and Zoink?</p>
+                <p style="font-size:.8rem;color:#8888bb;line-height:1.85;">Mindcap built/host the level Orbit. Hdanke created the ball pit sequence inside it. Zoink is the guy who verified the level — meaning they were the first to legit complete it. Orbit is rated Extreme Demon, the highest difficulty tier in the game. Most players who attempt it spend months before completing it.(no records now lol)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal">
+            <p style="font-size:.6rem;letter-spacing:.28em;color:var(--purple);text-transform:uppercase;margin-bottom:.9rem;">Technical / Troubleshooting</p>
+
+            <div style="display:flex;flex-direction:column;gap:1.4rem;">
+              <div style="border-left:2px solid rgba(244,114,182,0.3);padding-left:1rem;">
+                <p style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.45rem;">How do I install ORBIT on Windows?</p>
+                <p style="font-size:.8rem;color:#8888bb;line-height:1.85;">Three steps: download the zip from the button above, extract it somewhere, then right-click <code style="font-family:'Cascadia Code',Consolas,monospace;color:var(--cyan);background:rgba(0,245,255,0.07);padding:.05rem .35rem;border-radius:2px;font-size:.72rem;">orbit_screensaver.scr</code> and click Install. Windows sets it as your screensaver automatically. After that, go to Settings > Personalization > Lock screen &rarr; Screen saver to adjust the wait time or open the configuration panel.</p>
+              </div>
+
+              <div style="border-left:2px solid rgba(244,114,182,0.3);padding-left:1rem;">
+                <p style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.45rem;">Does this work on Android?</p>
+                <p style="font-size:.8rem;color:#8888bb;line-height:1.85;">Yes. The Android version runs as a Daydream service — Android's built-in screensaver system that activates when the phone is charging and idle. Install the APK, open it, do your changes, then click "Open Screensaver Settings", and select Orbit. Settings like orb count, speed, and background are handled through the Orbit app itself.</p>
+              </div>
+
+              <div style="border-left:2px solid rgba(244,114,182,0.3);padding-left:1rem;">
+                <p style="font-size:.85rem;font-weight:600;color:var(--white);margin-bottom:.45rem;">Will this slow down or lag my computer?</p>
+                <p style="font-size:.8rem;color:#8888bb;line-height:1.85;">It shouldn't. Physics run through Box2D and rendering goes through OpenGL, which keeps the load low even on older hardware. There's also an FPS cap in the settings — dropping it to 30 fixes stutter on most machines that show it. If your hardware has no proper OpenGL support at all, the Mesa3D software renderer option is available in the settings panel and handles that case... but MOSTLY, no, cuz it wont run in the background, WINDOWS itself triggers it when pc is idle, same as Android</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true"><span class="divider-label">05 — Credits</span></div>
     <section id="credits" aria-label="Credits">
       <div class="inner">
         <h2>Credits &amp; <span>Links</span></h2>
@@ -512,17 +587,17 @@
           <div class="credit-card reveal">
             <p class="credit-role">Level Creator</p>
             <p class="credit-name">Mindcap</p>
-            <p class="credit-desc">Creator of "Orbit" — the extreme demon in Geometry Dash that inspired this whole project.</p>
+            <p class="credit-desc">Host of "Orbit" — the extreme demon in Geometry Dash that inspired this whole project.</p>
           </div>
           <div class="credit-card reveal">
             <p class="credit-role">Ballpit Creator</p>
             <p class="credit-name">Hdanke</p>
-            <p class="credit-desc">Created the iconic ball pit physics sequence inside the Orbit level.</p>
+            <p class="credit-desc">Created the ball pit physics sequence inside the Orbit level.</p>
           </div>
           <div class="credit-card reveal">
             <p class="credit-role">Verifier</p>
             <p class="credit-name">Zoink</p>
-            <p class="credit-desc">Verified Orbit by Mindcap — the moment that sent this whole thing into motion. BRR.</p>
+            <p class="credit-desc">Verified Orbit - basically went "OH MY GOD" 24 times.</p>
           </div>
         </div>
         <div class="author-block reveal">
@@ -531,13 +606,13 @@
             <p class="author-tag">// screensaver dev, somehow</p>
           </div>
           <nav class="social-links" aria-label="Social links">
-            <a class="social-link" href="https://malikhw.github.io"                    target="_blank" rel="noopener"><i class="nf nf-md-web"></i> Website</a>
-            <a class="social-link" href="https://youtube.com/@MalikHw47"               target="_blank" rel="noopener"><i class="nf nf-fa-youtube"></i> YouTube</a>
+            <a class="social-link" href="https://malikhw.github.io" target="_blank" rel="noopener"><i class="nf nf-md-web"></i> Website</a>
+            <a class="social-link" href="https://youtube.com/@MalikHw47" target="_blank" rel="noopener"><i class="nf nf-fa-youtube"></i> YouTube</a>
             <a class="social-link" href="https://github.com/MalikHw/orbit-screensaver" target="_blank" rel="noopener"><i class="nf nf-dev-github"></i> GitHub</a>
-            <a class="social-link" href="https://discord.gg/G9bZ92eg2n"                target="_blank" rel="noopener"><i class="nf nf-fa-discord"></i> Discord</a>
-            <a class="social-link" href="https://twitch.tv/MalikHw47"                  target="_blank" rel="noopener"><i class="nf nf-fa-twitch"></i> Twitch</a>
-            <a class="social-link" href="https://ko-fi.com/malikhw47"                  target="_blank" rel="noopener"><i class="nf nf-fa-coffee"></i> Ko-fi</a>
-            <a class="social-link" href="https://throne.com/MalikHw47"                 target="_blank" rel="noopener"><i class="nf nf-cod-gift"></i> Throne</a>
+            <a class="social-link" href="https://discord.gg/G9bZ92eg2n" target="_blank" rel="noopener"><i class="nf nf-fa-discord"></i> Discord</a>
+            <a class="social-link" href="https://twitch.tv/MalikHw47" target="_blank" rel="noopener"><i class="nf nf-fa-twitch"></i> Twitch</a>
+            <a class="social-link" href="https://ko-fi.com/malikhw47" target="_blank" rel="noopener"><i class="nf nf-fa-coffee"></i> Ko-fi</a>
+            <a class="social-link" href="https://throne.com/MalikHw47" target="_blank" rel="noopener"><i class="nf nf-cod-gift"></i> Throne</a>
           </nav>
         </div>
       </div>
@@ -548,7 +623,8 @@
   <footer>
     <p>ORBIT Screensaver &mdash; by <a href="https://malikhw.github.io">MalikHw47</a>
        &mdash; GPL-v3 &mdash;
-       <a href="https://github.com/MalikHw/orbit-screensaver">Source Code</a></p>
+       <a href="https://github.com/MalikHw/orbit-screensaver">Source Code</a>
+       &mdash; <a href="privacy.html">Privacy Policy</a></p>
     <p>Inspired by Orbit (Extreme Demon) by Mindcap &nbsp;&bull;&nbsp; it works on my machine&trade;</p>
   </footer>
 
@@ -634,8 +710,3 @@
 
 </body>
 </html>
-
-
-
-
-
