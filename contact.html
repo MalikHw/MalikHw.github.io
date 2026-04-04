@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — MalikHw47</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" />
+  <style>
+    :root {
+      --primary: #d0bcff;
+      --on-surface: #e6e1e5;
+      --on-surface-variant: #cac4d0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f0c18;
+      color: var(--on-surface);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .card {
+      max-width: 520px;
+      width: 100%;
+      background: rgba(30,27,38,.9);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 12px;
+      padding: 40px 36px;
+    }
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .85rem;
+      color: var(--on-surface-variant);
+      text-decoration: none;
+      margin-bottom: 28px;
+      opacity: .7;
+      transition: opacity .15s;
+    }
+    .back:hover { opacity: 1; }
+    h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .sub {
+      font-size: .88rem;
+      color: var(--on-surface-variant);
+      margin-bottom: 32px;
+      opacity: .7;
+      line-height: 1.6;
+    }
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.02);
+      text-decoration: none;
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: .9rem;
+      transition: border-color .15s, background .15s;
+    }
+    .contact-item:hover {
+      border-color: rgba(208,188,255,.3);
+      background: rgba(208,188,255,.05);
+    }
+    .contact-label {
+      font-size: .72rem;
+      color: var(--on-surface-variant);
+      opacity: .6;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-left: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <a class="back" href="/">← back to home</a>
+    <h1>Contact</h1>
+    <p class="sub">No contact form — just reach out wherever works for you.</p>
+    <div class="contact-list">
+      <a class="contact-item" href="https://discord.gg/VZmHhUN2" target="_blank" rel="noopener">
+        Discord Profile (not server)
+        <span class="contact-label">fastest</span>
+      </a>
+      <a class="contact-item" href="mailto:help.malicorporation@gmail.com">
+        help.malicorporation@gmail.com
+        <span class="contact-label">email</span>
+      </a>
+      <a class="contact-item" href="https://youtube.com/@MalikHw47" target="_blank" rel="noopener">
+        YouTube — @MalikHw47
+        <span class="contact-label">youtube</span>
+      </a>
+      <a class="contact-item" href="https://twitch.tv/MalikHw47" target="_blank" rel="noopener">
+        Twitch(whisper) — MalikHw47
+        <span class="contact-label">twitch</span>
+      </a>
+      <a class="contact-item" href="https://github.com/MalikHw" target="_blank" rel="noopener">
+        GitHub — MalikHw
+        <span class="contact-label">github</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
