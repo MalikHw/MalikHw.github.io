@@ -1,6 +1,24 @@
 {
   "projects": [
     {
+      "title": "Reversed inputs",
+      "description": "dont do shit u jump, u jump dont do shit",
+      "borderColor": "#5400d7",
+      "gradient": "linear-gradient(145deg, #5400d7, #000)",
+      "buttons": [
+        {
+          "text": "Geode",
+          "url": "https://geode-sdk.org/mods/malikhw47.reversed-inputs",
+          "icon": "nf nf-md-open_in_new"
+        },
+        {
+          "text": "Source",
+          "url": "https://github.com/MalikHw/FuckedInputs",
+          "icon": "nf nf-dev-github"
+        }
+      ]
+    },
+    {
       "title": "blur behind popups",
       "description": "geode mod to blur behind popups",
       "borderColor": "#2d2d2d",
