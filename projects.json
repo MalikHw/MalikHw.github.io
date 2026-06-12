@@ -1,6 +1,19 @@
 {
   "projects": [
     {
+      "title": "NoModifBlocksAtTest",
+      "description": "hides modifier blocks at playtest",
+      "borderColor": "#FFFFFF",
+      "gradient": "linear-gradient(145deg, #FFFFFF, #000)",
+      "buttons": [
+        {
+          "text": "Geode",
+          "url": "https://geode-sdk.org/mods/malikhw47.hide-modifier-blocks",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
+    },
+    {
       "title": "Select All High Detail",
       "description": "editor tool to choose every object that is on high detail",
       "borderColor": "#640606",
