@@ -43,13 +43,15 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: url('bg.png') center center / cover no-repeat;
+  overflow: hidden;
 }
 
-@media (max-width: 600px) {
-  .site-bg {
-    background-size: 180%;
-  }
+.site-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .top-bar {

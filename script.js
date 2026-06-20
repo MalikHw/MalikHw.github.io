@@ -100,25 +100,36 @@
       });
   }
 
-  fetch('/youtube.json')
-    .then((r) => {
-      if (!r.ok) throw new Error();
-      return r.json();
-    })
-    .then((d) => {
-      document.getElementById('ytBox').innerHTML = `
-        <iframe src="${d.src}" title="${d.title}"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      `;
-    })
-    .catch(() => {
-      document.getElementById('ytBox').innerHTML = `
-        <iframe src="https://www.youtube.com/embed/lvSsbSbUYnk" title="TETORIS"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      `;
-    });
+  function loadYoutubeEmbed(boxId, jsonPath, fallback) {
+    fetch(jsonPath)
+      .then((r) => {
+        if (!r.ok) throw new Error();
+        return r.json();
+      })
+      .then((d) => {
+        document.getElementById(boxId).innerHTML = `
+          <iframe src="${d.src}" title="${d.title}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        `;
+      })
+      .catch(() => {
+        document.getElementById(boxId).innerHTML = `
+          <iframe src="${fallback.src}" title="${fallback.title}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        `;
+      });
+  }
+
+  loadYoutubeEmbed('ytBox', 'youtube.json', {
+    src: 'https://www.youtube.com/embed/lvSsbSbUYnk',
+    title: 'TETORIS',
+  });
+  loadYoutubeEmbed('vodBox', 'vod.json', {
+    src: 'https://www.youtube.com/embed/5m0JCXdIBDk',
+    title: 'geometry dash level requests! + doing random shi (READ DESC)',
+  });
 
   const twitchScript = document.createElement('script');
   twitchScript.src = 'https://embed.twitch.tv/embed/v1.js';
