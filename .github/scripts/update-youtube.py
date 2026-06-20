@@ -64,24 +64,30 @@ def main():
         print("No entries found in RSS feed", file=sys.stderr)
         sys.exit(1)
 
-    latest = next((e for e in entries if not is_short(e["link"])), None)
-    if not latest:
+    uploads = []
+    for entry in entries:
+        if is_short(entry["link"]):
+            continue
+        uploads.append({**entry, "live_vod": is_live_vod(entry["id"])})
+
+    if not uploads:
         print("No non-Short upload found", file=sys.stderr)
         sys.exit(1)
 
-    write_json(
-        ROOT / "youtube.json",
-        {
-            "src": f"https://www.youtube.com/embed/{latest['id']}",
-            "title": latest["title"],
-        },
-    )
-    print(f"youtube.json -> {latest['title']} ({latest['id']})")
+    latest = next((e for e in uploads if not e["live_vod"]), None)
+    if latest:
+        write_json(
+            ROOT / "youtube.json",
+            {
+                "src": f"https://www.youtube.com/embed/{latest['id']}",
+                "title": latest["title"],
+            },
+        )
+        print(f"youtube.json -> {latest['title']} ({latest['id']})")
+    else:
+        print("No non-VOD upload found; youtube.json unchanged", file=sys.stderr)
 
-    vod = next(
-        (e for e in entries if not is_short(e["link"]) and is_live_vod(e["id"])),
-        None,
-    )
+    vod = next((e for e in uploads if e["live_vod"]), None)
     if vod:
         write_json(
             ROOT / "vod.json",
