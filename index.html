@@ -15,11 +15,10 @@
     import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
     document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
   </script>
-  <!-- NO ADS HERE PLS -->
 </head>
 <body>
 
-<canvas id="aurora"></canvas>
+<div class="site-bg" aria-hidden="true"></div>
 
 <header class="top-bar">
   <span class="wordmark">MalikHw47</span>
@@ -42,7 +41,6 @@
 <main>
   <section class="hero">
     <h1 class="hero-name">MalikHw47</h1>
-    <p class="hero-sub"><span id="typewriter"></span><span class="tblink">●</span></p>
     <p class="hero-desc">Kind of a dev, GD player, and nothing else. Also a Miku/Teto fan!</p>
     <div class="socials">
       <md-filled-tonal-icon-button id="yt-btn" title="YouTube"><span class="nf nf-md-youtube"></span></md-filled-tonal-icon-button>
@@ -53,14 +51,9 @@
 
   <section class="tabs-section">
     <md-tabs id="mainTabs">
-      <md-primary-tab id="tab-projects" active>
-        <span class="nf nf-md-briefcase" slot="icon"></span>
-        Projects
-      </md-primary-tab>
-      <md-primary-tab id="tab-gd">
-        <span class="nf nf-md-gamepad_variant" slot="icon"></span>
-        GD Stats
-      </md-primary-tab>
+      <md-primary-tab id="tab-projects" active>Projects</md-primary-tab>
+      <md-primary-tab id="tab-gd">GD Stats</md-primary-tab>
+      <md-primary-tab id="tab-geode">Geode Mods</md-primary-tab>
     </md-tabs>
 
     <div id="panel-projects" class="panel">
@@ -74,6 +67,13 @@
       <h2 class="sec-title">Geometry Dash Stats</h2>
       <div id="gdGrid" class="gd-grid">
         <p class="loading-txt">Loading stats…</p>
+      </div>
+    </div>
+
+    <div id="panel-geode" class="panel hidden">
+      <h2 class="sec-title">Geode Mods</h2>
+      <div id="geodeGrid" class="mod-grid">
+        <p class="loading-txt">Loading mods…</p>
       </div>
     </div>
   </section>

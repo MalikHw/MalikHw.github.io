@@ -28,12 +28,15 @@
   const tabs = document.getElementById('mainTabs');
   const panelProjects = document.getElementById('panel-projects');
   const panelGd = document.getElementById('panel-gd');
+  const panelGeode = document.getElementById('panel-geode');
 
   tabs.addEventListener('change', () => {
     const active = tabs.activeTabIndex;
     panelProjects.classList.toggle('hidden', active !== 0);
     panelGd.classList.toggle('hidden', active !== 1);
+    panelGeode.classList.toggle('hidden', active !== 2);
     if (active === 1) loadGd();
+    if (active === 2) loadGeodeMods();
   });
 
   function buildProjectsGrid(projects) {
@@ -65,15 +68,16 @@
     });
 
   let gdLoaded = false;
+  let geodeLoaded = false;
 
   const gdStats = [
     { key: 'stars', label: 'Stars', icon: 'nf nf-md-star', color: '#FFD700' },
-    { key: 'cp', abel: 'Creator Points',icon: 'nf nf-md-trophy', color: '#FF6B6B' },
+    { key: 'cp', label: 'Creator Points',icon: 'nf nf-md-trophy', color: '#FF6B6B' },
     { key: 'rank', label: 'Rank', icon: 'nf nf-md-podium', color: '#4ECDC4' },
     { key: 'diamonds', label: 'Diamonds', icon: 'nf nf-md-diamond_stone', color: '#95E1D3' },
     { key: 'demons', label: 'Demons', icon: 'nf nf-md-ghost', color: '#F38181' },
-    { key: 'userCoins', label: 'User Coins', icon: 'nf-fa-coins', color: '#AA96DA' },
-    { key: 'coins', label: 'Secret Coins', icon: 'nf nf-md-circle_multiple', color: '#FCBAD3' }
+    { key: 'userCoins', label: 'User Coins', icon: 'nf nf-fae-coins', color: '#AA96DA' },
+    { key: 'coins', label: 'Secret Coins', icon: 'nf nf-md-circle_multiple', color: '#ebd234' }
   ];
 
   function loadGd() {
@@ -153,55 +157,36 @@
   adsenseScript.crossOrigin = 'anonymous';
   document.head.appendChild(adsenseScript);
 
-  const text = 'GD Player - Dev';
-  let ci = 0;
-  const tw = document.getElementById('typewriter');
-
-  function typeStep() {
-    tw.textContent = text.slice(0, ci + 1);
-    ci++;
-    if (ci < text.length) setTimeout(typeStep, 40);
+  function loadGeodeMods() {
+    if (geodeLoaded) return;
+    const grid = document.getElementById('geodeGrid');
+    fetch('https://api.geode-sdk.org/v1/mods?developer=MalikHw47')
+      .then((r) => r.json())
+      .then((data) => {
+        geodeLoaded = true;
+        const mods = (data.payload?.data || []).filter((m) => m.id.startsWith('malikhw47.'));
+        if (!mods.length) {
+          grid.innerHTML = '<p class="loading-txt">No mods found.</p>';
+          return;
+        }
+        grid.innerHTML = mods.map((mod) => {
+          const version = mod.versions?.[0] || {};
+          const source = mod.links?.source;
+          return `
+            <div class="mod-card">
+              <img class="mod-logo" src="https://api.geode-sdk.org/v1/mods/${mod.id}/logo" alt="${version.name || mod.id}" loading="lazy">
+              <div class="mod-title">${version.name || mod.id}</div>
+              <div class="mod-desc">${version.description || ''}</div>
+              <div class="mod-btns">
+                <a href="${version.download_link}" target="_blank" rel="noopener" class="proj-btn">Download</a>
+                ${source ? `<a href="${source}" target="_blank" rel="noopener" class="proj-btn secondary">Source code</a>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+      })
+      .catch(() => {
+        grid.innerHTML = '<p class="loading-txt">Failed to load mods.</p>';
+      });
   }
-  setTimeout(typeStep, 800);
-
-  const canvas = document.getElementById('aurora');
-  const ctx = canvas.getContext('2d');
-  let W, H, t = 0;
-
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  function drawAurora() {
-    ctx.clearRect(0, 0, W, H);
-    const colors = ['#850000', '#853500', '#850045'];
-    for (let l = 0; l < 3; l++) {
-      const c = colors[l];
-      const grad = ctx.createLinearGradient(0, H * .2, W, H * .8);
-      grad.addColorStop(0, c + '00');
-      grad.addColorStop(.5, c + 'cc');
-      grad.addColorStop(1, c + '00');
-      ctx.beginPath();
-      ctx.moveTo(0, H * .5);
-      for (let x = 0; x <= W; x += 4) {
-        const y = H * .5
-          + Math.sin(x * .006 + t * .4 + l * 1.2) * H * .12
-          + Math.sin(x * .003 + t * .25 + l * .8) * H * .08;
-        ctx.lineTo(x, y);
-      }
-      ctx.lineTo(W, H);
-      ctx.lineTo(0, H);
-      ctx.closePath();
-      ctx.fillStyle = grad;
-      ctx.globalAlpha = .35;
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-    t += 0.012;
-    requestAnimationFrame(drawAurora);
-  }
-  drawAurora();
 })();
