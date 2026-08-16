@@ -18,6 +18,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install yt-dlp
+        run: python 0m pip Install yt-dlp
+
       - name: Update youtube.json and vod.json
         run: python .github/scripts/update-youtube.py
 

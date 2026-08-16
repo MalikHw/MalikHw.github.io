@@ -1,105 +1,41 @@
 #!/usr/bin/env python3
 import json
-import sys
-import urllib.request
-import xml.etree.ElementTree as ET
 from pathlib import Path
+from yt_dlp import YoutubeDL
 
-CHANNEL_ID = "UCyigqF_mR6nM2YnBOfKRfhQ"
-FEED_URL = f"https://www.youtube.com/feeds/videos.xml?channel_id={CHANNEL_ID}"
+CHANNEL_HANDLE = "@MalikHw47"
 ROOT = Path(__file__).resolve().parents[2]
 
-NS = {
-    "atom": "http://www.w3.org/2005/Atom",
-    "yt": "http://www.youtube.com/xml/schemas/2015",
-}
-
-
-def fetch(url: str) -> str:
-    req = urllib.request.Request(url, headers={"User-Agent": "malikhw-github-pages/1.0"})
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        return resp.read().decode("utf-8", errors="ignore")
-
-
-def parse_entries(feed_xml: str):
-    root = ET.fromstring(feed_xml)
-    entries = []
-    for entry in root.findall("atom:entry", NS):
-        video_id = entry.find("yt:videoId", NS)
-        title = entry.find("atom:title", NS)
-        if video_id is None or title is None:
-            continue
-        link = None
-        for link_el in entry.findall("atom:link", NS):
-            if link_el.get("rel") == "alternate":
-                link = link_el.get("href", "")
-                break
-        entries.append(
-            {
-                "id": video_id.text.strip(),
-                "title": title.text.strip(),
-                "link": link or "",
+def get_latest(channel_url: str, was_live: bool = None):
+    ydl_opts = {
+        "quiet": True,
+        "extract_flat": True,
+        "playlist_items": "1",
+    }
+    
+    with YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(channel_url, download=False)
+        if info and "entries" in info and info["entries"]:
+            entry = info["entries"][0]
+            if was_live is not None and entry.get("was_live") != was_live:
+                return None
+            return {
+                "id": entry["id"],
+                "title": entry["title"],
+                "src": f"https://www.youtube.com/embed/{entry['id']}"
             }
-        )
-    return entries
-
-
-def is_short(link: str) -> bool:
-    return "/shorts/" in link
-
-
-def is_live_vod(video_id: str) -> bool:
-    html = fetch(f"https://www.youtube.com/watch?v={video_id}")
-    return '"isLiveContent":true' in html
-
-
-def write_json(path: Path, payload: dict):
-    path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-
+    return None
 
 def main():
-    feed = fetch(FEED_URL)
-    entries = parse_entries(feed)
-    if not entries:
-        print("No entries found in RSS feed", file=sys.stderr)
-        sys.exit(1)
-
-    uploads = []
-    for entry in entries:
-        if is_short(entry["link"]):
-            continue
-        uploads.append({**entry, "live_vod": is_live_vod(entry["id"])})
-
-    if not uploads:
-        print("No non-Short upload found", file=sys.stderr)
-        sys.exit(1)
-
-    latest = next((e for e in uploads if not e["live_vod"]), None)
-    if latest:
-        write_json(
-            ROOT / "youtube.json",
-            {
-                "src": f"https://www.youtube.com/embed/{latest['id']}",
-                "title": latest["title"],
-            },
-        )
-        print(f"youtube.json -> {latest['title']} ({latest['id']})")
-    else:
-        print("No non-VOD upload found; youtube.json unchanged", file=sys.stderr)
-
-    vod = next((e for e in uploads if e["live_vod"]), None)
+    vod = get_latest(f"https://www.youtube.com/{CHANNEL_HANDLE}/streams", True)
     if vod:
-        write_json(
-            ROOT / "vod.json",
-            {
-                "src": f"https://www.youtube.com/embed/{vod['id']}",
-                "title": vod["title"],
-            },
-        )
-        print(f"vod.json -> {vod['title']} ({vod['id']})")
-    else:
-        print("No live VOD found in recent uploads; vod.json unchanged", file=sys.stderr)
-
+        Path(ROOT / "vod.json").write_text(json.dumps(vod, indent=2))
+        print(f"VOD: {vod['title']}")
+    
+    upload = get_latest(f"https://www.youtube.com/{CHANNEL_HANDLE}/videos", False)
+    if upload:
+        Path(ROOT / "youtube.json").write_text(json.dumps(upload, indent=2))
+        print(f"Upload: {upload['title']}")
 
 if __name__ == "__main__":
     main()
