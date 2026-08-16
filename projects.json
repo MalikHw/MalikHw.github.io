@@ -1,6 +1,19 @@
 {
   "projects": [
     {
+      "title": "HwGDReqs",
+      "description": "Geometry Dash level requests manager for Twitch & YouTube",
+      "borderColor": "#008eff",
+      "gradient": "linear-gradient(145deg, #008eff, #000)",
+      "buttons": [
+        {
+          "text": "Check Out",
+          "url": "https://hwgdreqs.github.io",
+          "icon": "nf nf-md-open_in_new"
+        }
+      ]
+    },
+    {
       "title": "Eat Teto",
       "description": "just spam teto",
       "borderColor": "#b81659",
