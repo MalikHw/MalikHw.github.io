@@ -158,12 +158,39 @@
   document.head.appendChild(adsenseScript);
 
   function isMalikHwDev(mod) {
-    const devs = mod.developers || [];
+    // The id itself is often prefixed by the developer's username (e.g. malikhw47.xyz).
+    if (typeof mod.id === 'string' && mod.id.toLowerCase().includes('malikhw')) return true;
+
+    // A single "developer" field, as a string or object, seen on some index implementations.
+    if (mod.developer) {
+      const d = mod.developer;
+      if (typeof d === 'string' && d.toLowerCase().includes('malikhw')) return true;
+      if (typeof d === 'object' && matchesDevObject(d)) return true;
+    }
+
+    // The usual "developers" array — entries can be plain strings or {username, display_name} objects.
+    const devs = Array.isArray(mod.developers) ? mod.developers : [];
     return devs.some((d) => {
-      const uname = (d.username || '').toLowerCase();
-      const disp = (d.display_name || '').toLowerCase();
-      return uname.includes('malikhw') || disp.includes('malikhw');
+      if (typeof d === 'string') return d.toLowerCase().includes('malikhw');
+      if (typeof d === 'object' && d) return matchesDevObject(d);
+      return false;
     });
+  }
+
+  function matchesDevObject(d) {
+    const fields = [d.username, d.display_name, d.name, d.login].filter(Boolean);
+    return fields.some((f) => String(f).toLowerCase().includes('malikhw'));
+  }
+
+  function extractDevNames(mod) {
+    const names = [];
+    if (mod.developer) names.push(typeof mod.developer === 'string' ? mod.developer : (mod.developer.username || mod.developer.display_name || mod.developer.name));
+    const devs = Array.isArray(mod.developers) ? mod.developers : [];
+    devs.forEach((d) => {
+      if (typeof d === 'string') names.push(d);
+      else if (d) names.push(d.username || d.display_name || d.name || d.login);
+    });
+    return names.filter(Boolean);
   }
 
   function modCardHtml(mod, source) {
@@ -202,6 +229,19 @@
     `;
   }
 
+  function noMatchTileHtml(totalCount, seenDevelopers) {
+    const devList = seenDevelopers.length
+      ? `Developers seen on that index: ${seenDevelopers.join(', ')}.`
+      : `Couldn't find a recognizable developer field on those mods at all.`;
+    return `
+      <div class="mod-card mod-card-error">
+        <div class="mod-error-icon nf nf-md-alert_circle_outline"></div>
+        <div class="mod-title">No MalikHw mods matched</div>
+        <div class="mod-desc">The Open Geode Index responded with ${totalCount} mod(s), but none matched "MalikHw" by id or developer name. ${devList} The API's data shape may not match what this site expects — check the browser console (window.__openGeodeDebug) for the raw response.</div>
+      </div>
+    `;
+  }
+
   function fetchOfficialMods() {
     return fetch('https://api.geode-sdk.org/v1/mods?developer=MalikHw47')
       .then((r) => {
@@ -218,7 +258,23 @@
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();
       })
-      .then((data) => ({ mods: (data.payload?.data || []).filter(isMalikHwDev) }))
+      .then((data) => {
+        // Stash the raw response on window so it can be inspected from devtools if something looks off.
+        window.__openGeodeDebug = data;
+
+        const all = data.payload?.data || data.data || (Array.isArray(data) ? data : []);
+        const mods = all.filter(isMalikHwDev);
+
+        if (!mods.length && all.length) {
+          const seen = new Set();
+          all.forEach((m) => extractDevNames(m).forEach((n) => seen.add(n)));
+          return { mods: [], noMatch: true, totalCount: all.length, seenDevelopers: Array.from(seen).slice(0, 20) };
+        }
+        if (!all.length) {
+          return { mods: [], error: 'the index returned 0 mods total' };
+        }
+        return { mods };
+      })
       .catch((err) => ({ mods: [], error: (err && err.message) || 'unknown error (likely CORS)' }));
   }
 
@@ -230,11 +286,16 @@
       geodeLoaded = true;
 
       const officialHtml = official.mods.map((m) => modCardHtml(m, 'official')).join('');
-      const openGeodeHtml = openGeode.error
-        ? errorTileHtml(openGeode.error)
-        : openGeode.mods.map((m) => modCardHtml(m, 'open-geode')).join('');
+      let openGeodeHtml;
+      if (openGeode.error) {
+        openGeodeHtml = errorTileHtml(openGeode.error);
+      } else if (openGeode.noMatch) {
+        openGeodeHtml = noMatchTileHtml(openGeode.totalCount, openGeode.seenDevelopers);
+      } else {
+        openGeodeHtml = openGeode.mods.map((m) => modCardHtml(m, 'open-geode')).join('');
+      }
 
-      if (!official.mods.length && !openGeode.mods.length && !openGeode.error) {
+      if (!official.mods.length && !openGeode.mods.length && !openGeode.error && !openGeode.noMatch) {
         grid.innerHTML = '<p class="loading-txt">No mods found.</p>';
         return;
       }
