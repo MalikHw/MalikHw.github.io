@@ -3,7 +3,7 @@
   const merchBtn = document.getElementById('merchBtn');
 
   donateBtn.addEventListener('click', () => {
-    window.open('https://malikhw.github.io/donate', '_blank');
+    window.open('https://malikhw.github.io/Donate', '_blank');
   });
 
   merchBtn.addEventListener('click', () => {
@@ -305,17 +305,33 @@
       .catch((err) => ({ mods: [], error: (err && err.message) || 'unknown error' }));
   }
 
-  function fetchOpenGeodeMods() {
-    return fetch('https://open-geode.7m.pl/v1/mods')
+  // The Open Geode Index paginates (default 50 per page) and reports the true
+  // total in payload.count, which can be higher than a single page's worth of
+  // mods. Walk every page so we don't silently miss mods past page 1.
+  function fetchAllOpenGeodePages(page, acc, expectedTotal) {
+    return fetch(`https://open-geode.7m.pl/v1/mods?page=${page}&per_page=100`)
       .then((r) => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();
       })
       .then((data) => {
-        // Also stash on window for anyone who does have devtools handy.
-        window.__openGeodeDebug = data;
+        const pageMods = data.payload?.data || data.data || (Array.isArray(data) ? data : []);
+        const total = typeof data.payload?.count === 'number' ? data.payload.count : (expectedTotal ?? pageMods.length);
+        const combined = acc.concat(pageMods);
 
-        const all = data.payload?.data || data.data || (Array.isArray(data) ? data : []);
+        if (pageMods.length > 0 && combined.length < total) {
+          return fetchAllOpenGeodePages(page + 1, combined, total);
+        }
+        return { all: combined, rawFirstPage: data };
+      });
+  }
+
+  function fetchOpenGeodeMods() {
+    return fetchAllOpenGeodePages(1, [], null)
+      .then(({ all, rawFirstPage }) => {
+        // Stash on window for anyone who does have devtools handy.
+        window.__openGeodeDebug = rawFirstPage;
+
         const mods = all.filter(isMalikHwDev);
 
         if (!mods.length && all.length) {
@@ -332,7 +348,7 @@
           };
         }
         if (!all.length) {
-          let rawSample = JSON.stringify(data, null, 2);
+          let rawSample = JSON.stringify(rawFirstPage, null, 2);
           if (rawSample.length > 1500) rawSample = rawSample.slice(0, 1500) + '\n… (truncated)';
           return { mods: [], error: 'the index returned 0 mods total', rawSample };
         }
