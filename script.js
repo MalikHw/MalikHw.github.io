@@ -219,17 +219,25 @@
     `;
   }
 
-  function errorTileHtml(message) {
+  function errorTileHtml(message, rawSample) {
     return `
       <div class="mod-card mod-card-error">
         <div class="mod-error-icon nf nf-md-alert_circle_outline"></div>
         <div class="mod-title">Open Geode Index unavailable</div>
         <div class="mod-desc">Couldn't load mods from the Open Geode Index (${message}). This is usually caused by that server blocking cross-origin requests (CORS) or being temporarily down — try again later.</div>
+        ${rawSample ? `<details class="mod-debug"><summary>Show raw response</summary><pre>${escapeHtml(rawSample)}</pre></details>` : ''}
       </div>
     `;
   }
 
-  function noMatchTileHtml(totalCount, seenDevelopers) {
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function noMatchTileHtml(totalCount, seenDevelopers, rawSample) {
     const devList = seenDevelopers.length
       ? `Developers seen on that index: ${seenDevelopers.join(', ')}.`
       : `Couldn't find a recognizable developer field on those mods at all.`;
@@ -237,7 +245,11 @@
       <div class="mod-card mod-card-error">
         <div class="mod-error-icon nf nf-md-alert_circle_outline"></div>
         <div class="mod-title">No MalikHw mods matched</div>
-        <div class="mod-desc">The Open Geode Index responded with ${totalCount} mod(s), but none matched "MalikHw" by id or developer name. ${devList} The API's data shape may not match what this site expects — check the browser console (window.__openGeodeDebug) for the raw response.</div>
+        <div class="mod-desc">The Open Geode Index responded with ${totalCount} mod(s), but none matched "MalikHw" by id or developer name. ${devList} The API's data shape may not match what this site expects.</div>
+        <details class="mod-debug">
+          <summary>Show raw sample data</summary>
+          <pre>${escapeHtml(rawSample)}</pre>
+        </details>
       </div>
     `;
   }
@@ -259,7 +271,7 @@
         return r.json();
       })
       .then((data) => {
-        // Stash the raw response on window so it can be inspected from devtools if something looks off.
+        // Also stash on window for anyone who does have devtools handy.
         window.__openGeodeDebug = data;
 
         const all = data.payload?.data || data.data || (Array.isArray(data) ? data : []);
@@ -268,10 +280,20 @@
         if (!mods.length && all.length) {
           const seen = new Set();
           all.forEach((m) => extractDevNames(m).forEach((n) => seen.add(n)));
-          return { mods: [], noMatch: true, totalCount: all.length, seenDevelopers: Array.from(seen).slice(0, 20) };
+          let rawSample = JSON.stringify(all.slice(0, 2), null, 2);
+          if (rawSample.length > 1500) rawSample = rawSample.slice(0, 1500) + '\n… (truncated)';
+          return {
+            mods: [],
+            noMatch: true,
+            totalCount: all.length,
+            seenDevelopers: Array.from(seen).slice(0, 20),
+            rawSample,
+          };
         }
         if (!all.length) {
-          return { mods: [], error: 'the index returned 0 mods total' };
+          let rawSample = JSON.stringify(data, null, 2);
+          if (rawSample.length > 1500) rawSample = rawSample.slice(0, 1500) + '\n… (truncated)';
+          return { mods: [], error: 'the index returned 0 mods total', rawSample };
         }
         return { mods };
       })
@@ -288,9 +310,9 @@
       const officialHtml = official.mods.map((m) => modCardHtml(m, 'official')).join('');
       let openGeodeHtml;
       if (openGeode.error) {
-        openGeodeHtml = errorTileHtml(openGeode.error);
+        openGeodeHtml = errorTileHtml(openGeode.error, openGeode.rawSample);
       } else if (openGeode.noMatch) {
-        openGeodeHtml = noMatchTileHtml(openGeode.totalCount, openGeode.seenDevelopers);
+        openGeodeHtml = noMatchTileHtml(openGeode.totalCount, openGeode.seenDevelopers, openGeode.rawSample);
       } else {
         openGeodeHtml = openGeode.mods.map((m) => modCardHtml(m, 'open-geode')).join('');
       }
