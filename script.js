@@ -69,24 +69,65 @@
     { key: 'coins', label: 'Secret Coins', icon: 'nf nf-md-circle_multiple', color: '#ebd234' }
   ];
 
+  function fetchAredlRank() {
+    return fetch('https://api.aredl.net/v2/api/aredl/profile/1131020856827580508')
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data) => (typeof data.rank === 'number' ? data.rank : null))
+      .catch(() => null);
+  }
+
+  function fetchGdlRank() {
+    return fetch('https://api.demonlist.org/user/get?id=24010')
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data) => (data.data && typeof data.data.placement === 'number' ? data.data.placement : null))
+      .catch(() => null);
+  }
+
   function loadGd() {
     if (gdLoaded) return;
-    fetch('https://gdbrowser.com/api/profile/MalikHw47')
+    const grid = document.getElementById('gdGrid');
+
+    const profilePromise = fetch('https://gdbrowser.com/api/profile/MalikHw47')
       .then((r) => r.json())
-      .then((data) => {
-        gdLoaded = true;
-        const grid = document.getElementById('gdGrid');
-        grid.innerHTML = gdStats.map((s) => `
-          <div class="gd-card" style="border-color:${s.color}40">
-            <span class="gd-icon ${s.icon}" style="color:${s.color}"></span>
-            <div class="gd-val" style="color:${s.color}">${(data[s.key] || 0).toLocaleString()}</div>
-            <div class="gd-lbl">${s.label}</div>
-          </div>
-        `).join('');
-      })
-      .catch(() => {
-        document.getElementById('gdGrid').innerHTML = '<p class="loading-txt">Failed to load GD stats.</p>';
-      });
+      .catch(() => null);
+
+    Promise.all([profilePromise, fetchAredlRank(), fetchGdlRank()]).then(([data, aredlRank, gdlRank]) => {
+      gdLoaded = true;
+
+      if (!data) {
+        grid.innerHTML = '<p class="loading-txt">Failed to load GD stats.</p>';
+        return;
+      }
+
+      const standardHtml = gdStats.map((s) => `
+        <div class="gd-card" style="border-color:${s.color}40">
+          <span class="gd-icon ${s.icon}" style="color:${s.color}"></span>
+          <div class="gd-val" style="color:${s.color}">${(data[s.key] || 0).toLocaleString()}</div>
+          <div class="gd-lbl">${s.label}</div>
+        </div>
+      `).join('');
+
+      const extraStats = [
+        { text: 'AREDL', label: 'AREDL Rank', value: aredlRank, color: '#ff5964' },
+        { text: 'Global Demonlist', label: 'GDL Rank', value: gdlRank, color: '#5cdb95' },
+      ];
+
+      const extraHtml = extraStats.map((s) => `
+        <div class="gd-card" style="border-color:${s.color}40">
+          <div class="gd-text-icon" style="color:${s.color}">${s.text}</div>
+          <div class="gd-val" style="color:${s.color}">${s.value !== null ? '#' + s.value.toLocaleString() : 'N/A'}</div>
+          <div class="gd-lbl">${s.label}</div>
+        </div>
+      `).join('');
+
+      grid.innerHTML = standardHtml + extraHtml;
+    });
   }
 
   function loadYoutubeEmbed(boxId, jsonPath, fallback) {
