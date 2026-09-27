@@ -395,6 +395,23 @@ md-tabs {
   gap: 6px;
 }
 
+.mod-card-error {
+  border-color: rgba(255, 99, 99, .45);
+  background: rgba(58, 20, 20, .55);
+  padding: 24px;
+}
+
+.mod-error-icon {
+  font-size: 2.4rem;
+  color: #ff6b6b;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.mod-card-error .mod-title {
+  color: #ff8a8a;
+}
+
 .embeds-section {
   max-width: 1200px;
   margin: 0 auto;

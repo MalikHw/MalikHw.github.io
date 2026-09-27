@@ -192,29 +192,54 @@
     `;
   }
 
+  function errorTileHtml(message) {
+    return `
+      <div class="mod-card mod-card-error">
+        <div class="mod-error-icon nf nf-md-alert_circle_outline"></div>
+        <div class="mod-title">Open Geode Index unavailable</div>
+        <div class="mod-desc">Couldn't load mods from the Open Geode Index (${message}). This is usually caused by that server blocking cross-origin requests (CORS) or being temporarily down — try again later.</div>
+      </div>
+    `;
+  }
+
+  function fetchOfficialMods() {
+    return fetch('https://api.geode-sdk.org/v1/mods?developer=MalikHw47')
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data) => ({ mods: (data.payload?.data || []).filter((m) => m.id.startsWith('malikhw47.')) }))
+      .catch((err) => ({ mods: [], error: (err && err.message) || 'unknown error' }));
+  }
+
+  function fetchOpenGeodeMods() {
+    return fetch('https://open-geode.7m.pl/v1/mods')
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((data) => ({ mods: (data.payload?.data || []).filter(isMalikHwDev) }))
+      .catch((err) => ({ mods: [], error: (err && err.message) || 'unknown error (likely CORS)' }));
+  }
+
   function loadGeodeMods() {
     if (geodeLoaded) return;
     const grid = document.getElementById('geodeGrid');
 
-    const officialMods = fetch('https://api.geode-sdk.org/v1/mods?developer=MalikHw47')
-      .then((r) => r.json())
-      .then((data) => (data.payload?.data || []).filter((m) => m.id.startsWith('malikhw47.')))
-      .catch(() => []);
-
-    const openGeodeMods = fetch('https://open-geode.7m.pl/v1/mods')
-      .then((r) => r.json())
-      .then((data) => (data.payload?.data || []).filter(isMalikHwDev))
-      .catch(() => []);
-
-    Promise.all([officialMods, openGeodeMods]).then(([official, openGeode]) => {
+    Promise.all([fetchOfficialMods(), fetchOpenGeodeMods()]).then(([official, openGeode]) => {
       geodeLoaded = true;
-      if (!official.length && !openGeode.length) {
+
+      const officialHtml = official.mods.map((m) => modCardHtml(m, 'official')).join('');
+      const openGeodeHtml = openGeode.error
+        ? errorTileHtml(openGeode.error)
+        : openGeode.mods.map((m) => modCardHtml(m, 'open-geode')).join('');
+
+      if (!official.mods.length && !openGeode.mods.length && !openGeode.error) {
         grid.innerHTML = '<p class="loading-txt">No mods found.</p>';
         return;
       }
-      grid.innerHTML =
-        official.map((m) => modCardHtml(m, 'official')).join('') +
-        openGeode.map((m) => modCardHtml(m, 'open-geode')).join('');
+
+      grid.innerHTML = officialHtml + openGeodeHtml;
     });
   }
 })();
