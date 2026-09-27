@@ -1,20 +1,9 @@
 (function () {
-  const donateWrap = document.getElementById('donateWrap');
   const donateBtn = document.getElementById('donateBtn');
-  const donateMenu = document.getElementById('donateMenu');
-  const donChev = document.getElementById('donChev');
   const merchBtn = document.getElementById('merchBtn');
 
   donateBtn.addEventListener('click', () => {
-    const open = donateMenu.classList.toggle('open');
-    donChev.className = open ? 'nf nf-md-chevron_up' : 'nf nf-md-chevron_down';
-  });
-
-  document.addEventListener('mousedown', (e) => {
-    if (!donateWrap.contains(e.target)) {
-      donateMenu.classList.remove('open');
-      donChev.className = 'nf nf-md-chevron_down';
-    }
+    window.open('https://malikhw.github.io/Donate', '_blank');
   });
 
   merchBtn.addEventListener('click', () => {
@@ -168,36 +157,64 @@
   adsenseScript.crossOrigin = 'anonymous';
   document.head.appendChild(adsenseScript);
 
+  function isMalikHwDev(mod) {
+    const devs = mod.developers || [];
+    return devs.some((d) => {
+      const uname = (d.username || '').toLowerCase();
+      const disp = (d.display_name || '').toLowerCase();
+      return uname.includes('malikhw') || disp.includes('malikhw');
+    });
+  }
+
+  function modCardHtml(mod, source) {
+    const isOpenGeode = source === 'open-geode';
+    const version = (mod.versions && mod.versions[0]) || {};
+    const sourceLink = (mod.links && mod.links.source) || (mod.repo ? `https://github.com/${mod.repo}` : null);
+    const logoUrl = isOpenGeode
+      ? `https://open-geode.7m.pl/v1/mods/${mod.id}/logo`
+      : `https://api.geode-sdk.org/v1/mods/${mod.id}/logo`;
+    const title = version.name || mod.id;
+    const desc = version.description || mod.about || '';
+    const downloads = typeof mod.download_count === 'number' ? mod.download_count.toLocaleString() : null;
+
+    return `
+      <div class="mod-card${isOpenGeode ? ' mod-card-yellow' : ''}">
+        ${isOpenGeode ? '<div class="mod-badge">Open Geode Index</div>' : ''}
+        <img class="mod-logo" src="${logoUrl}" alt="${title}" loading="lazy">
+        <div class="mod-title">${title}</div>
+        <div class="mod-desc">${desc}</div>
+        ${downloads !== null ? `<div class="mod-downloads"><span class="nf nf-md-download"></span> ${downloads} downloads</div>` : ''}
+        <div class="mod-btns">
+          <a href="${version.download_link}" target="_blank" rel="noopener" class="proj-btn">Download</a>
+          ${sourceLink ? `<a href="${sourceLink}" target="_blank" rel="noopener" class="proj-btn secondary">Source code</a>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
   function loadGeodeMods() {
     if (geodeLoaded) return;
     const grid = document.getElementById('geodeGrid');
-    fetch('https://api.geode-sdk.org/v1/mods?developer=MalikHw47')
+
+    const officialMods = fetch('https://api.geode-sdk.org/v1/mods?developer=MalikHw47')
       .then((r) => r.json())
-      .then((data) => {
-        geodeLoaded = true;
-        const mods = (data.payload?.data || []).filter((m) => m.id.startsWith('malikhw47.'));
-        if (!mods.length) {
-          grid.innerHTML = '<p class="loading-txt">No mods found.</p>';
-          return;
-        }
-        grid.innerHTML = mods.map((mod) => {
-          const version = mod.versions?.[0] || {};
-          const source = mod.links?.source;
-          return `
-            <div class="mod-card">
-              <img class="mod-logo" src="https://api.geode-sdk.org/v1/mods/${mod.id}/logo" alt="${version.name || mod.id}" loading="lazy">
-              <div class="mod-title">${version.name || mod.id}</div>
-              <div class="mod-desc">${version.description || ''}</div>
-              <div class="mod-btns">
-                <a href="${version.download_link}" target="_blank" rel="noopener" class="proj-btn">Download</a>
-                ${source ? `<a href="${source}" target="_blank" rel="noopener" class="proj-btn secondary">Source code</a>` : ''}
-              </div>
-            </div>
-          `;
-        }).join('');
-      })
-      .catch(() => {
-        grid.innerHTML = '<p class="loading-txt">Failed to load mods.</p>';
-      });
+      .then((data) => (data.payload?.data || []).filter((m) => m.id.startsWith('malikhw47.')))
+      .catch(() => []);
+
+    const openGeodeMods = fetch('https://open-geode.7m.pl/v1/mods')
+      .then((r) => r.json())
+      .then((data) => (data.payload?.data || []).filter(isMalikHwDev))
+      .catch(() => []);
+
+    Promise.all([officialMods, openGeodeMods]).then(([official, openGeode]) => {
+      geodeLoaded = true;
+      if (!official.length && !openGeode.length) {
+        grid.innerHTML = '<p class="loading-txt">No mods found.</p>';
+        return;
+      }
+      grid.innerHTML =
+        official.map((m) => modCardHtml(m, 'official')).join('') +
+        openGeode.map((m) => modCardHtml(m, 'open-geode')).join('');
+    });
   }
 })();

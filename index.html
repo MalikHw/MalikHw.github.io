@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <script src="https://apis.google.com/js/platform.js"></script>
   <script type="importmap">{"imports":{"@material/web/":"https://esm.run/@material/web/"}}</script>
   <script type="module">
     import '@material/web/all.js';
@@ -25,14 +26,8 @@
   <div class="top-actions">
     <div class="donate-wrap" id="donateWrap">
       <md-filled-button id="donateBtn">
-        Donate <span class="nf nf-md-chevron_down" id="donChev" style="margin-left:4px;font-size:.9rem"></span>
+        Donate
       </md-filled-button>
-      <div class="donate-menu" id="donateMenu">
-        <a href="https://discord.gg/G9bZ92eg2n" target="_blank" rel="noopener" class="dlink" style="--c:#5913ad"><span class="nf nf-md-discord"></span> boost discord server</a>
-        <a href="https://throne.com/MalikHw47" target="_blank" rel="noopener" class="dlink" style="--c:#f7768e"> get me a Gift</a>
-        <a href="https://absolllute.com/store/mega_hack?gift=1" target="_blank" rel="noopener" class="dlink" style="--c:#9ece6a">get me MHv9</a>
-        <div class="dthanks">W</div>
-      </div>
     </div>
     <md-filled-tonal-button id="merchBtn"> Merch </md-filled-tonal-button>
   </div>
@@ -46,6 +41,9 @@
       <md-filled-tonal-icon-button id="yt-btn" title="YouTube"><span class="nf nf-md-youtube"></span></md-filled-tonal-icon-button>
       <md-filled-tonal-icon-button id="tw-btn" title="Twitch"><span class="nf nf-md-twitch"></span></md-filled-tonal-icon-button>
       <md-filled-tonal-icon-button id="dc-btn" title="Discord"><span class="nf nf-md-discord"></span></md-filled-tonal-icon-button>
+    </div>
+    <div class="sub-count-wrap">
+      <div class="g-ytsubscribe" data-channelid="UCyigqF_mR6nM2YnBOfKRfhQ" data-layout="full" data-count="hidden"></div>
     </div>
   </section>
 
@@ -72,6 +70,10 @@
 
     <div id="panel-geode" class="panel hidden">
       <h2 class="sec-title">Geode Mods</h2>
+      <div class="geode-banner">
+        <span class="nf nf-md-alert"></span>
+        I am index banned... This means most of these mods will NOT get updated once GD 2.209/Geode v6(potentially) drops, and mods here with a yellow tile are from the <a href="https://open-geode.7m.pl/" target="_blank" rel="noopener">Open Geode Index</a>.
+      </div>
       <div id="geodeGrid" class="mod-grid">
         <p class="loading-txt">Loading mods…</p>
       </div>
