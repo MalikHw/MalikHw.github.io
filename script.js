@@ -75,7 +75,7 @@
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();
       })
-      .then((data) => (typeof data.rank === 'number' ? data.rank : null))
+      .then((data) => (data.rank && typeof data.rank.rank === 'number' ? data.rank.rank : null))
       .catch(() => null);
   }
 
