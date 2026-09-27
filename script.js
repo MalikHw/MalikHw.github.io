@@ -3,7 +3,7 @@
   const merchBtn = document.getElementById('merchBtn');
 
   donateBtn.addEventListener('click', () => {
-    window.open('https://malikhw.github.io/Donate', '_blank');
+    window.open('https://malikhw.github.io/donate', '_blank');
   });
 
   merchBtn.addEventListener('click', () => {
