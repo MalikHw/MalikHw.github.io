@@ -31,10 +31,10 @@ on:
         required: true
         type: string
       button1_icon:
-        description: 'Button 1 Icon (NerdFont class, e.g., nf nf-md-open_in_new)'
+        description: 'Button 1 Icon (MD icon name like "open_in_new", or image URL)'
         required: false
         type: string
-        default: 'nf nf-md-open_in_new'
+        default: 'open_in_new'
       button2_text:
         description: 'Button 2 Text (Optional)'
         required: false
@@ -44,7 +44,7 @@ on:
         required: false
         type: string
       button2_icon:
-        description: 'Button 2 Icon (Optional)'
+        description: 'Button 2 Icon (MD icon name or image URL, Optional)'
         required: false
         type: string
       button3_text:
@@ -56,7 +56,7 @@ on:
         required: false
         type: string
       button3_icon:
-        description: 'Button 3 Icon (Optional)'
+        description: 'Button 3 Icon (MD icon name or image URL, Optional)'
         required: false
         type: string
 

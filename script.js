@@ -28,6 +28,50 @@
     if (active === 2) loadGeodeMods();
   });
 
+  function iconHtml(iconValue, opts = {}) {
+    if (!iconValue) return '';
+    const size = opts.size || 18;
+    const trimmed = String(iconValue).trim();
+
+    if (/^(https?:\/\/|\/|\.\/)/.test(trimmed)) {
+      return `<img src="${trimmed}" width="${size}" height="${size}" alt="icon" style="display:inline-block;vertical-align:middle;object-fit:contain">`;
+    }
+
+    const siMap = {
+      'nf nf-dev-github': { slug: 'github', color: 'ffffff' },
+      'nf nf-md-github': { slug: 'github', color: 'ffffff' },
+      'nf nf-dev-pypi': { slug: 'pypi', color: 'ffffff' },
+      'nf nf-md-firefox': { slug: 'firefox', color: 'ffffff' },
+      'nf nf-md-microsoft_edge': { slug: 'microsoftedge', color: 'ffffff' },
+      'nf nf-md-youtube': { slug: 'youtube', color: 'ffffff' },
+      'nf nf-md-twitch': { slug: 'twitch', color: 'ffffff' },
+      'nf nf-md-discord': { slug: 'discord', color: 'ffffff' },
+      'github': { slug: 'github', color: 'ffffff' },
+      'pypi': { slug: 'pypi', color: 'ffffff' },
+      'firefox': { slug: 'firefox', color: 'ffffff' },
+      'microsoftedge': { slug: 'microsoftedge', color: 'ffffff' },
+      'youtube': { slug: 'youtube', color: 'ffffff' },
+      'twitch': { slug: 'twitch', color: 'ffffff' },
+      'discord': { slug: 'discord', color: 'ffffff' }
+    };
+
+    const msMap = {
+      'nf nf-md-open_in_new': 'open_in_new',
+      'nf nf-fa-link': 'link',
+      'nf nf-md-download': 'download',
+      'nf nf-md-alert': 'warning',
+      'nf nf-md-alert_circle_outline': 'error'
+    };
+
+    if (siMap[trimmed]) {
+      const { slug, color } = siMap[trimmed];
+      return `<img src="https://cdn.simpleicons.org/${slug}/${color}" width="${size}" height="${size}" alt="${slug}" style="display:inline-block;vertical-align:middle">`;
+    }
+
+    const msName = msMap[trimmed] || trimmed;
+    return `<span class="material-symbols-outlined" style="font-size:${size}px">${msName}</span>`;
+  }
+
   function buildProjectsGrid(projects) {
     const grid = document.getElementById('projectsGrid');
     if (!projects.length) {
@@ -39,11 +83,24 @@
         <div class="proj-title" style="color:${p.borderColor}">${p.title}</div>
         <div class="proj-desc">${p.description}</div>
         <div class="proj-btns">
-          ${(p.buttons || []).map((b, i) => `
-            <a href="${b.url}" target="_blank" rel="noopener" class="proj-btn${i > 0 ? ' secondary' : ''}" style="${i === 0 ? 'background:' + p.borderColor : ''}">
-              ${b.icon ? `<span class="${b.icon}"></span>` : ''}${b.text}
-            </a>
-          `).join('')}
+          ${(p.buttons || []).map((b, i) => {
+            const iconPart = b.icon ? `<span slot="icon">${iconHtml(b.icon)}</span>` : '';
+            if (i === 0) {
+              return `
+                <md-filled-button href="${b.url}" target="_blank" rel="noopener"${b.icon ? ' has-icon' : ''} style="--md-filled-button-container-color:${p.borderColor};--md-filled-button-label-text-color:#ffffff">
+                  ${iconPart}
+                  ${b.text}
+                </md-filled-button>
+              `;
+            } else {
+              return `
+                <md-outlined-button href="${b.url}" target="_blank" rel="noopener"${b.icon ? ' has-icon' : ''}>
+                  ${iconPart}
+                  ${b.text}
+                </md-outlined-button>
+              `;
+            }
+          }).join('')}
         </div>
       </div>
     `).join('');
@@ -59,75 +116,17 @@
   let gdLoaded = false;
   let geodeLoaded = false;
 
-  const gdStats = [
-    { key: 'stars', label: 'Stars', icon: 'nf nf-md-star', color: '#FFD700' },
-    { key: 'cp', label: 'Creator Points',icon: 'nf nf-md-trophy', color: '#FF6B6B' },
-    { key: 'rank', label: 'Rank', icon: 'nf nf-md-podium', color: '#4ECDC4' },
-    { key: 'diamonds', label: 'Diamonds', icon: 'nf nf-md-diamond_stone', color: '#95E1D3' },
-    { key: 'demons', label: 'Demons', icon: 'nf nf-md-ghost', color: '#F38181' },
-    { key: 'userCoins', label: 'User Coins', icon: 'nf nf-fae-coins', color: '#AA96DA' },
-    { key: 'coins', label: 'Secret Coins', icon: 'nf nf-md-circle_multiple', color: '#ebd234' }
-  ];
-
-  function fetchAredlRank() {
-    return fetch('https://api.aredl.net/v2/api/aredl/profile/1131020856827580508')
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
-      })
-      .then((data) => (data.rank && typeof data.rank.rank === 'number' ? data.rank.rank : null))
-      .catch(() => null);
-  }
-
-  function fetchGdlRank() {
-    return fetch('https://api.demonlist.org/user/get?id=24010')
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
-      })
-      .then((data) => (data.data && typeof data.data.placement === 'number' ? data.data.placement : null))
-      .catch(() => null);
-  }
-
   function loadGd() {
     if (gdLoaded) return;
+    gdLoaded = true;
     const grid = document.getElementById('gdGrid');
-
-    const profilePromise = fetch('https://gdbrowser.com/api/profile/MalikHw47')
-      .then((r) => r.json())
-      .catch(() => null);
-
-    Promise.all([profilePromise, fetchAredlRank(), fetchGdlRank()]).then(([data, aredlRank, gdlRank]) => {
-      gdLoaded = true;
-
-      if (!data) {
-        grid.innerHTML = '<p class="loading-txt">Failed to load GD stats.</p>';
-        return;
-      }
-
-      const standardHtml = gdStats.map((s) => `
-        <div class="gd-card" style="border-color:${s.color}40">
-          <span class="gd-icon ${s.icon}" style="color:${s.color}"></span>
-          <div class="gd-val" style="color:${s.color}">${(data[s.key] || 0).toLocaleString()}</div>
-          <div class="gd-lbl">${s.label}</div>
-        </div>
-      `).join('');
-
-      const extraStats = [
-        { text: 'AREDL', label: 'AREDL Rank', value: aredlRank, color: '#ff5964' },
-        { text: 'Global Demonlist', label: 'GDL Rank', value: gdlRank, color: '#5cdb95' },
-      ];
-
-      const extraHtml = extraStats.map((s) => `
-        <div class="gd-card" style="border-color:${s.color}40">
-          <div class="gd-text-icon" style="color:${s.color}">${s.text}</div>
-          <div class="gd-val" style="color:${s.color}">${s.value !== null ? '#' + s.value.toLocaleString() : 'N/A'}</div>
-          <div class="gd-lbl">${s.label}</div>
-        </div>
-      `).join('');
-
-      grid.innerHTML = standardHtml + extraHtml;
-    });
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:48px 20px;display:flex;flex-direction:column;align-items:center;gap:16px">
+        <span class="material-symbols-outlined" style="font-size:3rem;color:var(--md-sys-color-primary)">cloud_off</span>
+        <p style="font-size:1.1rem;font-weight:600;color:var(--md-sys-color-on-surface);margin:0">GDBrowser API is down for now</p>
+        <p style="font-size:.9rem;color:var(--md-sys-color-on-surface-variant);margin:0">Will update soon once it's back up.</p>
+      </div>
+    `;
   }
 
   function loadYoutubeEmbed(boxId, jsonPath, fallback) {
@@ -170,7 +169,7 @@
     if (el && window.Twitch) {
       new window.Twitch.Embed(el, {
         width: '100%',
-        height: 420,
+        height: 400,
         channel: 'MalikHw47',
         parent: ['malikhw.github.io']
       });
@@ -186,8 +185,8 @@
       window.kofiWidgetOverlay.draw('malikhw47', {
         'type': 'floating-chat',
         'floating-chat.donateButton.text': 'Donate',
-        'floating-chat.donateButton.background-color': '#2e2eb3',
-        'floating-chat.donateButton.text-color': '#fff'
+        'floating-chat.donateButton.background-color': '#f5c800',
+        'floating-chat.donateButton.text-color': '#3a2e00'
       });
     }
   };
@@ -199,17 +198,14 @@
   document.head.appendChild(adsenseScript);
 
   function isMalikHwDev(mod) {
-    // The id itself is often prefixed by the developer's username (e.g. malikhw47.xyz).
     if (typeof mod.id === 'string' && mod.id.toLowerCase().includes('malikhw')) return true;
 
-    // A single "developer" field, as a string or object, seen on some index implementations.
     if (mod.developer) {
       const d = mod.developer;
       if (typeof d === 'string' && d.toLowerCase().includes('malikhw')) return true;
       if (typeof d === 'object' && matchesDevObject(d)) return true;
     }
 
-    // The usual "developers" array — entries can be plain strings or {username, display_name} objects.
     const devs = Array.isArray(mod.developers) ? mod.developers : [];
     return devs.some((d) => {
       if (typeof d === 'string') return d.toLowerCase().includes('malikhw');
@@ -251,10 +247,18 @@
         <img class="mod-logo" src="${logoUrl}" alt="${title}" loading="lazy">
         <div class="mod-title">${title}</div>
         <div class="mod-desc">${desc}</div>
-        ${downloads !== null ? `<div class="mod-downloads"><span class="nf nf-md-download"></span> ${downloads} downloads</div>` : ''}
+        ${downloads !== null ? `<div class="mod-downloads"><span class="material-symbols-outlined" style="font-size:1rem">download</span> ${downloads} downloads</div>` : ''}
         <div class="mod-btns">
-          <a href="${version.download_link}" target="_blank" rel="noopener" class="proj-btn">Download</a>
-          ${sourceLink ? `<a href="${sourceLink}" target="_blank" rel="noopener" class="proj-btn secondary">Source code</a>` : ''}
+          <md-filled-button href="${version.download_link}" target="_blank" rel="noopener" has-icon>
+            <span slot="icon" class="material-symbols-outlined">download</span>
+            Download
+          </md-filled-button>
+          ${sourceLink ? `
+            <md-outlined-button href="${sourceLink}" target="_blank" rel="noopener" has-icon>
+              <img slot="icon" src="https://cdn.simpleicons.org/github/ccc6a8" width="18" height="18" alt="GitHub" style="display:block">
+              Source code
+            </md-outlined-button>
+          ` : ''}
         </div>
       </div>
     `;
@@ -263,9 +267,9 @@
   function errorTileHtml(message, rawSample) {
     return `
       <div class="mod-card mod-card-error">
-        <div class="mod-error-icon nf nf-md-alert_circle_outline"></div>
+        <div class="mod-error-icon material-symbols-outlined">error</div>
         <div class="mod-title">Open Geode Index unavailable</div>
-        <div class="mod-desc">Couldn't load mods from the Open Geode Index (${message}). This is usually caused by that server blocking cross-origin requests (CORS) or being temporarily down — try again later.</div>
+        <div class="mod-desc">Couldn't load mods from the Open Geode Index (${message}). This is usually caused by that server blocking cross-origin requests (CORS) or being temporarily down - try again later.</div>
         ${rawSample ? `<details class="mod-debug"><summary>Show raw response</summary><pre>${escapeHtml(rawSample)}</pre></details>` : ''}
       </div>
     `;
@@ -284,7 +288,7 @@
       : `Couldn't find a recognizable developer field on those mods at all.`;
     return `
       <div class="mod-card mod-card-error">
-        <div class="mod-error-icon nf nf-md-alert_circle_outline"></div>
+        <div class="mod-error-icon material-symbols-outlined">error</div>
         <div class="mod-title">No MalikHw mods matched</div>
         <div class="mod-desc">The Open Geode Index responded with ${totalCount} mod(s), but none matched "MalikHw" by id or developer name. ${devList} The API's data shape may not match what this site expects.</div>
         <details class="mod-debug">
@@ -305,9 +309,6 @@
       .catch((err) => ({ mods: [], error: (err && err.message) || 'unknown error' }));
   }
 
-  // The Open Geode Index paginates (default 50 per page) and reports the true
-  // total in payload.count, which can be higher than a single page's worth of
-  // mods. Walk every page so we don't silently miss mods past page 1.
   function fetchAllOpenGeodePages(page, acc, expectedTotal) {
     return fetch(`https://open-geode.7m.pl/v1/mods?page=${page}&per_page=100`)
       .then((r) => {
@@ -329,7 +330,6 @@
   function fetchOpenGeodeMods() {
     return fetchAllOpenGeodePages(1, [], null)
       .then(({ all, rawFirstPage }) => {
-        // Stash on window for anyone who does have devtools handy.
         window.__openGeodeDebug = rawFirstPage;
 
         const mods = all.filter(isMalikHwDev);

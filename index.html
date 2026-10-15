@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MalikHw47</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://www.nerdfonts.com/assets/css/webfont.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:wght@400;500;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="style.css" />
   <script src="https://apis.google.com/js/platform.js"></script>
   <script type="importmap">{"imports":{"@material/web/":"https://esm.run/@material/web/"}}</script>
   <script type="module">
@@ -25,11 +25,15 @@
   <span class="wordmark">MalikHw47</span>
   <div class="top-actions">
     <div class="donate-wrap" id="donateWrap">
-      <md-filled-button id="donateBtn">
+      <md-filled-button id="donateBtn" has-icon>
+        <span slot="icon" class="material-symbols-outlined">volunteer_activism</span>
         Donate
       </md-filled-button>
     </div>
-    <md-filled-tonal-button id="merchBtn"> Merch </md-filled-tonal-button>
+    <md-filled-tonal-button id="merchBtn" has-icon>
+      <span slot="icon" class="material-symbols-outlined">shopping_bag</span>
+      Merch
+    </md-filled-tonal-button>
   </div>
 </header>
 
@@ -38,9 +42,15 @@
     <h1 class="hero-name">MalikHw47</h1>
     <p class="hero-desc">developah, GD player, and nothing else. Also a Miku/Teto fan!</p>
     <div class="socials">
-      <md-filled-tonal-icon-button id="yt-btn" title="YouTube"><span class="nf nf-md-youtube"></span></md-filled-tonal-icon-button>
-      <md-filled-tonal-icon-button id="tw-btn" title="Twitch"><span class="nf nf-md-twitch"></span></md-filled-tonal-icon-button>
-      <md-filled-tonal-icon-button id="dc-btn" title="Discord"><span class="nf nf-md-discord"></span></md-filled-tonal-icon-button>
+      <md-filled-tonal-icon-button id="yt-btn" title="YouTube">
+        <img src="https://cdn.simpleicons.org/youtube/ccc6a8" width="20" height="20" alt="YouTube" style="display:block">
+      </md-filled-tonal-icon-button>
+      <md-filled-tonal-icon-button id="tw-btn" title="Twitch">
+        <img src="https://cdn.simpleicons.org/twitch/ccc6a8" width="20" height="20" alt="Twitch" style="display:block">
+      </md-filled-tonal-icon-button>
+      <md-filled-tonal-icon-button id="dc-btn" title="Discord">
+        <img src="https://cdn.simpleicons.org/discord/ccc6a8" width="20" height="20" alt="Discord" style="display:block">
+      </md-filled-tonal-icon-button>
     </div>
     <div class="sub-count-wrap">
       <div class="g-ytsubscribe" data-channelid="UCyigqF_mR6nM2YnBOfKRfhQ" data-layout="full" data-count="default"></div>
@@ -49,29 +59,36 @@
 
   <section class="tabs-section">
     <md-tabs id="mainTabs">
-      <md-primary-tab id="tab-projects" active>Projects</md-primary-tab>
-      <md-primary-tab id="tab-gd">GD Stats</md-primary-tab>
-      <md-primary-tab id="tab-geode">Geode Mods</md-primary-tab>
+      <md-primary-tab id="tab-projects" active>
+        <span slot="icon" class="material-symbols-outlined">apps</span>
+        Projects
+      </md-primary-tab>
+      <md-primary-tab id="tab-gd">
+        <span slot="icon" class="material-symbols-outlined">sports_esports</span>
+        GD Stats
+      </md-primary-tab>
+      <md-primary-tab id="tab-geode">
+        <img slot="icon" src="https://cdn.simpleicons.org/geode/ccc6a8" width="20" height="20" alt="Geode" class="tab-icon-img">
+        Geode Mods
+      </md-primary-tab>
     </md-tabs>
 
     <div id="panel-projects" class="panel">
       <h2 class="sec-title">My Projects</h2>
       <div id="projectsGrid" class="proj-grid">
-        <p class="loading-txt">Loading projects…</p>
+        <p class="loading-txt">umm</p>
       </div>
     </div>
 
     <div id="panel-gd" class="panel hidden">
       <h2 class="sec-title">Geometry Dash Stats</h2>
-      <div id="gdGrid" class="gd-grid">
-        <p class="loading-txt">Loading stats…</p>
-      </div>
+      <div id="gdGrid" class="gd-grid"></div>
     </div>
 
     <div id="panel-geode" class="panel hidden">
       <h2 class="sec-title">Geode Mods</h2>
       <div class="geode-banner">
-        <span class="nf nf-md-alert"></span>
+        <span class="material-symbols-outlined">warning</span>
         I am index banned... This means most of these mods will NOT get updated once GD 2.209/Geode v6(potentially) drops, and mods here with a yellow tile are from the <a href="https://open-geode.7m.pl/" target="_blank" rel="noopener">Open Geode Index</a>.
       </div>
       <div id="geodeGrid" class="mod-grid">
@@ -84,15 +101,24 @@
     <h2 class="sec-title">Watch Me Live &amp; Latest Video</h2>
     <div class="embeds-grid">
       <div class="embed-card">
-        <h3 class="embed-lbl" style="color:#9146FF"><span class="nf nf-md-twitch"></span> Live on Twitch</h3>
+        <h3 class="embed-lbl" style="color:#9146FF">
+          <img src="https://cdn.simpleicons.org/twitch/9146FF" width="20" height="20" alt="Twitch" style="vertical-align:middle">
+          Live on Twitch
+        </h3>
         <div id="twitchEmbed" class="embed-box"></div>
       </div>
       <div class="embed-card">
-        <h3 class="embed-lbl" style="color:#FF0000"><span class="nf nf-md-youtube"></span> Latest Video</h3>
+        <h3 class="embed-lbl" style="color:#FF0000">
+          <img src="https://cdn.simpleicons.org/youtube/FF0000" width="20" height="20" alt="YouTube" style="vertical-align:middle">
+          Latest Video
+        </h3>
         <div id="ytBox" class="embed-box"><p class="loading-txt">Loading video…</p></div>
       </div>
       <div class="embed-card">
-        <h3 class="embed-lbl" style="color:#FF0000"><span class="nf nf-md-youtube"></span> Last VOD</h3>
+        <h3 class="embed-lbl" style="color:#FF0000">
+          <img src="https://cdn.simpleicons.org/youtube/FF0000" width="20" height="20" alt="YouTube" style="vertical-align:middle">
+          Last VOD
+        </h3>
         <div id="vodBox" class="embed-box"><p class="loading-txt">Loading VOD…</p></div>
       </div>
     </div>

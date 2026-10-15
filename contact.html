@@ -3,20 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact — MalikHw47</title>
+  <title>Contact - MalikHw47</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:wght@400;500;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <script type="importmap">{"imports":{"@material/web/":"https://esm.run/@material/web/"}}</script>
+  <script type="module">
+    import '@material/web/all.js';
+    import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+  </script>
   <style>
     :root {
-      --primary: #d0bcff;
-      --on-surface: #e6e1e5;
-      --on-surface-variant: #cac4d0;
+      --md-sys-color-primary: #f5c800;
+      --md-sys-color-on-primary: #3a2e00;
+      --md-sys-color-primary-container: #544500;
+      --md-sys-color-on-primary-container: #ffe17a;
+      --md-sys-color-secondary-container: #504900;
+      --md-sys-color-on-secondary-container: #f1e5a1;
+      --md-sys-color-surface: #13110a;
+      --md-sys-color-surface-container: #1f1d14;
+      --md-sys-color-surface-container-high: #2a2719;
+      --md-sys-color-on-surface: #e8e2d0;
+      --md-sys-color-on-surface-variant: #ccc6a8;
+      --md-sys-color-outline: #978e6f;
+      --md-sys-color-outline-variant: #4a4639;
+
+      --md-list-item-label-text-color: var(--md-sys-color-on-surface);
+      --md-list-item-supporting-text-color: var(--md-sys-color-on-surface-variant);
+      --md-list-container-color: transparent;
+
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
+      color-scheme: dark;
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      background: #0f0c18;
-      color: var(--on-surface);
-      font-family: 'Nunito', sans-serif;
+      background: #13110a;
+      color: var(--md-sys-color-on-surface);
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -24,96 +51,122 @@
       justify-content: center;
       padding: 40px 20px;
     }
+
+    
     .card {
-      max-width: 520px;
+      max-width: 540px;
       width: 100%;
-      background: rgba(30,27,38,.9);
-      border: 1px solid rgba(255,255,255,.07);
+      background: var(--md-sys-color-surface-container);
+      border: 1px solid var(--md-sys-color-outline-variant);
       border-radius: 12px;
-      padding: 40px 36px;
+      padding: 36px 32px;
     }
-    .back {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: .85rem;
-      color: var(--on-surface-variant);
-      text-decoration: none;
-      margin-bottom: 28px;
-      opacity: .7;
-      transition: opacity .15s;
+
+    .back-row {
+      margin-bottom: 24px;
     }
-    .back:hover { opacity: 1; }
+
     h1 {
       font-size: 2rem;
-      font-weight: 900;
-      color: var(--primary);
-      margin-bottom: 8px;
+      font-weight: 700;
+      color: var(--md-sys-color-primary);
+      margin-bottom: 6px;
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
+      letter-spacing: -.015em;
     }
+
     .sub {
-      font-size: .88rem;
-      color: var(--on-surface-variant);
-      margin-bottom: 32px;
-      opacity: .7;
+      font-size: .9375rem;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-bottom: 24px;
       line-height: 1.6;
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
     }
+
+    
     .contact-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 4px;
     }
+
     .contact-item {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 14px 18px;
+      gap: 16px;
+      padding: 12px 16px;
       border-radius: 8px;
-      border: 1px solid rgba(255,255,255,.07);
-      background: rgba(255,255,255,.02);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      background: transparent;
       text-decoration: none;
-      color: var(--on-surface);
-      font-weight: 700;
-      font-size: .9rem;
-      transition: border-color .15s, background .15s;
+      color: var(--md-sys-color-on-surface);
+      font-weight: 500;
+      font-size: .9375rem;
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
+      transition: background .15s, border-color .15s;
     }
+
     .contact-item:hover {
-      border-color: rgba(208,188,255,.3);
-      background: rgba(208,188,255,.05);
+      background: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+      border-color: color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
     }
+
+    .contact-item .material-symbols-outlined {
+      font-size: 1.375rem;
+      color: var(--md-sys-color-primary);
+      flex-shrink: 0;
+    }
+
+    .contact-item-text {
+      flex: 1;
+    }
+
     .contact-label {
-      font-size: .72rem;
-      color: var(--on-surface-variant);
-      opacity: .6;
-      font-weight: 600;
+      font-size: .75rem;
+      color: var(--md-sys-color-on-surface-variant);
+      font-weight: 500;
       letter-spacing: .05em;
       text-transform: uppercase;
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
       margin-left: auto;
+      flex-shrink: 0;
     }
   </style>
 </head>
 <body>
   <div class="card">
+    <div class="back-row">
+      <md-text-button href="/" has-icon>
+        <span slot="icon" class="material-symbols-outlined">arrow_back</span>
+        Back
+      </md-text-button>
+    </div>
     <h1>Contact</h1>
-    <p class="sub">No contact form — just reach out wherever works for you.</p>
+    <p class="sub">No contact form - just reach out wherever works for you.</p>
     <div class="contact-list">
       <a class="contact-item" href="https://discord.gg/VZmHhUN2" target="_blank" rel="noopener">
-        Discord Profile (not server)
+        <span class="material-symbols-outlined">forum</span>
+        <span class="contact-item-text">Discord Profile (not server)</span>
         <span class="contact-label">fastest</span>
       </a>
       <a class="contact-item" href="mailto:help.malicorporation@gmail.com">
-        help.malicorporation@gmail.com
+        <span class="material-symbols-outlined">mail</span>
+        <span class="contact-item-text">help.malicorporation@gmail.com</span>
         <span class="contact-label">email</span>
       </a>
       <a class="contact-item" href="https://youtube.com/@MalikHw47" target="_blank" rel="noopener">
-        YouTube — @MalikHw47
+        <span class="material-symbols-outlined">play_circle</span>
+        <span class="contact-item-text">YouTube (@MalikHw47)</span>
         <span class="contact-label">youtube</span>
       </a>
       <a class="contact-item" href="https://twitch.tv/MalikHw47" target="_blank" rel="noopener">
-        Twitch(whisper) — MalikHw47
+        <span class="material-symbols-outlined">live_tv</span>
+        <span class="contact-item-text">Twitch whisper (MalikHw47)</span>
         <span class="contact-label">twitch</span>
       </a>
       <a class="contact-item" href="https://github.com/MalikHw" target="_blank" rel="noopener">
-        GitHub — MalikHw
+        <span class="material-symbols-outlined">code</span>
+        <span class="contact-item-text">GitHub (MalikHw)</span>
         <span class="contact-label">github</span>
       </a>
     </div>

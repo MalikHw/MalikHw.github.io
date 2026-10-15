@@ -3,23 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About — MalikHw47</title>
+  <title>About - MalikHw47</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:wght@400;500;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <script type="importmap">{"imports":{"@material/web/":"https://esm.run/@material/web/"}}</script>
+  <script type="module">
+    import '@material/web/all.js';
+    import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+    document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+  </script>
   <style>
     :root {
-      --primary: #d0bcff;
-      --on-primary: #381e72;
-      --surface: #141218;
-      --on-surface: #e6e1e5;
-      --on-surface-variant: #cac4d0;
-      --outline: #49454f;
+      --md-sys-color-primary: #f5c800;
+      --md-sys-color-on-primary: #3a2e00;
+      --md-sys-color-primary-container: #544500;
+      --md-sys-color-on-primary-container: #ffe17a;
+      --md-sys-color-secondary-container: #504900;
+      --md-sys-color-on-secondary-container: #f1e5a1;
+      --md-sys-color-surface: #13110a;
+      --md-sys-color-surface-container: #1f1d14;
+      --md-sys-color-surface-container-high: #2a2719;
+      --md-sys-color-on-surface: #e8e2d0;
+      --md-sys-color-on-surface-variant: #ccc6a8;
+      --md-sys-color-outline: #978e6f;
+      --md-sys-color-outline-variant: #4a4639;
+
+      --md-filled-button-container-color: var(--md-sys-color-primary);
+      --md-filled-button-label-text-color: var(--md-sys-color-on-primary);
+      --md-outlined-button-outline-color: var(--md-sys-color-outline);
+      --md-outlined-button-label-text-color: var(--md-sys-color-primary);
+
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
+      color-scheme: dark;
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      background: #0f0c18;
-      color: var(--on-surface);
-      font-family: 'Nunito', sans-serif;
+      background: #13110a;
+      color: var(--md-sys-color-on-surface);
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -27,84 +52,95 @@
       justify-content: center;
       padding: 40px 20px;
     }
+
+    
     .card {
-      max-width: 520px;
+      max-width: 540px;
       width: 100%;
-      background: rgba(30,27,38,.9);
-      border: 1px solid rgba(255,255,255,.07);
+      background: var(--md-sys-color-surface-container);
+      border: 1px solid var(--md-sys-color-outline-variant);
       border-radius: 12px;
-      padding: 40px 36px;
+      padding: 36px 32px;
     }
-    .back {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: .85rem;
-      color: var(--on-surface-variant);
-      text-decoration: none;
-      margin-bottom: 28px;
-      opacity: .7;
-      transition: opacity .15s;
+
+    .back-row {
+      margin-bottom: 24px;
     }
-    .back:hover { opacity: 1; }
+
+    
     h1 {
       font-size: 2rem;
-      font-weight: 900;
-      color: var(--primary);
-      margin-bottom: 6px;
+      font-weight: 700;
+      color: var(--md-sys-color-primary);
+      margin-bottom: 4px;
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
+      letter-spacing: -.015em;
     }
+
+    
     .tag {
-      font-size: .8rem;
-      color: var(--on-surface-variant);
-      margin-bottom: 28px;
-      opacity: .7;
+      font-size: .875rem;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-bottom: 24px;
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
     }
+
+    
     p {
-      font-size: .95rem;
-      line-height: 1.8;
-      color: var(--on-surface-variant);
-      margin-bottom: 16px;
+      font-size: .9375rem;
+      line-height: 1.75;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-bottom: 14px;
+      font-family: 'Google Sans', 'Noto Sans', sans-serif;
     }
-    .divider {
-      border: none;
-      border-top: 1px solid rgba(255,255,255,.07);
-      margin: 28px 0;
+
+    md-divider {
+      margin: 24px 0;
     }
+
     .links {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-    }
-    .link {
-      padding: 8px 16px;
-      border-radius: 6px;
-      border: 1px solid rgba(208,188,255,.2);
-      font-size: .85rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-decoration: none;
-      transition: background .15s, border-color .15s;
-    }
-    .link:hover {
-      background: rgba(208,188,255,.08);
-      border-color: rgba(208,188,255,.4);
+      gap: 8px;
+      margin-top: 4px;
     }
   </style>
 </head>
 <body>
   <div class="card">
+    <div class="back-row">
+      <md-text-button href="/" has-icon>
+        <span slot="icon" class="material-symbols-outlined">arrow_back</span>
+        Back
+      </md-text-button>
+    </div>
     <h1>MalikHw47</h1>
     <p class="tag">dev · GD player · Miku/Teto fan</p>
-    <p>Hey, I'm Malik. I make small software projects — mostly things I wanted to exist and didn't find anywhere, so I built them myself.</p>
-    <p>That includes a Windows & Android screensaver inspired by ORBIT, a Geometry Dash level, a custom GD icon pack generator used by thousands of players, an Android video screensaver app, and a Discord webhook tool(as a practice). I also stream on Twitch(rarely 💔)/Youtube and post on YouTube occasionally.</p>
-    <p>Everything I build is open-source under GPL-v3 or MIT(rarely 💔) and free to use.</p>
-    <hr class="divider" />
+    <p>Hey, I'm Malik. I make small software projects - mostly things I wanted to exist and didn't find anywhere, so I built them myself.</p>
+    <p>That includes a Windows &amp; Android screensaver inspired by ORBIT, a Geometry Dash level, a custom GD icon pack generator used by thousands of players, an Android video screensaver app, and a Discord webhook tool (as a practice). I also stream on Twitch (rarely 💔)/Youtube and post on YouTube occasionally.</p>
+    <p>Everything I build is open-source under GPL-v3 or MIT (rarely 💔) and free to use.</p>
+    <md-divider></md-divider>
     <div class="links">
-      <a class="link" href="https://youtube.com/@MalikHw47" target="_blank" rel="noopener">YouTube</a>
-      <a class="link" href="https://twitch.tv/MalikHw47" target="_blank" rel="noopener">Twitch</a>
-      <a class="link" href="https://discord.gg/VZmHhUN2" target="_blank" rel="noopener">Discord</a>
-      <a class="link" href="https://github.com/MalikHw" target="_blank" rel="noopener">GitHub</a>
-      <a class="link" href="https://ko-fi.com/malikhw47" target="_blank" rel="noopener">Ko-fi</a>
+      <md-outlined-button href="https://youtube.com/@MalikHw47" target="_blank" rel="noopener" has-icon>
+        <span slot="icon" class="material-symbols-outlined">play_circle</span>
+        YouTube
+      </md-outlined-button>
+      <md-outlined-button href="https://twitch.tv/MalikHw47" target="_blank" rel="noopener" has-icon>
+        <span slot="icon" class="material-symbols-outlined">live_tv</span>
+        Twitch
+      </md-outlined-button>
+      <md-outlined-button href="https://discord.gg/VZmHhUN2" target="_blank" rel="noopener" has-icon>
+        <span slot="icon" class="material-symbols-outlined">forum</span>
+        Discord
+      </md-outlined-button>
+      <md-outlined-button href="https://github.com/MalikHw" target="_blank" rel="noopener" has-icon>
+        <span slot="icon" class="material-symbols-outlined">code</span>
+        GitHub
+      </md-outlined-button>
+      <md-outlined-button href="https://ko-fi.com/malikhw47" target="_blank" rel="noopener" has-icon>
+        <span slot="icon" class="material-symbols-outlined">volunteer_activism</span>
+        Ko-fi
+      </md-outlined-button>
     </div>
   </div>
 </body>
